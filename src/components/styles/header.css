@@ -1,0 +1,26 @@
+.mainHeader {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+}
+.logoContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.mainHeaderImg {
+    width: 100%;
+    height: 200px;
+}
+.siteTitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    font-family: 'AniMe';
+    margin-top: -25px;
+    font-size: 20px;
+    color: var(--lightGrey);
+}

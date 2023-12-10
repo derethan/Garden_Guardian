@@ -1,19 +1,17 @@
 import React from 'react';
+import Logo from './logo.js';
+import SiteTitle from './siteTitle.js';
+
+//Css
+import './styles/header.css';
+
 
 function Header() {
+
     return (
-        <div>
+        <div className='mainHeader'>
             <Logo />
-            <h1>Header</h1>
-        </div>
-    );
-};
-
-
-function Logo() {
-    return (
-        <div>
-            <h1>Logo</h1>
+            <SiteTitle />
         </div>
     );
 };
