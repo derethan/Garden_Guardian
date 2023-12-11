@@ -1,6 +1,5 @@
-import React from 'react';
-import Logo from './logo.js';
-import SiteTitle from './siteTitle.js';
+import Logo from './logo';
+import SiteTitle from './siteTitle';
 
 //Css
 import './styles/header.css';

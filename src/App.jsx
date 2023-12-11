@@ -1,9 +1,11 @@
-import './App.css';
-import Home from './views/home';
+import './App.css'
 
+
+import Home from './views/home';
 import Header from './components/header';
 
 function App() {
+
   return (
     <div className="App">
       
@@ -11,12 +13,12 @@ function App() {
         <Header />
       </header>
 
-      <main>
+      <main className='app-body'>
         <Home />
       </main>
 
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

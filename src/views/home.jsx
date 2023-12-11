@@ -1,4 +1,3 @@
-import React from "react";
 
 //Main Display component for the welcome/Home page
 function Home() {
