@@ -24,35 +24,11 @@ Garden Guardian Frontend is the user interface component of the Garden Guardian 
 - Basic user scheduling for feeding, watering, trimming, etc.
 - Notification system for plant-related events
 
-## Getting Started
-
-To get started with the Garden Guardian Frontend, follow these steps:
-
-1. Clone this repository: `git clone https://github.com/derethan/garden-guardian-frontend.git`
-2. Install dependencies: `npm install`
-3. Start the development server: `npm start`
-
-Your Garden Guardian Frontend should now be accessible at [http://localhost:3000](http://localhost:3000).
-
-## Project Structure
-
-- `public/`: Contains the HTML template and other public assets.
-- `src/`: Contains the source code for the React application.
-  - `components/`: Individual React components.
-  - `styles/`: CSS files for styling components.
-  - `App.js`: Main application component.
-  - `index.js`: Entry point for rendering the React app.
 
 ## Technologies Used
 
 - React: A JavaScript library for building user interfaces.
 - Node.js: A JavaScript runtime for building server-side applications.
-- Create React App: A tool to set up a new React project with a sensible default configuration.
-- React Router: A popular routing library for React applications that allows for declarative routing and navigation.
-
-## Contributing
-
-If you'd like to contribute to Garden Guardian Frontend, please follow our [Contribution Guidelines](CONTRIBUTING.md).
 
 ## License
 
