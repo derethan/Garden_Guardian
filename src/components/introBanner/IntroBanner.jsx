@@ -38,7 +38,7 @@ const IntroBanner = () => {
                     animation: `${fadeIn} 4s`,
                     textAlign: 'center'
                 }}>
-                What's Garden Guardian?
+                What&apos;s Garden Guardian?
                 </Typography>
             </Box>
 

@@ -11,7 +11,7 @@ import {
 
 // Import Components
 import Header from './components/header/header';
-import Navbar from './components/navbar';
+// import Navbar from './components/navbar';
 
 
 import { siteLinks } from './routes'
