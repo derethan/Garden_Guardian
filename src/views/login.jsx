@@ -1,11 +1,16 @@
 /************************************************ 
 *   Login /login page for the application
 *************************************************/
+// Import necessary libraries
+import { Container } from '@mui/material';
+import LoginForm from '../components/LoginForm';
+
 
 export default function Login() {
     return (
-        <div className="container flex flex-col">
-        <h1>Welcome to the Login Page</h1>
-        </div>
+        <Container maxWidth='sm'>
+            <LoginForm />
+        </Container>
+
     );
 }

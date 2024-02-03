@@ -32,11 +32,12 @@ const theme = createTheme({
 			main: '#008000', //light grey
 		},
 		secondary: {
-			main: '#bdbdbd', //white
+			main: '#CCCCCC', //white
 		},
 		title: {
 			main: 'AniMe', //font
 		},
+		
 	},
 	background: {
 		primary: {
@@ -44,6 +45,9 @@ const theme = createTheme({
 		},
 		secondary: {
 			main: '#242424', //dark grey
+		},
+		card: {
+			main: '#2d2d2d', //white
 		},
 	}
 
@@ -63,12 +67,7 @@ export default function App() {
 			<header className="App-header">
 				<Header />
 			</header>
-{/* 
-			<nav className='app-nav'>
-				<Navbar />
-			</nav> */}
 
-			{/* // Views go here */}
 			<main className='app-body'>
 				<Routes>
 					{siteLinks.map((link) => (
@@ -77,8 +76,7 @@ export default function App() {
 							path={link.path}
 							element={<link.Component />}
 						/>
-					))
-					}
+					))}
 				</Routes>
 			</main>
 

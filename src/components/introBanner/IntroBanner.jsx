@@ -28,8 +28,7 @@ const IntroBanner = () => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'space-apart',
-
-            height: '400px',
+            marginBottom: '4rem'
             }}>
 
 
@@ -67,7 +66,7 @@ const IntroBanner = () => {
                 animationDelay: '6s',
                 textAlign: 'left'
                 }}>
-                    Enviornmental Monitoring for greenhouses
+                    Enviornmental Monitoring for the Greenhouse
                 </Typography>
             </Box>
 
@@ -83,7 +82,7 @@ const IntroBanner = () => {
                 textAlign: 'right',
                 marginRight: '1rem'
                 }}>
-                    Garden planning for the home gardener
+                    Garden planning for the Home Gardener
                 </Typography>
             </Box>
     </Container>
