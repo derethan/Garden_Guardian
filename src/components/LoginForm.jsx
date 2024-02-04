@@ -1,119 +1,122 @@
-// This component is a card that contains a title, a subtitle, and a body of text. 
+// This component is a card that contains a title, a subtitle, and a body of text.
 // It also contains two buttons for login and registration.
 
 // Import necessary libraries
-import { Card, CardContent, CardActions, Button, Typography, TextField, Box, Grid } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Typography,
+  TextField,
+  Box,
+  Grid,
+} from "@mui/material";
 
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 const primaryTextColor = (theme) => theme.typography.secondary.main;
 const textFieldBackgroundColor = (theme) => theme.background.secondary.main;
 
 // Define the component
 const LoginForm = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
+    const data = new FormData(event.currentTarget);
 
-        const data = new FormData(event.currentTarget);
+    console.log({
+      email: data.get("email"),
+      password: data.get("password"),
+    });
+  };
 
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-            
-        });
-    };
+  return (
+    <Card
+      sx={{
+        backgroundColor: (theme) => theme.background.card.main,
+        boxShadow: 3,
+        padding: 2,
+      }}
+    >
+      <CardContent>
+        <Typography variant="h4" color={primaryTextColor}>
+          Login below to get started.
+        </Typography>
+      </CardContent>
 
+      <Box type="form" component="form" noValidate onSubmit={handleSubmit}>
+        <TextField
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          margin="normal"
+          color="primary"
+          size="small"
+          variant="outlined"
+          sx={{
+            backgroundColor: textFieldBackgroundColor,
+          }}
+        />
 
+        <TextField
+          required
+          fullWidth
+          id="password"
+          label="Password"
+          name="password"
+          type="password"
+          autoComplete="current-password"
+          margin="normal"
+          variant="outlined"
+          size="small"
+          sx={{
+            backgroundColor: textFieldBackgroundColor,
+            color: "#FFFFFF",
+          }}
+        />
 
-    return (
-        <Card sx={{
-            backgroundColor: (theme) => theme.background.card.main,
-            boxShadow: 3,
-            padding: 2,
-        }}>
-            <CardContent>
-                <Typography variant="h4" color={primaryTextColor}>Login below to get started.</Typography>
-            </CardContent>
+        <CardActions
+          sx={{
+            justifyContent: "center",
+            flexDirection: "column",
+            paddingTop: 4,
+            gap: 4,
+          }}
+        >
+          <Button type="submit" fullWidth variant="contained" color="secondary">
+            Login
+          </Button>
 
-        <Box type="form" component="form" noValidate onSubmit={handleSubmit}>
-            <TextField 
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                margin="normal"
-                color='primary'
-                size='small'
-
-                variant='outlined'
-                sx={{
-                    backgroundColor: textFieldBackgroundColor,
-                }}
-            />
-
-            <TextField
-                required
-                fullWidth
-                id="password"
-                label="Password"
-                name='password'
-                type="password"
-                autoComplete="current-password"
-                margin="normal"
-                variant='outlined'
-                size='small'
-
-                sx={{
-                    backgroundColor: textFieldBackgroundColor,
-                    color: '#FFFFFF',
-
-                }}
-            />
-
-
-
-            <CardActions sx={{
-                justifyContent:"center",
-                flexDirection: "column",
-                paddingTop: 4,
-                gap: 4,   
-                }}>
-                    
-                    <Button
-                        type="submit"
-                        fullWidth
-                        variant="contained"
-                        color="secondary"
-                    >
-                        Login
-                    </Button>
-
-                    <Grid container spacing={2}>
-                        <Grid item xs={6}>
-                            <Link to="/forgot-password" variant="body2">
-                                <Typography variant="body2" sx={{
-                                    color: 'text.primary',
-                                
-                                }}>Forgot password?</Typography>
-                            </Link>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <Link to="/register" variant="body2">
-                                <Typography variant="body2" color='text.primary'>Don&apos;t have an account? <br />  Sign up</Typography>
-                            </Link>
-                        </Grid>
-                    </Grid>
-            </CardActions> 
-
-        </Box>
-                     
-        </Card>
-    );
-}
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <Link to="/forgot-password" variant="body2">
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: "text.primary",
+                  }}
+                >
+                  Forgot password?
+                </Typography>
+              </Link>
+            </Grid>
+            <Grid item xs={6}>
+              <Link to="/register" variant="body2">
+                <Typography variant="body2" color="text.primary">
+                  Don&apos;t have an account? <br /> Sign up
+                </Typography>
+              </Link>
+            </Grid>
+          </Grid>
+        </CardActions>
+      </Box>
+    </Card>
+  );
+};
 
 // Export the component
 export default LoginForm;

@@ -1,6 +1,7 @@
 /************************************************ 
-*   Login /login page for the application
+*   Login page for the application
 *************************************************/
+
 // Import necessary libraries
 import { Container } from '@mui/material';
 import LoginForm from '../components/LoginForm';
