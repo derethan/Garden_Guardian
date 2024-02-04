@@ -1,5 +1,3 @@
-// This component is a card that contains a title, a subtitle, and a body of text.
-// It also contains two buttons for login and registration.
 
 // Import necessary libraries
 import {
@@ -93,7 +91,7 @@ const LoginForm = () => {
 
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <Link to="/forgot-password" variant="body2">
+              <Link to="/passwordReset" variant="body2">
                 <Typography
                   variant="body2"
                   sx={{
