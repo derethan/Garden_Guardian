@@ -2,37 +2,115 @@
 // It also contains two buttons for login and registration.
 
 // Import necessary libraries
-import { Card, CardContent, CardActions, Button, Typography } from '@mui/material';
+import { Card, CardContent, CardActions, Button, Typography, TextField, Box, Grid } from '@mui/material';
+
 import { Link } from 'react-router-dom';
 
 const primaryTextColor = (theme) => theme.typography.secondary.main;
+const textFieldBackgroundColor = (theme) => theme.background.secondary.main;
 
 // Define the component
 const LoginForm = () => {
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+
+        const data = new FormData(event.currentTarget);
+
+        console.log({
+            email: data.get('email'),
+            password: data.get('password'),
+            
+        });
+    };
+
+
+
     return (
         <Card sx={{
             backgroundColor: (theme) => theme.background.card.main,
-            marginBottom: 2,
             boxShadow: 3,
+            padding: 2,
         }}>
             <CardContent>
                 <Typography variant="h4" color={primaryTextColor}>Login below to get started.</Typography>
-                <Typography variant="subtitle2" color={primaryTextColor}></Typography>
-                <Typography variant="body1" color={primaryTextColor}>
-                </Typography>
             </CardContent>
+
+        <Box type="form" component="form" noValidate onSubmit={handleSubmit}>
+            <TextField 
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                margin="normal"
+                color='primary'
+                size='small'
+
+                variant='outlined'
+                sx={{
+                    backgroundColor: textFieldBackgroundColor,
+                }}
+            />
+
+            <TextField
+                required
+                fullWidth
+                id="password"
+                label="Password"
+                name='password'
+                type="password"
+                autoComplete="current-password"
+                margin="normal"
+                variant='outlined'
+                size='small'
+
+                sx={{
+                    backgroundColor: textFieldBackgroundColor,
+                    color: '#FFFFFF',
+
+                }}
+            />
+
+
+
             <CardActions sx={{
-                justifyContent:"center",   
+                justifyContent:"center",
+                flexDirection: "column",
+                paddingTop: 4,
+                gap: 4,   
                 }}>
                     
-                <Link to={'/login'}>
-                    <Button variant="contained" color="secondary">Login</Button>
-                </Link>
-                <Link to={'/register'}>
-                    <Button variant="contained" color="secondary">Register</Button>
-                </Link>
+                    <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        color="secondary"
+                    >
+                        Login
+                    </Button>
 
-            </CardActions>          
+                    <Grid container spacing={2}>
+                        <Grid item xs={6}>
+                            <Link to="/forgot-password" variant="body2">
+                                <Typography variant="body2" sx={{
+                                    color: 'text.primary',
+                                
+                                }}>Forgot password?</Typography>
+                            </Link>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Link to="/register" variant="body2">
+                                <Typography variant="body2" color='text.primary'>Don&apos;t have an account? <br />  Sign up</Typography>
+                            </Link>
+                        </Grid>
+                    </Grid>
+            </CardActions> 
+
+        </Box>
+                     
         </Card>
     );
 }

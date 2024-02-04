@@ -8,7 +8,7 @@ import LoginForm from '../components/LoginForm';
 
 export default function Login() {
     return (
-        <Container maxWidth='sm'>
+        <Container maxWidth='sm' sx={{paddingTop: 4}}>
             <LoginForm />
         </Container>
 

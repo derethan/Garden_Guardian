@@ -26,13 +26,30 @@ const theme = createTheme({
 		secondary: {
 			main: '#05394f', //dark blue
 		},
+		error: {
+			main: '#FF0000', //red
+		},
+		warning: {
+			main: '#FFA500', //orange
+		},
+		info: {
+			main: '#87CEEB', //light blue
+		},
+		success: {
+			main: '#32CD32', //lime
+		},
+		text: {
+			primary: '#CCCCCC', //white
+			secondary: '#bdbdbd', //black
+		},
+		
 	},
 	typography: {
 		primary: {
-			main: '#008000', //light grey
+			main: '#008000', //green
 		},
 		secondary: {
-			main: '#CCCCCC', //white
+			main: 'CCCCCC', //white
 		},
 		title: {
 			main: 'AniMe', //font
@@ -44,10 +61,10 @@ const theme = createTheme({
 			main: '#8B4513', //brown
 		},
 		secondary: {
-			main: '#242424', //dark grey
+			main: '#242424', //black
 		},
 		card: {
-			main: '#2d2d2d', //white
+			main: '#2d2d2d', //dark grey
 		},
 	}
 
