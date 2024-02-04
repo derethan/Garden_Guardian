@@ -7,7 +7,7 @@ import { Container } from '@mui/material';
 import ResetPasswordBox from '../components/ResetPasswordBox';
 
 
-export default function Login() {
+export default function ResetPassword() {
     return (
         <Container maxWidth='sm' sx={{paddingTop: 4}}>
             <ResetPasswordBox />

@@ -1,7 +1,7 @@
 //Import Pages
 import Home from './views/home';
 import Login from './views/login';
-import ResetPassword from './views/PasswordReset';
+import ResetPassword from './views/ResetPassword';
 
 
 //Site Links Array
