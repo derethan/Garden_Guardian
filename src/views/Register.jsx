@@ -3,13 +3,19 @@
 *************************************************/
 
 // Import necessary libraries
-import { Container } from '@mui/material';
+import { Container, Card } from '@mui/material';
+import RegisterForm from '../components/RegisterForm';
 
 
-export default function ResetPassword() {
+export default function Register() {
     return (
         <Container maxWidth='sm' sx={{paddingTop: 4}}>
-        </Container>
+            
 
+                <h1>Create Your Account</h1>
+
+                <RegisterForm />
+
+        </Container>
     );
 }

@@ -26,6 +26,10 @@ const theme = createTheme({
 		secondary: {
 			main: '#05394f', //dark blue
 		},
+		background: {
+			default: '#242424', //black
+			card: '#2d2d2d', //dark grey
+		},
 		error: {
 			main: '#FF0000', //red
 		},
@@ -56,17 +60,22 @@ const theme = createTheme({
 		},
 		
 	},
-	background: {
-		primary: {
-			main: '#8B4513', //brown
-		},
-		secondary: {
-			main: '#242424', //black
-		},
-		card: {
-			main: '#2d2d2d', //dark grey
-		},
+	components: {
+		MuiCard: {
+			variants: [
+				{
+					props: { variant: 'dark' },
+					style: {
+						backgroundColor: '#2d2d2d', //dark grey
+						marginBottom: 2,
+						boxShadow: 3,
+					},
+				},
+			],
+		}
 	}
+
+
 
 });
 

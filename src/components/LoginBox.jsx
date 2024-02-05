@@ -10,11 +10,7 @@ const primaryTextColor = (theme) => theme.typography.secondary.main;
 // Define the component
 const LoginBox = () => {
     return (
-        <Card sx={{
-            backgroundColor: (theme) => theme.background.card.main,
-            marginBottom: 2,
-            boxShadow: 3,
-        }}>
+        <Card variant='dark'>
             <CardContent>
                 <Typography variant="h4" color={primaryTextColor}>Login below to get started.</Typography>
                 <Typography variant="subtitle2" color={primaryTextColor}></Typography>

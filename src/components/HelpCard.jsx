@@ -7,11 +7,7 @@ import { Card, CardContent, CardActions, Button, Typography } from '@mui/materia
 // Define the component
 const HelpCard = () => {
     return (
-        <Card sx={{
-            backgroundColor: (theme) => theme.background.card.main,
-            marginBottom: 2,
-            boxShadow: 3,
-        }}>
+        <Card variant='dark'>
             <CardContent>
                 <Typography variant="h4" color={(theme) => theme.typography.secondary.main}>Getting Started in Your Garden</Typography>
                 <Typography variant="subtitle2" color={(theme) => theme.typography.secondary.main}>Not sure where to begin?</Typography>

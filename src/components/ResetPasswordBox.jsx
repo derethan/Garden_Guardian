@@ -10,7 +10,6 @@ import {
 
 // Define the component
 const primaryTextColor = (theme) => theme.typography.secondary.main;
-const textFieldBackgroundColor = (theme) => theme.background.secondary.main;
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -24,10 +23,8 @@ const handleSubmit = (event) => {
 
 const ResetPasswordBox = () => {
   return (
-    <Card
+    <Card variant="dark"
       sx={{
-        backgroundColor: (theme) => theme.background.card.main,
-        boxShadow: 3,
         padding: 2,
       }}
     >
@@ -49,14 +46,14 @@ const ResetPasswordBox = () => {
           size="small"
           variant="outlined"
           sx={{
-            backgroundColor: textFieldBackgroundColor,
+            backgroundColor: 'background.default',
           }}
         />
         <Button
           type="submit"
           fullWidth
           variant="contained"
-          color="primary"
+          color="secondary"
           sx={{ mt: 3, mb: 2 }}
         >
           Reset Password

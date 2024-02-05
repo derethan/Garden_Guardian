@@ -14,7 +14,7 @@ import {
 import { Link } from "react-router-dom";
 
 const primaryTextColor = (theme) => theme.typography.secondary.main;
-const textFieldBackgroundColor = (theme) => theme.background.secondary.main;
+const textFieldBackgroundColor = (theme) => theme.palette.background.default;
 
 // Define the component
 const LoginForm = () => {
@@ -30,13 +30,7 @@ const LoginForm = () => {
   };
 
   return (
-    <Card
-      sx={{
-        backgroundColor: (theme) => theme.background.card.main,
-        boxShadow: 3,
-        padding: 2,
-      }}
-    >
+    <Card variant="dark" sx={{padding: 2}}>
       <CardContent>
         <Typography variant="h4" color={primaryTextColor}>
           Login below to get started.
