@@ -3,7 +3,7 @@
 *************************************************/
 
 // Import necessary libraries
-import { Container, Card } from '@mui/material';
+import { Container } from '@mui/material';
 import RegisterForm from '../components/RegisterForm';
 
 

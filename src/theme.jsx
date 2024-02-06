@@ -29,7 +29,7 @@ const theme = createTheme({
 		},
 		text: {
 			primary: '#CCCCCC', //white
-			secondary: '#bdbdbd', //black
+			secondary: '#bdbdbd', //light grey
 		},
 		
 	},
@@ -53,8 +53,7 @@ const theme = createTheme({
 					style: {
 						backgroundColor: '#2d2d2d', //dark grey
 						marginBottom: 2,
-						boxShadow: 3,
-					},
+						boxShadow: '0 0 10px 0 #1a1a1a',				},
 				},
 			],
 		}
