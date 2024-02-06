@@ -1,5 +1,6 @@
 //Import necessary libraries
 import { Box, Button, Card, TextField, Typography } from "@mui/material";
+import { Link } from "react-router-dom";
 
 const RegisterForm = () => {
   const handleSubmit = (event) => {
@@ -24,8 +25,8 @@ const RegisterForm = () => {
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <Typography variant='subtitle1' color='text.card'>
-                    Account Details
+        <Typography variant="subtitle1" color="text.card">
+          Account Details
         </Typography>
 
         <Box
@@ -69,8 +70,8 @@ const RegisterForm = () => {
           />
         </Box>
 
-        <Typography variant='subtitle1' color='text.card'>
-                    Password Details
+        <Typography variant="subtitle1" color="text.card">
+          Password Details
         </Typography>
 
         <Box
@@ -115,6 +116,20 @@ const RegisterForm = () => {
             Register Account
           </Button>
         </Box>
+
+        <Link to="/login">
+          <Typography
+            variant="body2"
+            color="text.primary"
+            sx={{
+              "&:hover": {
+                color: "primary.main", // Change this to your desired color
+              },
+            }}
+          >
+            Already have an account? Sign in
+          </Typography>
+        </Link>
       </Box>
     </Card>
   );
