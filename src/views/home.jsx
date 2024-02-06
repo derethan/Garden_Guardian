@@ -1,12 +1,23 @@
+/************************************************ 
+*   Welcome/Home page for the application
+*************************************************/
 
-//Main Display component for the welcome/Home page
-function Home() {
+import { Container } from "@mui/material";
+
+import IntroBanner from "../components/introBanner/IntroBanner";
+import GettingStarted from "../components/GettingStarted/GettingStarted";
+
+
+export default function Home() {
     return (
-        <div>
-        <h1>Welcome to the Home Page</h1>
-        <h2>Click on the links above to navigate</h2>
-        </div>
+
+        <Container>
+            <IntroBanner />
+            <GettingStarted />
+
+        </Container>
+
+
+
     );
 }
-
-export default Home;

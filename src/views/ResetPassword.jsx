@@ -1,16 +1,16 @@
 /************************************************ 
-*   Login page for the application
+*   Password Reset page for the application
 *************************************************/
 
 // Import necessary libraries
 import { Container } from '@mui/material';
-import LoginForm from '../components/LoginForm';
+import ResetPasswordBox from '../components/ResetPasswordBox';
 
 
-export default function Login() {
+export default function ResetPassword() {
     return (
         <Container maxWidth='sm' sx={{paddingTop: 4}}>
-            <LoginForm />
+            <ResetPasswordBox />
         </Container>
 
     );

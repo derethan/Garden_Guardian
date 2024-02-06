@@ -1,26 +1,56 @@
 import './App.css'
 
+// Import MUI Dependencies
+import {
+	BrowserRouter,
+	Routes,
+	Route,
+  } from "react-router-dom";
+import { ThemeProvider } from '@mui/material';
 
-import Home from './views/home';
-import Header from './components/header';
+// Import Components
+import Header from './components/header/header';
 
-function App() {
+// Import Routes
+import { siteLinks } from './routes'
 
-  return (
-    <div className="App">
-      
-      <header className="App-header">
-        <Header />
-      </header>
+// Import Theme
+import theme from './theme';
 
-      <main className='app-body'>
-        <Home />
-      </main>
 
-    </div>
-  )
-  
 
-}
 
-export default App
+// Main App Component
+export default function App() {
+
+	return (
+		<BrowserRouter>
+
+		<ThemeProvider theme={theme}>
+
+		<div className="App">
+			
+			<header className="App-header">
+				<Header />
+			</header>
+
+			<main className='app-body'>
+				<Routes>
+					{siteLinks.map((link) => (
+						<Route 
+							key={link.ID}
+							path={link.path}
+							element={<link.Component />}
+						/>
+					))}
+				</Routes>
+			</main>
+
+		</div>
+		</ThemeProvider>
+		</BrowserRouter>
+
+	)
+	
+
+}// end App
