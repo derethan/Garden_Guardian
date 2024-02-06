@@ -5,10 +5,7 @@ Welcome to Garden Guardian, a comprehensive gardening platform for home gardener
 ## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
 - [Technologies Used](#technologies-used)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Overview
