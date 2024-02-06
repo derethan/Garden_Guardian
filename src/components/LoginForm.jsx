@@ -85,11 +85,14 @@ const LoginForm = () => {
 
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <Link to="/passwordReset" variant="body2">
+              <Link to="/passwordReset">
                 <Typography
                   variant="body2"
+                  color="text.primary"
                   sx={{
-                    color: "text.primary",
+                    '&:hover': {
+                      color: 'primary.main'
+                    }
                   }}
                 >
                   Forgot password?
@@ -97,8 +100,12 @@ const LoginForm = () => {
               </Link>
             </Grid>
             <Grid item xs={6}>
-              <Link to="/register" variant="body2">
-                <Typography variant="body2" color="text.primary">
+              <Link to="/register">
+                <Typography variant="body2" color="text.primary" sx={{
+                  '&:hover': {
+                    color: 'primary.main'
+                  }
+                }}>
                   Don&apos;t have an account? <br /> Sign up
                 </Typography>
               </Link>
