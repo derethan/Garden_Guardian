@@ -1,27 +1,21 @@
 // Import necessary libraries
-import { Button } from '@mui/material';
+import { Box, Button, Card, Typography } from '@mui/material';
+import { useOathLogin } from '../hooks/useOathLogin';
 
-import { useNavigate } from 'react-router-dom';
-
-
+// Define the component
 const OathLogin = () => {
-
-
-    const navigate = useNavigate();
-
-    const handleGoogleLogin = () => {
-  
-      navigate('/')
-      
-      // Redirect the user to Google's OAuth page. Replace YOUR_CLIENT_ID with your actual client ID.
-      // window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=${encodeURIComponent('http://yourwebsite.com/oauthcallback')}&response_type=token&scope=email%20profile`;
-    };
-
+    const { handleGoogleLogin } = useOathLogin();
 
     return (
-        <Button variant="contained" color="primary" onClick={handleGoogleLogin}>
-        Login with Google
-        </Button>
+        <Box>
+        <Typography variant='h6' sx={{marginTop: 2}}>Or</Typography>
+
+        <Card variant='dark' sx={{padding: 2, marginTop: 2, marginBottom: 2}}>
+            <Button variant="contained" color="primary" onClick={handleGoogleLogin}>
+            Login with Google
+            </Button>
+        </Card>
+        </Box>
     )
 }
 
