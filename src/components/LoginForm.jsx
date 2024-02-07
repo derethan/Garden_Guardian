@@ -11,40 +11,18 @@ import {
   Grid,
 } from "@mui/material";
 
-import { Link, } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
-
-
-const primaryTextColor = (theme) => theme.typography.secondary.main;
-const textFieldBackgroundColor = (theme) => theme.palette.background.default;
+import { Link } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
 
 // Define the component
 const LoginForm = () => {
 
-  const navigate = useNavigate();
-  const handleGoogleLogin = () => {
-
-    navigate('/')
-    
-    // Redirect the user to Google's OAuth page. Replace YOUR_CLIENT_ID with your actual client ID.
-    // window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?client_id=YOUR_CLIENT_ID&redirect_uri=${encodeURIComponent('http://yourwebsite.com/oauthcallback')}&response_type=token&scope=email%20profile`;
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const data = new FormData(event.currentTarget);
-
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
+  const { handleChange, handleSubmit } = useLogin();
 
   return (
     <Card variant="dark" sx={{padding: 2}}>
       <CardContent>
-        <Typography variant="h4" color={primaryTextColor}>
+        <Typography variant="h4" color={'typography.secondary.main'}>
           Login below to get started.
         </Typography>
       </CardContent>
@@ -62,8 +40,9 @@ const LoginForm = () => {
           size="small"
           variant="outlined"
           sx={{
-            backgroundColor: textFieldBackgroundColor,
+            backgroundColor: 'background.default',
           }}
+          onChange={handleChange}
         />
 
         <TextField
@@ -78,9 +57,10 @@ const LoginForm = () => {
           variant="outlined"
           size="small"
           sx={{
-            backgroundColor: textFieldBackgroundColor,
+            backgroundColor: 'background.default',
             color: "#FFFFFF",
           }}
+          onChange={handleChange}
         />
 
         <CardActions
@@ -123,12 +103,6 @@ const LoginForm = () => {
               </Link>
             </Grid>
           </Grid>
-
-          <Button variant="contained" color="primary" onClick={handleGoogleLogin}>
-        Login with Google
-      </Button>
-
-
         </CardActions>
       </Box>
     </Card>
