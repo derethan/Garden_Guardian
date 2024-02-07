@@ -53,7 +53,8 @@ const theme = createTheme({
 					style: {
 						backgroundColor: '#2d2d2d', //dark grey
 						marginBottom: 2,
-						boxShadow: '0 0 10px 0 #1a1a1a',				},
+						boxShadow: '0 0 10px 0 #1a1a1a',				
+					},
 				},
 			],
 		}

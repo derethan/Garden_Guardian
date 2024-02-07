@@ -3,6 +3,7 @@ import Home from './views/home';
 import Login from './views/login';
 import ResetPassword from './views/ResetPassword';
 import Register from './views/Register';
+import oauthcallback from './views/oauthcallback';
 
 
 //Site Links Array
@@ -16,7 +17,8 @@ export const siteLinks = [
     {ID: 'Login', path: '/login', Name: 'Login', Component: Login,},
     {ID: 'Register', path: '/register', Name: 'Register', Component: Register,},
 
-    
+    // OAuth Pages
+    {ID: 'oauthcallback', path: '/oauthcallback', Name: 'oauthcallback', Component: oauthcallback,},
 
 
 
