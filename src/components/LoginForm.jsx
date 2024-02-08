@@ -12,12 +12,14 @@ import {
 } from "@mui/material";
 
 import { Link } from "react-router-dom";
-import useLogin from "../hooks/useLogin";
+import { useLogin } from "../hooks/useLogin";
 
 // Define the component
 const LoginForm = () => {
 
-  const { handleChange, handleSubmit } = useLogin();
+  // Use the useLogin hook to setup the form data and event handlers
+  const {loginData, formErrors, handleChange, handleSubmit } = useLogin();
+
 
   return (
     <Card variant="dark" sx={{padding: 2}}>
@@ -34,7 +36,6 @@ const LoginForm = () => {
           id="email"
           label="Email Address"
           name="email"
-          autoComplete="email"
           margin="normal"
           color="primary"
           size="small"
@@ -43,6 +44,11 @@ const LoginForm = () => {
             backgroundColor: 'background.default',
           }}
           onChange={handleChange}
+
+          value={loginData.email}
+          error={!!formErrors.email}
+          helperText={formErrors.email}
+
         />
 
         <TextField
@@ -52,7 +58,6 @@ const LoginForm = () => {
           label="Password"
           name="password"
           type="password"
-          autoComplete="current-password"
           margin="normal"
           variant="outlined"
           size="small"
@@ -61,6 +66,10 @@ const LoginForm = () => {
             color: "#FFFFFF",
           }}
           onChange={handleChange}
+
+          value={loginData.password}
+          error={!!formErrors.password}
+          helperText={formErrors.password}
         />
 
         <CardActions
