@@ -1,20 +1,33 @@
 //Import necessary libraries
 import { Box, Button, Card, TextField, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+
+import { useValidate } from "../hooks/useValidate";
 
 const RegisterForm = () => {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const [formErrors, validateForm] = useValidate(formData);
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
     const data = new FormData(event.currentTarget);
 
-    console.log({
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      password: data.get("password"),
-      confirmPassword: data.get("confirmPassword"),
-    });
+    if (validateForm()) {
+      console.log({ data });
+    }
+  };
+
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
   return (
@@ -38,6 +51,7 @@ const RegisterForm = () => {
           }}
         >
           <TextField
+            required
             label="First Name"
             name="firstName"
             id="firstName"
@@ -46,8 +60,13 @@ const RegisterForm = () => {
             sx={{
               backgroundColor: "background.default",
             }}
+            value={formData.firstName}
+            onChange={handleChange}
+            error={formErrors.firstName ? true : false}
+            helperText={formErrors.firstName}
           />
           <TextField
+            required
             label="Last Name"
             name="lastName"
             id="lastName"
@@ -56,6 +75,10 @@ const RegisterForm = () => {
             sx={{
               backgroundColor: "background.default",
             }}
+            value={formData.lastName}
+            onChange={handleChange}
+            error={formErrors.lastName ? true : false}
+            helperText={formErrors.lastName}
           />
           <TextField
             label="Email"
@@ -67,6 +90,10 @@ const RegisterForm = () => {
             sx={{
               backgroundColor: "background.default",
             }}
+            value={formData.email}
+            onChange={handleChange}
+            error={formErrors.email ? true : false}
+            helperText={formErrors.email}
           />
         </Box>
 
@@ -91,6 +118,10 @@ const RegisterForm = () => {
             sx={{
               backgroundColor: "background.default",
             }}
+            value={formData.password}
+            onChange={handleChange}
+            error={formErrors.password ? true : false}
+            helperText={formErrors.password}
           />
           <TextField
             label="Confirm Password"
@@ -102,6 +133,10 @@ const RegisterForm = () => {
             sx={{
               backgroundColor: "background.default",
             }}
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            error={formErrors.confirmPassword ? true : false}
+            helperText={formErrors.confirmPassword}
           />
         </Box>
 

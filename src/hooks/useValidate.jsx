@@ -9,34 +9,43 @@ export function useValidate(data) {
   const validateForm = () => {
     const formErrors = {};
 
-    //Validate Email
-    if (!data.email) {
-      formErrors.email = "Email is required";
-    } else {
-      // If the email is not valid
-      if (!/\S+@\S+\.\S+/.test(data.email)) {
-        formErrors.email = "Email address is invalid";
+    //Validate any required fields
+    const requiredFields = [
+      "firstName",
+      "lastName",
+      "email",
+      "password",
+      "confirmPassword",
+    ];
+    requiredFields.forEach((field) => {
+      if (!data[field]) {
+        formErrors[field] = `${field} is required`;
       }
+    });
+
+    //Validate Email
+    if (!/\S+@\S+\.\S+/.test(data.email) && data.email !== "") {
+      formErrors.email = "Email address is invalid";
     }
 
     //Validate Password
-    if (!data.password) {
-      formErrors.password = "Password is required";
+    if (data.password.length < 6 && data.password !== "") {
+      formErrors.password = "Password must be at least 6 characters";
     } else {
-      // If the password is not valid
-      if (data.password.length < 6) {
-        formErrors.password = "Password must be at least 6 characters";
-      } else {
-        // If the password doesnt contain a number, a letter and a special character
-        if (
-          !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/.test(
-            data.password
-          )
-        ) {
-          formErrors.password =
-            "Password must contain at least one uppercase letter, one lowercase letter, one number and one special character";
-        }
+      // If the password doesnt contain a number, a letter and a special character
+      if (
+        !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/.test(
+          data.password
+        )
+      ) {
+        formErrors.password =
+          "Password must contain at least one uppercase letter, one lowercase letter, and one number";
       }
+    }
+
+    //Validate Confirm Password
+    if (data.confirmPassword !== data.password && data.confirmPassword !== "") {
+      formErrors.confirmPassword = "Passwords do not match";
     }
 
     setErrors(formErrors); // Set the form errors state
