@@ -23,3 +23,4 @@ dist-ssr
 *.sln
 *.sw?
 Start_Dev_Server.bat
+.env

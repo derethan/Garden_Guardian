@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 import { useValidate } from "../hooks/useValidate";
+import { usePostRequest } from "../hooks/usePostRequest";
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -15,20 +16,32 @@ const RegisterForm = () => {
   });
 
   const [formErrors, validateForm] = useValidate(formData);
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [postData] = usePostRequest();
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    const data = new FormData(event.currentTarget);
-
-    if (validateForm()) {
-      console.log({ data });
-    }
-  };
-
+  // Function to handle the form input changes, Updates the formdata state with the new value
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    // If the form is valid, Post the data to the server
+    if (validateForm()) {
+      const URL = import.meta.env.VITE_API_URL;
+      // Post the data to the server
+      const success = await postData(URL + 
+        "users/register",
+        formData
+      );
+
+      console.log("register status: ", success);
+      setIsRegistered(success);
+    }
+  };
+
+
 
   return (
     <Card variant="dark" sx={{ padding: 2, margin: 2 }}>
@@ -151,6 +164,12 @@ const RegisterForm = () => {
             Register Account
           </Button>
         </Box>
+
+        {isRegistered && (
+          <Typography variant="body1" color="text.primary">
+            Registration Successful
+          </Typography>
+        )}
 
         <Link to="/login">
           <Typography
