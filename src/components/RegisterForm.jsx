@@ -17,7 +17,7 @@ const RegisterForm = () => {
 
   const [formErrors, validateForm] = useValidate(formData);
   const [isRegistered, setIsRegistered] = useState(false);
-  const [postData] = usePostRequest();
+  const [postMessage, postData] = usePostRequest();
 
   // Function to handle the form input changes, Updates the formdata state with the new value
   const handleChange = (event) => {

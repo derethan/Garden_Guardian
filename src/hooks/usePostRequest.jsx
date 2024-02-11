@@ -1,5 +1,14 @@
-// React hook to send post data to the API server
+/******************************************
+ * Author : Andrew Patterson
+ * Description : Custom hook to handle POST requests
+ * ********************************************/
+
+import { useState } from "react";
+
 export const usePostRequest = () => {
+
+    const [postMessage, setPostMessage] = useState("");
+
   // Function to post the Data to the API endpoint and return the response
   async function postData(url, data) {
     try {
@@ -12,6 +21,7 @@ export const usePostRequest = () => {
       });
 
       const responseData = await response.json();
+      setPostMessage(responseData.message);
 
       if (!response.ok) {
         throw new Error(
@@ -27,5 +37,5 @@ export const usePostRequest = () => {
     }
   }
 
-  return [postData];
+  return [postMessage, postData];
 };
