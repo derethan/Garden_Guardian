@@ -6,8 +6,8 @@
 import { useState } from "react";
 
 export const usePostRequest = () => {
-
-    const [postMessage, setPostMessage] = useState("");
+  const [postMessage, setPostMessage] = useState("");
+  const [postStatus, setPostStatus] = useState();
 
   // Function to post the Data to the API endpoint and return the response
   async function postData(url, data) {
@@ -19,6 +19,7 @@ export const usePostRequest = () => {
         },
         body: JSON.stringify(data),
       });
+      setPostStatus(response.status);
 
       const responseData = await response.json();
       setPostMessage(responseData.message);
@@ -31,11 +32,12 @@ export const usePostRequest = () => {
       }
 
       return response.ok;
+
     } catch (error) {
       console.error(error);
       return false;
     }
   }
 
-  return [postMessage, postData];
+  return [postStatus, postMessage, setPostStatus, postData];
 };

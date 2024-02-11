@@ -17,11 +17,17 @@ const RegisterForm = () => {
 
   const [formErrors, validateForm] = useValidate(formData);
   const [isRegistered, setIsRegistered] = useState(false);
-  const [postMessage, postData] = usePostRequest();
+  const [postStatus, postMessage, setPostMessage, postData] = usePostRequest();
 
   // Function to handle the form input changes, Updates the formdata state with the new value
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
+
+    if (event.target.name === 'email') {
+      setPostMessage("");
+    }
+    
+
   };
 
   const handleSubmit = async (event) => {
@@ -108,6 +114,13 @@ const RegisterForm = () => {
             error={formErrors.email ? true : false}
             helperText={formErrors.email}
           />
+
+          {postStatus === 409 && (
+            <Typography variant="body1" color="error">
+              {postMessage}
+            </Typography>
+          )}
+
         </Box>
 
         <Typography variant="subtitle1" color="text.card">
