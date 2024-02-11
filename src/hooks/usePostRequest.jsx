@@ -11,17 +11,15 @@ export const usePostRequest = () => {
         body: JSON.stringify(data),
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        if (response.status >= 400 && response.status < 500) {
-          throw new Error("End point not found");
-        } else {
-          throw new Error(
+        throw new Error(
+          `${responseData.message} Status: ${response.status}` ||
             `There was an error updating the database. Status: ${response.status}`
-          );
-        }
+        );
       }
 
-      await response.json();
       return response.ok;
     } catch (error) {
       console.error(error);
