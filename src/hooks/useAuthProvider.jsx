@@ -2,25 +2,48 @@
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { usePostRequest } from "./usePostRequest";
+
 //Create the context
 const AuthContext = createContext();
+const URL = import.meta.env.VITE_API_URL;
 
 //Create the provider
 const AuthProvider = ({ children }) => {
+
+    const navigate = useNavigate();
 
     //Setup the state
     const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
     const [user, setUser] = useState(null);
     const [token, setToken] = useState(localStorage.getItem('token' || ''));
 
+    //Create the post request hook
+    const [postStatus, postMessage, setPostMessage, postData] = usePostRequest();
 
-    //Handle the Login using local storage until a Database can be setup (TODO)
+
+  const loginAction = async (data) => {
+
+    console.log(data);
+       // Post the data to the server
+    //    const success = await postData(URL + "users/login", data);
+
+
+  };
+
+  // Handle the Logout
+  const logout = () => {
     
+    setUser(null);
+    setToken("");
+    localStorage.removeItem("site");
+    navigate ("/login");
+  }
 
 
     return (
-        <AuthContext.Provider>
-            {isLoggedIn&&children}
+        <AuthContext.Provider value={{token, user, loginAction, logout}}>
+            {children}
         </AuthContext.Provider>
     );
 }
@@ -29,6 +52,6 @@ const AuthProvider = ({ children }) => {
 export default AuthProvider;
 
 //Create the hook
-export const useAuthProvider = () => {
+export const useAuth = () => {
     return useContext(AuthContext);
-}
+  };

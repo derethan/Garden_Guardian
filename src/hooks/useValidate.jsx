@@ -9,6 +9,7 @@ export function useValidate(data) {
   const validateForm = () => {
     const formErrors = {};
 
+
     //Validate any required fields
     const requiredFields = [
       "firstName",
@@ -18,18 +19,18 @@ export function useValidate(data) {
       "confirmPassword",
     ];
     requiredFields.forEach((field) => {
-      if (!data[field]) {
+      if (field in data && !data[field]) {
         formErrors[field] = `${field} is required`;
       }
     });
 
     //Validate Email
-    if (!/\S+@\S+\.\S+/.test(data.email) && data.email !== "") {
+    if ('email' in data && !/\S+@\S+\.\S+/.test(data.email) && data.email !== "") {
       formErrors.email = "Email address is invalid";
     }
 
     //Validate Password
-    if (data.password.length < 6 && data.password !== "") {
+    if ('password' in data && data.password.length < 6 && data.password !== "") {
       formErrors.password = "Password must be at least 6 characters";
     } else {
       // If the password doesnt contain a number, a letter and a special character
@@ -44,7 +45,7 @@ export function useValidate(data) {
     }
 
     //Validate Confirm Password
-    if (data.confirmPassword !== data.password && data.confirmPassword !== "") {
+    if ('confirmPassword' in data && data.confirmPassword !== data.password && data.confirmPassword !== "") {
       formErrors.confirmPassword = "Passwords do not match";
     }
 

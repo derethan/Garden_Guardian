@@ -3,6 +3,8 @@ import { useState } from "react";
 
 import { useValidate } from "./useValidate";
 
+import { useAuth } from "./useAuthProvider";
+
 export function useLogin() {
   //Use State for the form data
   const [loginData, setLoginData] = useState({
@@ -12,8 +14,6 @@ export function useLogin() {
 
   //Setup Form Errors State
   const [formErrors, validateForm] = useValidate(loginData);
-  const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
-
   
   //Handle the form data
   const handleChange = (event) => {
@@ -23,40 +23,21 @@ export function useLogin() {
     });
   };
 
+  //Use the Auth Context
+  const auth = useAuth();
+
   //Handle the form submission
   const handleSubmit = (event) => {
     event.preventDefault();
 
     if (validateForm()) {
-      // Submit form
-      login();
-      console.log("Form Submitted", loginData);
+      auth.loginAction(loginData);
     }
   };
 
 
-  // Handle the Login using local storage until a Database can be setup (TODO)
-  const login = () => {
 
-    if (loginData.email === "apatterson93@gmail.com" && loginData.password === "G74sxah!") {
-      // Set the logged in state
-      localStorage.setItem('token', '1234567890');
-      setIsLoggedIn(true);
-    } else {
-      // Set the form error
-      alert('Invalid credentials');
-      
-
-    }
-
-  };
-
-  // Handle the Logout
-  const logout = () => {
-    localStorage.removeItem('token');
-    setIsLoggedIn(false);
-  }
 
   //Return the state and the event handlers
-  return { loginData, formErrors, handleChange, handleSubmit, isLoggedIn, logout};
+  return { loginData, formErrors, handleChange, handleSubmit};
 }

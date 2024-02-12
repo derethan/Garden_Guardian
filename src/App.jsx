@@ -13,13 +13,11 @@ import { siteLinks } from "./routes";
 // Import Theme
 import theme from "./theme";
 
-// Import AuthProvider
-// import AuthProvider from "./hooks/useAuthProvider";
+import AuthProvider from "./hooks/useAuthProvider";
 
 // Main App Component
 export default function App() {
   return (
-    // <AuthProvider>
       <BrowserRouter>
         <ThemeProvider theme={theme}>
           <div className="App">
@@ -28,6 +26,7 @@ export default function App() {
             </header>
 
             <main className="app-body">
+              <AuthProvider>
               <Routes>
                 {siteLinks.map((link) => (
                   <Route
@@ -37,10 +36,10 @@ export default function App() {
                   />
                 ))}
               </Routes>
+              </AuthProvider>
             </main>
           </div>
         </ThemeProvider>
       </BrowserRouter>
-    // </AuthProvider>
   );
 } // end App
