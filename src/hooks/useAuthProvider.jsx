@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token' || ''));
 
     //Create the post request hook
-    const [postStatus, postMessage, setPostMessage, postData] = usePostRequest();
+    const [postStatus, postMessage, responseData, postData] = usePostRequest();
 
 
   const loginAction = async (data) => {
@@ -27,12 +27,10 @@ const AuthProvider = ({ children }) => {
        // Post the data to the server
        const success = await postData(URL + "users/login", data);
       
-       if (success) {
-        //log the post data
+          //log the post data
         console.log(postStatus);
         console.log(postMessage);
-        
-       }
+        console.log(responseData);
 
 
   };
