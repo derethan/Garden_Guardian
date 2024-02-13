@@ -24,16 +24,22 @@ const AuthProvider = ({ children }) => {
 
   const loginAction = async (data) => {
 
-    console.log(data);
        // Post the data to the server
-    //    const success = await postData(URL + "users/login", data);
+       const success = await postData(URL + "users/login", data);
+      
+       if (success) {
+        //log the post data
+        console.log(postStatus);
+        console.log(postMessage);
+        
+       }
 
 
   };
 
   // Handle the Logout
   const logout = () => {
-    
+
     setUser(null);
     setToken("");
     localStorage.removeItem("site");
