@@ -15,6 +15,7 @@ export function useLogin() {
   //Setup Form Errors State
   const [formErrors, validateForm] = useValidate(loginData);
   
+  
   //Handle the form data
   const handleChange = (event) => {
     setLoginData({
@@ -27,11 +28,14 @@ export function useLogin() {
   const auth = useAuth();
 
   //Handle the form submission
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (validateForm()) {
-      auth.loginAction(loginData);
+      const Response = await auth.loginAction(loginData);
+      if (Response) {
+        console.log(Response);
+      }
     }
   };
 

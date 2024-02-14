@@ -3,12 +3,12 @@
  * Description : Custom hook to handle POST requests
  * ********************************************/
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const usePostRequest = () => {
-  const [postMessage, setPostMessage] = useState("");
-  const [postStatus, setPostStatus] = useState(null);
-  const [responseData, setResponseData] = useState({});
+  const [postMessage, setPostMessage] = useState(""); // Message returned from the API
+  const [postStatus, setPostStatus] = useState(null); // Status of the POST request
+  const [responseData, setResponseData] = useState({}); // All response Data returned from the API
 
   // Function to post the Data to the API endpoint and return the response
   async function postData(url, data) {
@@ -21,7 +21,6 @@ export const usePostRequest = () => {
         body: JSON.stringify(data),
       });
 
-      
       setPostStatus(response.status);
 
       // Get the response data
@@ -39,12 +38,22 @@ export const usePostRequest = () => {
       }
 
       return response.ok;
-
     } catch (error) {
       console.error(error);
       return false;
     }
   }
 
-  return [postStatus, postMessage, responseData, postData];
+// // FOR DEBUGGING
+// useEffect(() => {
+//   // Use the response data
+//   if (postStatus && postMessage && responseData) {
+//       // Log the status and message
+//   console.log('Status:', postStatus);
+//   console.log('Message:', postMessage);
+//     console.log('Response data:', responseData);
+//       }
+// }, [postStatus, postMessage, responseData]);
+
+  return [postStatus, postMessage, responseData, setPostMessage, postData];
 };

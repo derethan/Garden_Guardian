@@ -2,14 +2,14 @@
 import { Card, CardContent, Typography, Box } from "@mui/material";
 
 import { useLogin } from "../hooks/useLogin";
+import { useAuth } from "../hooks/useAuthProvider";
 
 import EmailPasswordInput from "./account/EmailPasswordInput";
 import LoginFormButtons from "./LoginFormButtons";
 
-// Define the component
 const LoginForm = () => {
-  // Use the useLogin hook to setup the form data and event handlers
   const { loginData, formErrors, handleChange, handleSubmit } = useLogin();
+  const {postStatus, postMessage } = useAuth();
 
   return (
     <Card variant="dark" sx={{ padding: 2 }}>
@@ -25,6 +25,14 @@ const LoginForm = () => {
           formErrors={formErrors}
           handleChange={handleChange}
         />
+
+        {postStatus !==201 && (
+          <CardContent>
+            <Typography variant="body1" color={"error"}>
+              {postMessage}
+            </Typography>
+          </CardContent>
+        )}
 
         <LoginFormButtons />
       </Box>

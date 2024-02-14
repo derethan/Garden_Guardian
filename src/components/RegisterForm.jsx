@@ -21,10 +21,10 @@ const RegisterForm = () => {
     confirmPassword: "",
   });
 
-  const [isRegistered, setIsRegistered] = useState(false);
+  // const [isRegistered, setIsRegistered] = useState(false);
 
   const [formErrors, validateForm] = useValidate(formData);
-  const [postStatus, postMessage, setPostMessage, postData] = usePostRequest();
+  const [postStatus, postMessage, , setPostMessage, postData] = usePostRequest();
 
   // Function to handle the form input changes, Updates the formdata state with the new value
   const handleChange = (event) => {
@@ -48,8 +48,9 @@ const RegisterForm = () => {
 
       // If the user is registered, redirect to the login page
       if (success) {
+
         console.log("register status: ", success);
-        setIsRegistered(success);
+        // setIsRegistered(success);
 
         setFormData({
           firstName: "",
