@@ -19,22 +19,31 @@ const AuthProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token' || ''));
 
     //Create the post request hook
-    const [postStatus, postMessage, responseData, , postData] = usePostRequest();
+    const [postStatus, postMessage, , , postData] = usePostRequest();
 
 
   const loginAction = async (data) => {
 
     try {
        // Post the data to the server
-       const success = await postData(URL + "users/login", data);
+       const user = await postData(URL + "users/login", data);
 
-        if (success) {
+       
+        if (user) {
+
+          console.log(user);
+
           // Set the token
-          setToken(responseData.token);
-          localStorage.setItem('token', responseData.token);
+          setToken(user.token);
+          localStorage.setItem('token', user.token);
+
+          // Set the logged in state
           setIsLoggedIn(true);
+
           // Set the user
-          setUser(responseData.user);
+          setUser(user.user);
+          localStorage.setItem('user', JSON.stringify(user.user));
+          
           // Navigate to the dashboard
         }
 

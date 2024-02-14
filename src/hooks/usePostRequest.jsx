@@ -37,7 +37,7 @@ export const usePostRequest = () => {
         );
       }
 
-      return response.ok;
+      return responseData;
     } catch (error) {
       console.error(error);
       return false;
