@@ -5,6 +5,10 @@ import { useValidate } from "./useValidate";
 
 import { useAuth } from "./useAuthProvider";
 
+import { useNavigate } from "react-router-dom";
+
+
+
 export function useLogin() {
   //Use State for the form data
   const [loginData, setLoginData] = useState({
@@ -14,6 +18,12 @@ export function useLogin() {
 
   //Setup Form Errors State
   const [formErrors, validateForm] = useValidate(loginData);
+
+   //Use the Auth Context
+   const auth = useAuth();
+
+   //use Navigate
+   const navigate = useNavigate();
   
   
   //Handle the form data
@@ -24,18 +34,17 @@ export function useLogin() {
     });
   };
 
-  //Use the Auth Context
-  const auth = useAuth();
+ 
 
   //Handle the form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (validateForm()) {
-      const Response = await auth.loginAction(loginData);
-      if (Response) {
-        console.log(Response);
-      }
+      await auth.loginAction(loginData)
+      .then (() => {
+        navigate("/dashboard");
+      })
     }
   };
 

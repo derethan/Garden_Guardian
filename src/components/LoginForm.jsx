@@ -26,7 +26,7 @@ const LoginForm = () => {
           handleChange={handleChange}
         />
 
-        {postStatus !==201 && (
+        {postStatus && postStatus !==201 && (
           <CardContent>
             <Typography variant="body1" color={"error"}>
               {postMessage}

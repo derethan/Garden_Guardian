@@ -4,6 +4,7 @@ import Login from './views/login';
 import ResetPassword from './views/ResetPassword';
 import Register from './views/Register';
 import oauthcallback from './views/oauthcallback';
+import Dashboard from './views/Dashboard';
 
 
 //Site Links Array
@@ -21,8 +22,15 @@ export const siteLinks = [
     {ID: 'oauthcallback', path: '/oauthcallback', Name: 'oauthcallback', Component: oauthcallback,},
 
 
-
     // Account Pages
     {ID: 'PasswordReset', path: '/passwordReset', Name: 'Reset Password', Component: ResetPassword,},
+
+]
+
+// Export the private routes
+export const privateRoutes = [
+
+    // Account Pages
+    {ID: 'Dashboard', path: '/dashboard', Name: 'Dashboard', Component: Dashboard,},
 
 ]

@@ -8,7 +8,8 @@ import { ThemeProvider } from "@mui/material";
 import Header from "./components/header/header";
 
 // Import Routes
-import { siteLinks } from "./routes";
+import { siteLinks, privateRoutes } from "./routes";
+import PrivateRoute from "./hooks/PrivateRoute";
 
 // Import Theme
 import theme from "./theme";
@@ -26,8 +27,12 @@ export default function App() {
             </header>
 
             <main className="app-body">
+
+
               <AuthProvider>
               <Routes>
+
+                {/* Maps the Public Routes */}
                 {siteLinks.map((link) => (
                   <Route
                     key={link.ID}
@@ -35,8 +40,22 @@ export default function App() {
                     element={<link.Component />}
                   />
                 ))}
+
+                {/* Maps the Private Routes */}
+                <Route element={<PrivateRoute />}>
+                  {privateRoutes.map((link) => (
+                    <Route
+                      key={link.ID}
+                      path={link.path}
+                      element={<link.Component />}
+                    />
+                  ))}
+                </Route>
+
               </Routes>
               </AuthProvider>
+
+
             </main>
           </div>
         </ThemeProvider>

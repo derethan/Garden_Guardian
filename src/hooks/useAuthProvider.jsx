@@ -28,11 +28,7 @@ const AuthProvider = ({ children }) => {
        // Post the data to the server
        const user = await postData(URL + "users/login", data);
 
-       
         if (user) {
-
-          console.log(user);
-
           // Set the token
           setToken(user.token);
           localStorage.setItem('token', user.token);
@@ -43,12 +39,9 @@ const AuthProvider = ({ children }) => {
           // Set the user
           setUser(user.user);
           localStorage.setItem('user', JSON.stringify(user.user));
-          
-          // Navigate to the dashboard
-        }
+          }
 
-
-    } catch (error) {
+        } catch (error) {
       console.error(error);
     }
 
