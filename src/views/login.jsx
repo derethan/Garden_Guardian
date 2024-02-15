@@ -17,7 +17,6 @@ export default function Login() {
     
     const user = useAuth();
     const navigate = useNavigate();
-    console.log(user.isLoggedIn);
     
     useEffect(() => {
         if (user.isLoggedIn) {

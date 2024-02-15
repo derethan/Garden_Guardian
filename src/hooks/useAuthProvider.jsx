@@ -54,6 +54,7 @@ const AuthProvider = ({ children }) => {
     setToken("");
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    setIsLoggedIn(false);
     navigate ("/login");
   }
 
