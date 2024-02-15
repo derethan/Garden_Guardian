@@ -21,6 +21,8 @@ const AuthProvider = ({ children }) => {
     //Create the post request hook
     const [postStatus, postMessage, , , postData] = usePostRequest();
 
+    //Handle token verification
+
 
   const loginAction = async (data) => {
 
@@ -58,9 +60,32 @@ const AuthProvider = ({ children }) => {
     navigate ("/login");
   }
 
+  const verifyToken = async (token) => {
+      const response = await fetch(URL + 'users/protected', {
+        method: "GET",
+        headers: {
+          Authorization: token,
+        },
+      });
+
+      const responseData = await response.json();
+
+      //Handle response status's
+      // TODO: Handle response codes, handle if token is valid, not valid and expired
+      // If user is logged in status and it returns expired then a new token should be requested
+      // if token is not valid then the user should be logged out
+      // if token is valid then the user should be allowed to continue
+
+      if (!response.ok) {
+        console.error(response);
+        console.error(responseData.message);
+        logout();
+      }
+    
+  }
 
     return (
-        <AuthContext.Provider value={{token, user, loginAction, logout, postStatus, postMessage, isLoggedIn}}>
+        <AuthContext.Provider value={{token, user, loginAction, logout,verifyToken, postStatus, postMessage, isLoggedIn}}>
             {children}
         </AuthContext.Provider>
     );
