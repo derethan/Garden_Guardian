@@ -21,6 +21,8 @@ export const usePostRequest = () => {
         body: JSON.stringify(data),
       });
 
+      const token = response.headers.get('Authorization').split(' ')[1];
+
       setPostStatus(response.status);
 
       // Get the response data
@@ -37,7 +39,13 @@ export const usePostRequest = () => {
         );
       }
 
+      // Add the token to the response data
+      responseData.token = token;
+
+      // Return the response data
       return responseData;
+
+
     } catch (error) {
       console.error(error);
       return false;

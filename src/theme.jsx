@@ -60,7 +60,21 @@ const theme = createTheme({
 		}
 	}
 
-
+/********
+ * 	Color Scheme beta
+ * 
+ * Office Green - 007F00
+ * Anti-Flash White - #EBEBEB
+ * Pigment Green - #3F9E3F
+ * Silver - #BDBDBD
+ * Space Cadet - #2F2C43
+ * Davy's Grey - #4F4E50
+ * French grey - #B9B8BC
+ * jet - #2A2A2A
+ * Wenge - #635A6C
+ * 
+ * 
+ */
 
 });
 
