@@ -1,12 +1,8 @@
-import { Box, TextField, Typography } from "@mui/material";
+import { Box, TextField } from "@mui/material";
 
 const AccountDetailsInput = ({formData, formErrors, handleChange}) => {
   return (
     <>
-      <Typography variant="subtitle1" color="text.card">
-        Account Details
-      </Typography>
-
       <Box
         sx={{
           display: "flex",

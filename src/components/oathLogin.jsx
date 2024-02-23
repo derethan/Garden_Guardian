@@ -8,9 +8,9 @@ const OathLogin = () => {
 
     return (
         <Box>
-        <Typography variant='h6' sx={{marginTop: 2}}>Or</Typography>
+        <Typography variant='body1' sx={{marginTop: 2}}>Or</Typography>
 
-        <Card variant='dark' sx={{padding: 2, marginTop: 2, marginBottom: 2}}>
+        <Card variant='light' sx={{padding: 2, marginTop: 2, marginBottom: 2}}>
             <Button variant="contained" color="primary" onClick={handleGoogleLogin}>
             Login with Google
             </Button>

@@ -12,7 +12,7 @@ const theme = createTheme({
 			main: '#05394f', //dark blue
 		},
 		background: {
-			default: '#F8F8F8', //White
+			default: '#EBEBEB', //White
 			dark: '#242424', //dark grey
 		},
 		error: {
@@ -56,7 +56,7 @@ const theme = createTheme({
 					style: {
 						backgroundColor: '#F5F5F5', //dark grey
 						marginBottom: 2,
-						boxShadow: '0 0 10px 0 #1a1a1a',				
+						boxShadow: '0 0 4px 1px #848386',				
 					},
 				},
 				{

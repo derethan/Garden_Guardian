@@ -21,7 +21,7 @@ const LoginForm = () => {
         }}>
           Sign In
         </Typography>
-        <Typography variant="subtitle2" color={theme.typography.primary.subtitle}>
+        <Typography variant="subtitle2" color={theme.typography.primary.subtitle} sx={{paddingTop:'8px'}}>
           Enter your login details to proceed
         </Typography>
       </CardContent>

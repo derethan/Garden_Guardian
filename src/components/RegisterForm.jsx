@@ -1,5 +1,5 @@
 //Import necessary libraries
-import { Box, Button, Card, Typography } from "@mui/material";
+import { Box, Button, Card, Typography, useTheme } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -12,6 +12,7 @@ import PasswordWithConfirmInput from "./account/PasswordWithConfirmInput";
 // Function to handle the registration form
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -24,7 +25,8 @@ const RegisterForm = () => {
   // const [isRegistered, setIsRegistered] = useState(false);
 
   const [formErrors, validateForm] = useValidate(formData);
-  const [postStatus, postMessage, , setPostMessage, postData] = usePostRequest();
+  const [postStatus, postMessage, , setPostMessage, postData] =
+    usePostRequest();
 
   // Function to handle the form input changes, Updates the formdata state with the new value
   const handleChange = (event) => {
@@ -48,7 +50,6 @@ const RegisterForm = () => {
 
       // If the user is registered, redirect to the login page
       if (success) {
-
         console.log("register status: ", success);
         // setIsRegistered(success);
 
@@ -68,7 +69,24 @@ const RegisterForm = () => {
   };
 
   return (
-    <Card variant="dark" sx={{ padding: 2, margin: 2 }}>
+    <Card variant="light" sx={{ padding: 2, margin: 2 }}>
+      <Typography
+        variant="h4"
+        color={theme.typography.primary.cardTitle}
+        sx={{
+          fontWeight: 600,
+        }}
+      >
+        Create Account
+      </Typography>
+      <Typography
+        variant="subtitle2"
+        color={theme.typography.primary.subtitle}
+        sx={{ paddingTop: "8px" }}
+      >
+        Enter your details to create an account
+      </Typography>
+
       <Box
         component="form"
         noValidate
@@ -97,7 +115,7 @@ const RegisterForm = () => {
             type="submit"
             fullWidth
             variant="contained"
-            color="secondary"
+            color="primary"
             sx={{ mt: 3, mb: 2 }}
           >
             Register Account
@@ -107,7 +125,7 @@ const RegisterForm = () => {
         <Link to="/login">
           <Typography
             variant="body2"
-            color="text.primary"
+            color={theme.typography.primary.subtitle}
             sx={{
               "&:hover": {
                 color: "primary.main", // Change this to your desired color

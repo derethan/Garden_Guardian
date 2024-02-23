@@ -6,10 +6,8 @@ import {
   Typography,
   TextField,
   Box,
+  useTheme,
 } from "@mui/material";
-
-// Define the component
-const primaryTextColor = (theme) => theme.typography.secondary.main;
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -22,15 +20,21 @@ const handleSubmit = (event) => {
 };
 
 const ResetPasswordBox = () => {
+  const theme = useTheme();
   return (
-    <Card variant="dark"
+    <Card variant="light"
       sx={{
         padding: 2,
       }}
     >
       <CardContent>
-        <Typography variant="h4" color={primaryTextColor}>
+      <Typography variant="h4" color={theme.typography.primary.cardTitle} sx={{
+          fontWeight: 600,
+        }}>
           Reset Password
+        </Typography>
+        <Typography variant="subtitle2" color={theme.typography.primary.subtitle} sx={{paddingTop:'8px'}}>
+          Enter your email address to reset your password
         </Typography>
       </CardContent>
       <Box type="form" component="form" noValidate onSubmit={handleSubmit}>
@@ -53,7 +57,7 @@ const ResetPasswordBox = () => {
           type="submit"
           fullWidth
           variant="contained"
-          color="secondary"
+          color="primary"
           sx={{ mt: 3, mb: 2 }}
         >
           Reset Password

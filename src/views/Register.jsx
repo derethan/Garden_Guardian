@@ -24,8 +24,6 @@ export default function Register() {
   
   return (
     <Container maxWidth="sm" sx={{ paddingTop: 4 }}>
-      <h1>Create Your Account</h1>
-
       <RegisterForm />
     </Container>
   );
