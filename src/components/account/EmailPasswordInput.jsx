@@ -1,5 +1,6 @@
 import { TextField } from '@mui/material'
 
+
 const EmailPasswordInput = ({ loginData, formErrors, handleChange }) => {
     return (
 
@@ -37,7 +38,6 @@ const EmailPasswordInput = ({ loginData, formErrors, handleChange }) => {
           size="small"
           sx={{
             backgroundColor: 'background.default',
-            color: "#FFFFFF",
           }}
           onChange={handleChange}
 

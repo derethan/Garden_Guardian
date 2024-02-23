@@ -1,15 +1,18 @@
-import { Typography } from "@mui/material";
+import { Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 
+
 const ForgotPasswordLink = () => {
+  const theme = useTheme();
+
   return (
     <Link to="/passwordReset">
       <Typography
         variant="body2"
-        color="text.primary"
+        color={theme.typography.primary.textDark}
         sx={{
           "&:hover": {
-            color: "primary.main",
+            color: theme.typography.primary.main,
           },
         }}
       >

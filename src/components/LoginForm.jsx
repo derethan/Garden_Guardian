@@ -1,5 +1,5 @@
 // Import necessary libraries
-import { Card, CardContent, Typography, Box } from "@mui/material";
+import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";
 
 import { useLogin } from "../hooks/useLogin";
 import { useAuth } from "../hooks/useAuthProvider";
@@ -11,11 +11,18 @@ const LoginForm = () => {
   const { loginData, formErrors, handleChange, handleSubmit } = useLogin();
   const {postStatus, postMessage } = useAuth();
 
+  const theme = useTheme();
+
   return (
-    <Card variant="dark" sx={{ padding: 2 }}>
+    <Card variant="light" sx={{ padding: 2 }}>
       <CardContent>
-        <Typography variant="h5" color={"typography.secondary.main"}>
-          Login below to get started.
+        <Typography variant="h4" color={theme.typography.primary.cardTitle} sx={{
+          fontWeight: 600,
+        }}>
+          Sign In
+        </Typography>
+        <Typography variant="subtitle2" color={theme.typography.primary.subtitle}>
+          Enter your login details to proceed
         </Typography>
       </CardContent>
 

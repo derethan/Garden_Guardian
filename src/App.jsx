@@ -19,19 +19,28 @@ import AuthProvider from "./hooks/useAuthProvider";
 // Main App Component
 export default function App() {
   return (
-      <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <div className="App">
-            <header className="App-header">
-              <Header />
-            </header>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <div
+          className="App"
+          style={{
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.text.primary,
+          }}
+        >
+          <header className="App-header">
+            <Header />
+          </header>
 
-            <main className="app-body">
-
-
-              <AuthProvider>
+          <main
+            className="app-body"
+            style={{
+              backgroundColor: theme.palette.background.default,
+              color: theme.palette.text.primary,
+            }}
+          >
+            <AuthProvider>
               <Routes>
-
                 {/* Maps the Public Routes */}
                 {siteLinks.map((link) => (
                   <Route
@@ -51,14 +60,11 @@ export default function App() {
                     />
                   ))}
                 </Route>
-
               </Routes>
-              </AuthProvider>
-
-
-            </main>
-          </div>
-        </ThemeProvider>
-      </BrowserRouter>
+            </AuthProvider>
+          </main>
+        </div>
+      </ThemeProvider>
+    </BrowserRouter>
   );
 } // end App

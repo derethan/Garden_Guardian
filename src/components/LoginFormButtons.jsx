@@ -13,7 +13,7 @@ const LoginFormButtons = () => {
           gap: 4,
         }}
       >
-        <Button type="submit" fullWidth variant="contained" color="secondary">
+        <Button type="submit" fullWidth variant="contained" color="primary">
           Login
         </Button>
 

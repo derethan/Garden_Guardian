@@ -12,8 +12,8 @@ const theme = createTheme({
 			main: '#05394f', //dark blue
 		},
 		background: {
-			default: '#242424', //black
-			card: '#2d2d2d', //dark grey
+			default: '#F8F8F8', //White
+			dark: '#242424', //dark grey
 		},
 		error: {
 			main: '#FF0000', //red
@@ -28,14 +28,17 @@ const theme = createTheme({
 			main: '#32CD32', //lime
 		},
 		text: {
-			primary: '#CCCCCC', //white
-			secondary: '#bdbdbd', //light grey
+			primary: '#2A2A2A', //white
+			secondary: '#848386', //light grey
 		},
 		
 	},
 	typography: {
 		primary: {
 			main: '#008000', //green
+			cardTitle: '#2A2A2A', //green
+			subtitle: '#848386', //light grey
+			textDark: '#2A2A2A', //dark grey
 		},
 		secondary: {
 			main: 'CCCCCC', //white
@@ -48,6 +51,14 @@ const theme = createTheme({
 	components: {
 		MuiCard: {
 			variants: [
+				{
+					props: { variant: 'light' },
+					style: {
+						backgroundColor: '#F5F5F5', //dark grey
+						marginBottom: 2,
+						boxShadow: '0 0 10px 0 #1a1a1a',				
+					},
+				},
 				{
 					props: { variant: 'dark' },
 					style: {
