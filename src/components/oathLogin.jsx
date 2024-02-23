@@ -1,5 +1,6 @@
 // Import necessary libraries
-import { Box, Button, Card, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
+import { PrimaryButton } from './PrimaryButton';
 import { useOathLogin } from '../hooks/useOathLogin';
 
 // Define the component
@@ -8,13 +9,9 @@ const OathLogin = () => {
 
     return (
         <Box>
-        <Typography variant='body1' sx={{marginTop: 2}}>Or</Typography>
+        <Typography variant='body1' sx={{marginTop: 2, marginBottom: 2}}>Or</Typography>
 
-        <Card variant='light' sx={{padding: 2, marginTop: 2, marginBottom: 2}}>
-            <Button variant="contained" color="primary" onClick={handleGoogleLogin}>
-            Login with Google
-            </Button>
-        </Card>
+        <PrimaryButton text="Login with Google" onClick={handleGoogleLogin} opacity='0.6' />
         </Box>
     )
 }

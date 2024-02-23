@@ -1,4 +1,8 @@
-import { Button, CardActions, Grid } from "@mui/material";
+import { CardActions, Grid } from "@mui/material";
+
+//import PrimaryButton
+import {PrimaryButton} from "./PrimaryButton";
+
 
 import DontHaveAccount from "./account/DontHaveAccountLink";
 import ForgotPasswordLink from "./account/ForgotPasswordLink";
@@ -9,13 +13,10 @@ const LoginFormButtons = () => {
         sx={{
           justifyContent: "center",
           flexDirection: "column",
-          paddingTop: 4,
           gap: 4,
         }}
       >
-        <Button type="submit" fullWidth variant="contained" color="primary">
-          Login
-        </Button>
+        <PrimaryButton type="submit" text="Login" fullWidth />
 
         <Grid container spacing={2}>
           <Grid item xs={6}>

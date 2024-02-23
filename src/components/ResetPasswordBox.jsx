@@ -2,12 +2,13 @@
 import {
   Card,
   CardContent,
-  Button,
   Typography,
   TextField,
   Box,
   useTheme,
 } from "@mui/material";
+
+import { PrimaryButton } from "../components/PrimaryButton";
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -53,15 +54,9 @@ const ResetPasswordBox = () => {
             backgroundColor: 'background.default',
           }}
         />
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          sx={{ mt: 3, mb: 2 }}
-        >
-          Reset Password
-        </Button>
+        
+        <PrimaryButton fullWidth type='submit' text="Reset Password" />
+
       </Box>
     </Card>
   );

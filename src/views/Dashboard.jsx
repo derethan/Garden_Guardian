@@ -1,6 +1,7 @@
 import { useAuth } from "../hooks/useAuthProvider";
 import { Container, Button } from "@mui/material";
 
+import SideBarWrapper from "../components/SideBarWrapper";
 
 const Dashboard = () => {
   const user = useAuth();
@@ -8,6 +9,8 @@ const Dashboard = () => {
   return (
     <div>
       <h1>Dashboard</h1>
+
+      <SideBarWrapper />
 
       <Container maxWidth="sm" sx={{ paddingTop: 4 }}>
         <Button
