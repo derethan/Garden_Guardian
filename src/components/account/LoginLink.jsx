@@ -1,11 +1,11 @@
 import { Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 
-const DontHaveAccount = () => {
+const LoginLink = () => {
   const theme = useTheme();
 
   return (
-    <Link to="/register">
+    <Link to="/login">
       <Typography
         variant="body2"
         color={theme.typography.primary.textDark}
@@ -15,10 +15,10 @@ const DontHaveAccount = () => {
           },
         }}
       >
-        Don&apos;t have an account? <br /> Sign up
+        Already have an account?<br /> Log In
       </Typography>
     </Link>
   );
 };
 
-export default DontHaveAccount;
+export default LoginLink;

@@ -1,6 +1,6 @@
 //Import necessary libraries
 import { Box, Button, Card, Typography, useTheme } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 import { useValidate } from "../hooks/useValidate";
@@ -8,6 +8,7 @@ import { usePostRequest } from "../hooks/usePostRequest";
 
 import AccountDetailsInput from "./account/accountDetailsInput";
 import PasswordWithConfirmInput from "./account/PasswordWithConfirmInput";
+import LoginLink from "./account/LoginLink";
 
 // Function to handle the registration form
 const RegisterForm = () => {
@@ -121,20 +122,7 @@ const RegisterForm = () => {
             Register Account
           </Button>
         </Box>
-
-        <Link to="/login">
-          <Typography
-            variant="body2"
-            color={theme.typography.primary.subtitle}
-            sx={{
-              "&:hover": {
-                color: "primary.main", // Change this to your desired color
-              },
-            }}
-          >
-            Already have an account? Sign in
-          </Typography>
-        </Link>
+          <LoginLink />
       </Box>
     </Card>
   );

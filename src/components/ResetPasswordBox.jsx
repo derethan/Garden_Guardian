@@ -9,6 +9,8 @@ import {
 } from "@mui/material";
 
 import { PrimaryButton } from "../components/PrimaryButton";
+import DontHaveAccount from '../components/account/DontHaveAccountLink';
+import LoginLink from '../components/account/LoginLink';
 
 const handleSubmit = (event) => {
   event.preventDefault();
@@ -58,6 +60,16 @@ const ResetPasswordBox = () => {
         <PrimaryButton fullWidth type='submit' text="Reset Password" />
 
       </Box>
+      
+      <Box sx={{
+        paddingTop: 4,
+        display: 'flex',
+        justifyContent: 'space-between',
+        }}>
+      <DontHaveAccount />
+      <LoginLink />
+      </Box>
+
     </Card>
   );
 };
