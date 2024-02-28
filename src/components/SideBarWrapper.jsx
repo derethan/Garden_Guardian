@@ -194,7 +194,7 @@ export default function SideBarWrapper({ children, view, ...props }) {
                             justifyContent: "center",
                           }}
                         >
-                          {link.icon}{" "}
+                          {React.cloneElement(link.icon, {style: {color: link.path === view && !open ? theme.palette.sidebar.navLinks : theme.typography.primary.textDark}})}
                           {/* This is the Icon For the Link, Set in Routes.JSX */}
                         </ListItemIcon>
                         <ListItemText
@@ -251,7 +251,7 @@ export default function SideBarWrapper({ children, view, ...props }) {
                             justifyContent: "center",
                           }}
                         >
-                          {link.icon}{" "}
+                          {React.cloneElement(link.icon, {style: {color: link.path === view && !open ? theme.palette.sidebar.navLinks : theme.typography.primary.textDark}})}
                           {/* This is the Icon For the Link, Set in Routes.JSX */}
                         </ListItemIcon>
                         <ListItemText
