@@ -9,7 +9,7 @@ import Header from "./components/header/header";
 import SideBarWrapper from "../src/components/SideBarWrapper";
 
 // Import Routes
-import { siteLinks, privateRoutes } from "./routes";
+import { siteLinks, privateAppRoutes } from "./routes";
 import PrivateRoute from "./hooks/PrivateRoute";
 
 // Import Theme
@@ -53,12 +53,12 @@ export default function App() {
 
                 {/* Maps the Private Routes */}
                 <Route element={<PrivateRoute />}>
-                  {privateRoutes.map((link) => (
+                  {privateAppRoutes.map((link) => (
                     <Route
                       key={link.ID}
                       path={link.path}
                       element={
-                        <SideBarWrapper view={link.Name} key={link.ID}>
+                        <SideBarWrapper view={link.path} key={link.ID}>
                           <link.Component />
                         </SideBarWrapper>
                       }

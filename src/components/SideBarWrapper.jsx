@@ -16,12 +16,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 
-import { Link } from "react-router-dom";
+import AppBarTitle from "./header/AppBarTitle";
 
-import { useAuth } from "../hooks/useAuthProvider";
+import { privateAppRoutes } from "../routes";
+import { NavLink } from "react-router-dom";
+
+import { useTheme } from "@mui/material";
 
 //Drawer Width
 const drawerWidth = 240;
@@ -50,30 +51,30 @@ const closedMixin = (theme) => ({
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  justifyContent: "flex-end",
+  justifyContent: "space-between",
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar,
 }));
 
-//AppBar Styled Component
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
+// //AppBar Styled Component
+// const AppBar = styled(MuiAppBar, {
+//   shouldForwardProp: (prop) => prop !== "open",
+// })(({ theme, open }) => ({
+//   zIndex: theme.zIndex.drawer + 1,
+//   transition: theme.transitions.create(["width", "margin"], {
+//     easing: theme.transitions.easing.sharp,
+//     duration: theme.transitions.duration.leavingScreen,
+//   }),
+//   ...(open && {
+//     marginLeft: drawerWidth,
+//     width: `calc(100% - ${drawerWidth}px)`,
+//     transition: theme.transitions.create(["width", "margin"], {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.enteringScreen,
+//     }),
+//   }),
+// }));
 
 //Drawer Styled Component
 const Drawer = styled(MuiDrawer, {
@@ -93,9 +94,20 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function SideBarWrapper({ view, children, ...props }) {
-  const [open, setOpen] = React.useState(false);
-  const user = useAuth();
+//Main Component
+export default function SideBarWrapper({ children, view, ...props }) {
+  const theme = useTheme();
+
+  // Open or Close state
+  const [open, setOpen] = React.useState(() => {
+    const savedState = localStorage.getItem("sidebarOpen");
+    return savedState !== null ? JSON.parse(savedState) : false;
+  });
+
+  //Use Effect to save the state of the sidebar to Local Storage
+  React.useEffect(() => {
+    localStorage.setItem("sidebarOpen", JSON.stringify(open));
+  }, [open]);
 
   const handleDrawerOpenClose = () => {
     //If the drawer is closed, open it
@@ -111,7 +123,7 @@ export default function SideBarWrapper({ view, children, ...props }) {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      {/* <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
             color="inherit"
@@ -129,80 +141,142 @@ export default function SideBarWrapper({ view, children, ...props }) {
             {view}
           </Typography>
         </Toolbar>
-      </AppBar>
+      </AppBar> */}
+
       <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerOpenClose}>
-            {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {["Dashboard", "Sensors", "Gardens"].map((text, index) => (
-            <Link
-              to={text === "Home" ? "/" : `/${text.toLowerCase()}`}
-              key={text}
-              style={{ textDecoration: "none", color: "black" }}
-            >
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
+        <Box
+          sx={{
+            height: "100%",
+            backgroundColor: theme.palette.sidebar.primary,
+          }}
+        >
+          <Box>
+            <DrawerHeader>
+              {open ? <AppBarTitle /> : null}
+
+              <IconButton onClick={handleDrawerOpenClose}>
+                {open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              </IconButton>
+            </DrawerHeader>
+
+            <Divider />
+          </Box>
+
+          {/* App Pages */}
+          <List>
+            {privateAppRoutes.map(
+              (link) =>
+                link.Type === "App" && (
+                  <NavLink
+                    to={link.path}
+                    key={link.ID}
+                    style={{
+                      textDecoration: "none",
+                      color: theme.typography.primary.textDark,
                     }}
                   >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["Weather", "Notifications", "Settings", "Logout"].map(
-            (text, index) => (
-              <ListItem key={text} disablePadding sx={{ display: "block" }}>
-                <ListItemButton
-                  sx={{
-                    minHeight: 48,
-                    justifyContent: open ? "initial" : "center",
-                    px: 2.5,
-                  }}
-                  {...(text === "Logout" && {
-                    onClick: () => {
-                      if (window.confirm("Are you sure you want to log out?")) {
-                        //If the user confirms, log them out
-                        user.logout();
-                      }
-                    },
-                  })}
-                >
-                  <ListItemIcon
-                    sx={{
-                      minWidth: 0,
-                      mr: open ? 3 : "auto",
-                      justifyContent: "center",
+                    <ListItem
+                      key={link.ID}
+                      disablePadding
+                      sx={{ display: "block" }}
+                    >
+                      <ListItemButton
+                        sx={{
+                          minHeight: 48,
+                          justifyContent: open ? "initial" : "center",
+                          px: 2.5,
+                        }}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : "auto",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {link.icon}{" "}
+                          {/* This is the Icon For the Link, Set in Routes.JSX */}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={link.Name}
+                          sx={{
+                            opacity: open ? 1 : 0,
+                            color:
+                              link.path === view
+                                ? theme.palette.sidebar.navLinks
+                                : theme.typography.primary.textDark,
+                          }}
+                          primaryTypographyProps={{
+                            style: {fontWeight: link.path === view ? "bold" : "normal"},
+                          }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  </NavLink>
+                )
+            )}
+          </List>
+
+          <Divider />
+
+          {/* User Pages */}
+          <List>
+            {privateAppRoutes.map(
+              (link) =>
+                link.Type === "User" && (
+                  <NavLink
+                    to={link.path}
+                    key={link.ID}
+                    style={{
+                      textDecoration: "none",
+                      color: theme.typography.primary.textDark,
                     }}
                   >
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                </ListItemButton>
-              </ListItem>
-            )
-          )}
-        </List>
+                    <ListItem
+                      key={link.ID}
+                      disablePadding
+                      sx={{ display: "block" }}
+                    >
+                      <ListItemButton
+                        sx={{
+                          minHeight: 48,
+                          justifyContent: open ? "initial" : "center",
+                          px: 2.5,
+                        }}
+                      >
+                        <ListItemIcon
+                          sx={{
+                            minWidth: 0,
+                            mr: open ? 3 : "auto",
+                            justifyContent: "center",
+                          }}
+                        >
+                          {link.icon}{" "}
+                          {/* This is the Icon For the Link, Set in Routes.JSX */}
+                        </ListItemIcon>
+                        <ListItemText
+                          primary={link.Name}
+                          sx={{
+                            opacity: open ? 1 : 0,
+                            color:
+                              link.path === view
+                                ? theme.palette.sidebar.navLinks
+                                : theme.typography.primary.textDark,
+                          }}
+                          primaryTypographyProps={{
+                            style: {fontWeight: link.path === view ? "bold" : "normal"},
+                          }}
+                        />
+                      </ListItemButton>
+                    </ListItem>
+                  </NavLink>
+                )
+            )}
+          </List>
+        </Box>
       </Drawer>
+
+      {/* Main Content */}
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         <div>{children}</div>

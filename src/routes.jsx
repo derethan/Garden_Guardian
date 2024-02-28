@@ -4,16 +4,41 @@ import Login from './views/login';
 import ResetPassword from './views/ResetPassword';
 import Register from './views/Register';
 import oauthcallback from './views/oauthcallback';
+
+// App Pages
 import Dashboard from './views/Dashboard';
 import sensors from './views/sensors';
+import Gardens from './views/Gardens';
+import Weather from './views/Weather';
+import Schedule from './views/Schedule';
+
+// User Pages
+import Notifications from './views/Notifications';
+import AccountMain from './views/AccountMain';
+import AppSettings from './views/AppSettings';
+import Logout from './views/Logout';
+
+// Icons from material UI - App Pages
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import SensorsIcon from '@mui/icons-material/Sensors';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import WbSunnyIcon from '@mui/icons-material/WbSunny';
+import GrassIcon from '@mui/icons-material/Grass';
+
+// Icons from material UI - User Pages
+import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
+// import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded';
+import ManageAccountsRoundedIcon from '@mui/icons-material/ManageAccountsRounded';
+import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 
-//Site Links Array
+
+//Site Links For the Main Website portion (Public)
 export const siteLinks = [
 
     // Content Pages
     {ID: 'Home', path: '/', Name: 'Home', Component: Home,},
-
 
     // User Pages
     {ID: 'Login', path: '/login', Name: 'Login', Component: Login,},
@@ -22,18 +47,26 @@ export const siteLinks = [
     // OAuth Pages
     {ID: 'oauthcallback', path: '/oauthcallback', Name: 'oauthcallback', Component: oauthcallback,},
 
-
     // Account Pages
     {ID: 'PasswordReset', path: '/passwordReset', Name: 'Reset Password', Component: ResetPassword,},
 
 ]
 
-// Export the private routes
-export const privateRoutes = [
+// Site Links for the Private App portion (Private)
+export const privateAppRoutes = [
 
-    // Account Pages
-    {ID: 'Dashboard', path: '/dashboard', Name: 'Dashboard', Component: Dashboard,},
-    {ID: 'Sensors', path: '/sensors', Name: 'Sensors', Component: sensors,},
+    // App Pages
+    {Type: 'App', ID: 'Dashboard', path: '/dashboard', Name: 'Dashboard',icon: <DashboardIcon /> , Component: Dashboard,},
+    {Type: 'App', ID: 'Gardens', path: '/gardens', Name: 'Gardens',icon: <GrassIcon />, Component: Gardens,},
+    {Type: 'App', ID: 'Schedule', path: '/schedule', Name: 'Schedule',icon: <CalendarMonthIcon />, Component: Schedule,},
+    {Type: 'App', ID: 'Weather', path: '/weather', Name: 'Weather',icon: <WbSunnyIcon />, Component: Weather,},
+    {Type: 'App', ID: 'Sensors', path: '/sensors', Name: 'Sensors',icon: <SensorsIcon /> , Component: sensors,},
+
+    // User Pages - Notifications, My Account, Setting, Logut
+    {Type: 'User', ID: 'Notifications', path: '/notifications', Name: 'Notifications',icon: <NotificationsNoneOutlinedIcon />, Component: Notifications,},
+    {Type: 'User', ID: 'MyAccount', path: '/myaccount', Name: 'My Account',icon: <ManageAccountsRoundedIcon />, Component: AccountMain,},
+    {Type: 'User', ID: 'Settings', path: '/settings', Name: 'Settings',icon: <SettingsRoundedIcon />, Component: AppSettings,},
+    {Type: 'User', ID: 'Logout', path: '/logout', Name: 'Logout',icon: <LogoutIcon />, Component: Logout,},
 
 
 ]
