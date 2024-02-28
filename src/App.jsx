@@ -6,6 +6,7 @@ import { ThemeProvider } from "@mui/material";
 
 // Import Components
 import Header from "./components/header/header";
+import SideBarWrapper from "../src/components/SideBarWrapper";
 
 // Import Routes
 import { siteLinks, privateRoutes } from "./routes";
@@ -56,7 +57,11 @@ export default function App() {
                     <Route
                       key={link.ID}
                       path={link.path}
-                      element={<link.Component />}
+                      element={
+                        <SideBarWrapper view={link.Name} key={link.ID}>
+                          <link.Component />
+                        </SideBarWrapper>
+                      }
                     />
                   ))}
                 </Route>
