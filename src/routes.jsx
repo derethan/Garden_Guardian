@@ -11,7 +11,22 @@ import sensors from './views/sensors';
 //Site Links Array
 export const siteLinks = [
 
-    // Content PagesAdded Dashboard Containe
+    // Content Pages
+    {ID: 'Home', path: '/', Name: 'Home', Component: Home,},
+
+
+    // User Pages
+    {ID: 'Login', path: '/login', Name: 'Login', Component: Login,},
+    {ID: 'Register', path: '/register', Name: 'Register', Component: Register,},
+
+    // OAuth Pages
+    {ID: 'oauthcallback', path: '/oauthcallback', Name: 'oauthcallback', Component: oauthcallback,},
+
+
+    // Account Pages
+    {ID: 'PasswordReset', path: '/passwordReset', Name: 'Reset Password', Component: ResetPassword,},
+
+]
 
 // Export the private routes
 export const privateRoutes = [
