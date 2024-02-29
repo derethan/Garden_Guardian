@@ -1,4 +1,4 @@
-import Shield from '../../assets/shield.png';
+import Shield from '../../assets/shield_small.png';
 
 const AppBarTitle = () => {
     return (

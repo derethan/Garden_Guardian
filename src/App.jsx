@@ -12,6 +12,9 @@ import SideBarWrapper from "../src/components/SideBarWrapper";
 import { siteLinks, privateAppRoutes } from "./routes";
 import PrivateRoute from "./hooks/PrivateRoute";
 
+// Import MUI Styles
+import CssBaseline from "@mui/material/CssBaseline";
+
 // Import Theme
 import theme from "./theme";
 
@@ -20,8 +23,12 @@ import AuthProvider from "./hooks/useAuthProvider";
 // Main App Component
 export default function App() {
   return (
+    
     <BrowserRouter>
+
       <ThemeProvider theme={theme}>
+      <CssBaseline />
+
         <div
           className="App"
           style={{

@@ -5,7 +5,6 @@ import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
@@ -19,10 +18,9 @@ import ListItemText from "@mui/material/ListItemText";
 
 import AppBarTitle from "./header/AppBarTitle";
 
-import { privateAppRoutes } from "../routes";
-import { NavLink } from "react-router-dom";
-
 import { useTheme } from "@mui/material";
+
+import NavbarList from "./nav/NavbarList";
 
 //Drawer Width
 const drawerWidth = 240;
@@ -122,7 +120,6 @@ export default function SideBarWrapper({ children, view, ...props }) {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CssBaseline />
       {/* <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
@@ -163,116 +160,13 @@ export default function SideBarWrapper({ children, view, ...props }) {
           </Box>
 
           {/* App Pages */}
-          <List>
-            {privateAppRoutes.map(
-              (link) =>
-                link.Type === "App" && (
-                  <NavLink
-                    to={link.path}
-                    key={link.ID}
-                    style={{
-                      textDecoration: "none",
-                      color: theme.typography.primary.textDark,
-                    }}
-                  >
-                    <ListItem
-                      key={link.ID}
-                      disablePadding
-                      sx={{ display: "block" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          minHeight: 48,
-                          justifyContent: open ? "initial" : "center",
-                          px: 2.5,
-                        }}
-                      >
-                        <ListItemIcon
-                          sx={{
-                            minWidth: 0,
-                            mr: open ? 3 : "auto",
-                            justifyContent: "center",
-                          }}
-                        >
-                          {React.cloneElement(link.icon, {style: {color: link.path === view && !open ? theme.palette.sidebar.navLinks : theme.typography.primary.textDark}})}
-                          {/* This is the Icon For the Link, Set in Routes.JSX */}
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={link.Name}
-                          sx={{
-                            opacity: open ? 1 : 0,
-                            color:
-                              link.path === view
-                                ? theme.palette.sidebar.navLinks
-                                : theme.typography.primary.textDark,
-                          }}
-                          primaryTypographyProps={{
-                            style: {fontWeight: link.path === view ? "bold" : "normal"},
-                          }}
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-                )
-            )}
-          </List>
+          <NavbarList open={open} view={view} type="App" />
 
           <Divider />
 
           {/* User Pages */}
-          <List>
-            {privateAppRoutes.map(
-              (link) =>
-                link.Type === "User" && (
-                  <NavLink
-                    to={link.path}
-                    key={link.ID}
-                    style={{
-                      textDecoration: "none",
-                      color: theme.typography.primary.textDark,
-                    }}
-                  >
-                    <ListItem
-                      key={link.ID}
-                      disablePadding
-                      sx={{ display: "block" }}
-                    >
-                      <ListItemButton
-                        sx={{
-                          minHeight: 48,
-                          justifyContent: open ? "initial" : "center",
-                          px: 2.5,
-                        }}
-                      >
-                        <ListItemIcon
-                          sx={{
-                            minWidth: 0,
-                            mr: open ? 3 : "auto",
-                            justifyContent: "center",
-                          }}
-                        >
-                          {React.cloneElement(link.icon, {style: {color: link.path === view && !open ? theme.palette.sidebar.navLinks : theme.typography.primary.textDark}})}
-                          {/* This is the Icon For the Link, Set in Routes.JSX */}
-                        </ListItemIcon>
-                        <ListItemText
-                          primary={link.Name}
-                          sx={{
-                            opacity: open ? 1 : 0,
-                            color:
-                              link.path === view
-                                ? theme.palette.sidebar.navLinks
-                                : theme.typography.primary.textDark,
-                          }}
-                          primaryTypographyProps={{
-                            style: {fontWeight: link.path === view ? "bold" : "normal"},
-                          }}
-                        />
-                      </ListItemButton>
-                    </ListItem>
-                  </NavLink>
-                )
-            )}
-          </List>
+
+          <NavbarList open={open} view={view} type="User" />
         </Box>
       </Drawer>
 
