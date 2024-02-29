@@ -1,28 +1,25 @@
 import { useAuth } from "../hooks/useAuthProvider";
-import { Container, Button } from "@mui/material";
+import { Container, Box } from "@mui/material";
 
 
 const Dashboard = () => {
   const user = useAuth();
+  const name = JSON.parse(user.user).name;
 
   return (
-
-    <div>
-      <h1>Dashboard</h1>
-
-
       <Container maxWidth="sm" sx={{ paddingTop: 4 }}>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            user.logout();
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: 2,
           }}
         >
-          Log Out
-        </Button>
+          <h2>Welcome {name}</h2>
+        </Box>
+
       </Container>
-    </div>
   );
 };
 

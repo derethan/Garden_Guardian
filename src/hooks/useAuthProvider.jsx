@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
 
   //Setup the state
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(localStorage.getItem("user" || ""));
   const [token, setToken] = useState(localStorage.getItem("token" || ""));
 
   //Create the post request hook
@@ -76,6 +76,7 @@ const AuthProvider = ({ children }) => {
       console.error(responseData.message);
       logout();
     } else {
+      
       console.log(responseData);
     }
   };
