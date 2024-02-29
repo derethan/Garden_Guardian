@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
 
   //Setup the state
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-  const [user, setUser] = useState(localStorage.getItem("user" || ""));
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || "");
   const [token, setToken] = useState(localStorage.getItem("token" || ""));
 
   //Create the post request hook
@@ -23,20 +23,20 @@ const AuthProvider = ({ children }) => {
   const loginAction = async (data) => {
     try {
       // Post the data to the server
-      const user = await postData(URL + "users/login", data);
+      const responseData = await postData(URL + "users/login", data);
 
-      if (user) {
+      if (responseData) {
 
         // Set the token
-        setToken(user.token);
-        localStorage.setItem("token", user.token);
+        setToken(responseData.token);
+        localStorage.setItem("token", responseData.token);
 
         // Set the logged in state
         setIsLoggedIn(true);
 
         // Set the user
-        setUser(user.user);
-        localStorage.setItem("user", JSON.stringify(user.user));
+        setUser(responseData.user);
+        localStorage.setItem("user", JSON.stringify(responseData.user));
       }
     } catch (error) {
       console.error(error);

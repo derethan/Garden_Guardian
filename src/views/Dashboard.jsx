@@ -4,7 +4,8 @@ import { Container, Box } from "@mui/material";
 
 const Dashboard = () => {
   const user = useAuth();
-  const name = JSON.parse(user.user).name;
+  const name = user.user.name;
+  console.log(name);
 
   return (
       <Container maxWidth="sm" sx={{ paddingTop: 4 }}>
