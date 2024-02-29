@@ -133,8 +133,14 @@ export default function SideBarWrapper({ children, view, title }) {
       </Drawer>
 
       {/* Main Content */}
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
+      <Box component="main" sx={{ 
+        flexGrow: 1, 
+        p: 3, 
+        backgroundColor: theme.palette.background.default,
+        minHeight: "100vh",
+        minWidth: "100vw",
+        padding: "100px",
+      }}>
         <div>{children}</div>
       </Box>
     </Box>

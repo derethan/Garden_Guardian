@@ -1,11 +1,11 @@
 
+import LoadingScreen from "../components/LoadingScreen";
+
 const sensors = () => {
-    return (
-        <div>
-            <h1> Sensors </h1>
-        </div>
-    )
-}
+  return (
+    <LoadingScreen />
+ 
+  );
+};
 
-
-export default sensors
+export default sensors;
