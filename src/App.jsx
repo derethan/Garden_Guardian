@@ -65,7 +65,7 @@ export default function App() {
                       key={link.ID}
                       path={link.path}
                       element={
-                        <SideBarWrapper view={link.path} key={link.ID}>
+                        <SideBarWrapper view={link.path} key={link.ID} title={link.Name}>
                           <link.Component />
                         </SideBarWrapper>
                       }
