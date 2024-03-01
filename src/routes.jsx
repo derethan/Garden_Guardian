@@ -18,6 +18,9 @@ import AccountMain from './views/AccountMain';
 import AppSettings from './views/AppSettings';
 import Logout from './views/Logout';
 
+// Error Pages
+import Error503 from './views/Error503';
+
 // Icons from material UI - App Pages
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import SensorsIcon from '@mui/icons-material/Sensors';
@@ -49,6 +52,9 @@ export const siteLinks = [
 
     // Account Pages
     {ID: 'PasswordReset', path: '/passwordReset', Name: 'Reset Password', Component: ResetPassword,},
+
+    // Error Pages
+    {ID: 'Error503', path: '/error503', Name: 'Error503', Component: Error503,},
 
 ]
 

@@ -4,11 +4,14 @@
  * ********************************************/
 
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const usePostRequest = () => {
   const [postMessage, setPostMessage] = useState(""); // Message returned from the API
   const [postStatus, setPostStatus] = useState(null); // Status of the POST request
   const [responseData, setResponseData] = useState({}); // All response Data returned from the API
+
+  const navigate = useNavigate();
 
   // Function to post the Data to the API endpoint and return the response
   async function postData(url, data) {
@@ -48,6 +51,7 @@ export const usePostRequest = () => {
 
     } catch (error) {
       console.error(error);
+      navigate("/error503");
       return false;
     }
   }
