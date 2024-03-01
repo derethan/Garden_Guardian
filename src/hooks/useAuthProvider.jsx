@@ -14,7 +14,9 @@ const AuthProvider = ({ children }) => {
 
   //Setup the state
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")) || "");
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem("user")) || ""
+  );
   const [token, setToken] = useState(localStorage.getItem("token" || ""));
 
   //Create the post request hook
@@ -26,7 +28,6 @@ const AuthProvider = ({ children }) => {
       const responseData = await postData(URL + "users/login", data);
 
       if (responseData) {
-
         // Set the token
         setToken(responseData.token);
         localStorage.setItem("token", responseData.token);
@@ -40,6 +41,8 @@ const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error(error);
+      console.error("503 Service Unavailable");
+
     }
   };
 
@@ -53,32 +56,36 @@ const AuthProvider = ({ children }) => {
     navigate("/login");
   };
 
-
   //Make a request to the protected route on the server to verify token
   const verifyToken = async (token) => {
-    const response = await fetch(URL + "users/protected", {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    try {
+      const response = await fetch(URL + "users/protected", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-    const responseData = await response.json();
+      const responseData = await response.json();
+
+      if (!response.ok) {
+        console.error(response);
+        console.error(responseData.message);
+        logout();
+      } 
+
+      
+    } catch (error) {
+      console.error(error);
+      logout();
+      console.error("503 Service Unavailable");
+    }
 
     //Handle response status's
     // TODO: Handle response codes, handle if token is valid, not valid and expired
     // If user is logged in status and it returns expired then a new token should be requested
     // if token is not valid then the user should be logged out
     // if token is valid then the user should be allowed to continue
-
-    if (!response.ok) {
-      console.error(response);
-      console.error(responseData.message);
-      logout();
-    } else {
-      
-      console.log(responseData);
-    }
   };
 
   return (
