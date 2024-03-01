@@ -11,7 +11,7 @@ const PrivateRoute = () => {
         if (isLoggedIn) {
             verifyToken(token); //Send the token to the server to verify it
         }
-    }, []);// eslint-disable-line react-hooks/exhaustive-deps
+    }, [isLoggedIn, token, verifyToken]);
 
 
     //If the user is not logged in or the token is invalid, redirect to the login page

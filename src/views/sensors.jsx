@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import AddDevice from "../components/AddDevice";
+import AddDevice from "../components/modals/AddDevice";
 
 import LoadingScreen from "../components/LoadingScreen";
 
@@ -28,7 +28,7 @@ const Sensors = () => {
         ) : (
             <>
             <LoadingScreen />
-            <AddDevice display={showAddDeviceModal} />
+            <AddDevice display={showAddDeviceModal} setShowAddDeviceModal={setShowAddDeviceModal} />
             </>
         )}
       </div>
