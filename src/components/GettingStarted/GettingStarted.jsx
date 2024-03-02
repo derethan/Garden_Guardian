@@ -2,8 +2,8 @@
 import { Container, Box } from "@mui/material";
 
 //import components
-import HelpCard from "../HelpCard";
-import LoginBox from "../LoginBox";
+import HelpCard from "../GettingStarted/HelpCard";
+import LoginBox from "../GettingStarted/LoginBox";
 
 const GettingStarted = () => {
     return (

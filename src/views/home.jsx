@@ -11,6 +11,7 @@ import GettingStarted from "../components/GettingStarted/GettingStarted";
 export default function Home() {
     return (
 
+        
         <Container>
             <IntroBanner />
             <GettingStarted />

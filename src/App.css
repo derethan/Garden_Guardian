@@ -5,15 +5,24 @@
   text-align: center;
 }
 
+body {
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
 
 .App {
   text-align: center;
   height: 100vh;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+
 }
 
 
 .App-header {
-  background-color: var(--seaBlue);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,9 +32,9 @@
 
 
 .app-body {
-  background-color: var(--charcoal);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  
 }

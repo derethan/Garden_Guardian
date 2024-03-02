@@ -1,20 +1,17 @@
 /************************************************ 
-*   Password Reset page for the application
+*   Autentication Callback Page for the application
 *************************************************/
 
 // Import necessary libraries
 import { Container } from '@mui/material';
-import ResetPasswordBox from '../components/ResetPasswordBox';
 
 
-export default function ResetPassword() {
+export default function Oauthcallback() {
     return (
-        <>
         <Container maxWidth='sm' sx={{paddingTop: 4}}>
-            <ResetPasswordBox />
+            <h1>OAuth Callback</h1>
+            <p>Redirecting...</p>
         </Container>
-
-        </>
 
     );
 }

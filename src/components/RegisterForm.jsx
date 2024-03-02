@@ -1,120 +1,128 @@
 //Import necessary libraries
-import { Box, Button, Card, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, Typography, useTheme } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
+import { useValidate } from "../hooks/useValidate";
+import { usePostRequest } from "../hooks/usePostRequest";
+
+import AccountDetailsInput from "./account/accountDetailsInput";
+import PasswordWithConfirmInput from "./account/PasswordWithConfirmInput";
+import LoginLink from "./account/LoginLink";
+
+// Function to handle the registration form
 const RegisterForm = () => {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const theme = useTheme();
+
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  // const [isRegistered, setIsRegistered] = useState(false);
+
+  const [formErrors, validateForm] = useValidate(formData);
+  const [postStatus, postMessage, , setPostMessage, postData] =
+    usePostRequest();
+
+  // Function to handle the form input changes, Updates the formdata state with the new value
+  const handleChange = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+
+    if (event.target.name === "email") {
+      setPostMessage(""); // Removes duplicate Email warning
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const data = new FormData(event.currentTarget);
+    console.log("Form Data: ", formData);
 
-    console.log({
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      password: data.get("password"),
-      confirmPassword: data.get("confirmPassword"),
-    });
+    // If the form is valid, Post the data to the server
+    if (validateForm()) {
+      const URL = import.meta.env.VITE_API_URL;
+      // Post the data to the server
+      const success = await postData(URL + "users/register", formData);
+
+      // If the user is registered, redirect to the login page
+      if (success) {
+        console.log("register status: ", success);
+        // setIsRegistered(success);
+
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
+
+        navigate("/login");
+      }
+    } else {
+      console.log("Form is invalid");
+    }
   };
 
   return (
-    <Card variant="dark" sx={{ padding: 2, margin: 2 }}>
+    <Card variant="light" sx={{ padding: 2, margin: 2 }}>
+      <Typography
+        variant="h4"
+        color={theme.typography.primary.cardTitle}
+        sx={{
+          fontWeight: 600,
+        }}
+      >
+        Create Account
+      </Typography>
+      <Typography
+        variant="subtitle2"
+        color={theme.typography.primary.subtitle}
+        sx={{ paddingTop: "8px" }}
+      >
+        Enter your details to create an account
+      </Typography>
+
       <Box
         component="form"
         noValidate
         autoComplete="off"
         onSubmit={handleSubmit}
       >
-        <Typography variant='subtitle1' color='text.card'>
-                    Account Details
-        </Typography>
+        <AccountDetailsInput
+          formData={formData}
+          formErrors={formErrors}
+          handleChange={handleChange}
+        />
+        {postStatus === 409 && (
+          <Typography variant="body1" color="error">
+            {postMessage}
+          </Typography>
+        )}
 
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: 2,
-            padding: 2,
-          }}
-        >
-          <TextField
-            label="First Name"
-            name="firstName"
-            id="firstName"
-            variant="outlined"
-            size="small"
-            sx={{
-              backgroundColor: "background.default",
-            }}
-          />
-          <TextField
-            label="Last Name"
-            name="lastName"
-            id="lastName"
-            variant="outlined"
-            size="small"
-            sx={{
-              backgroundColor: "background.default",
-            }}
-          />
-          <TextField
-            label="Email"
-            type="email"
-            name="email"
-            id="email"
-            variant="outlined"
-            size="small"
-            sx={{
-              backgroundColor: "background.default",
-            }}
-          />
-        </Box>
-
-        <Typography variant='subtitle1' color='text.card'>
-                    Password Details
-        </Typography>
-
-        <Box
-          sx={{
-            display: "flex",
-            gap: 2,
-            padding: 2,
-          }}
-        >
-          <TextField
-            label="Password"
-            type="password"
-            name="password"
-            id="password"
-            variant="outlined"
-            size="small"
-            sx={{
-              backgroundColor: "background.default",
-            }}
-          />
-          <TextField
-            label="Confirm Password"
-            type="password"
-            name="confirmPassword"
-            id="confirmPassword"
-            variant="outlined"
-            size="small"
-            sx={{
-              backgroundColor: "background.default",
-            }}
-          />
-        </Box>
+        <PasswordWithConfirmInput
+          formData={formData}
+          formErrors={formErrors}
+          handleChange={handleChange}
+        />
 
         <Box>
           <Button
             type="submit"
             fullWidth
             variant="contained"
-            color="secondary"
+            color="primary"
             sx={{ mt: 3, mb: 2 }}
           >
             Register Account
           </Button>
         </Box>
+          <LoginLink />
       </Box>
     </Card>
   );
