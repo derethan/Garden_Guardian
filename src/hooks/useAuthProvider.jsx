@@ -22,7 +22,6 @@ const AuthProvider = ({ children }) => {
   //Create the post request hook
   const [postStatus, postMessage, , , postData] = usePostRequest();
 
-
   //Handle the login
   const loginAction = async (data) => {
     try {
@@ -43,7 +42,6 @@ const AuthProvider = ({ children }) => {
       }
 
       return responseData;
-      
     } catch (error) {
       console.error(error);
     }
@@ -69,16 +67,25 @@ const AuthProvider = ({ children }) => {
         },
       });
 
+      // Get the response data
       const responseData = await response.json();
 
+      // If the response is not ok then log the user out
       if (!response.ok) {
-        console.error(response);
         console.error(responseData.message);
         logout();
-      } 
 
-      console.log('Token Verified', responseData.message);
-      
+      } else {
+        
+        // Get the response token and update the state and local storage with the new token
+        const responseToken = response.headers
+          .get("Authorization")
+          .split(" ")[1];
+        setToken(responseToken);
+        localStorage.setItem("token", responseToken);
+
+        console.log("Token Verified: ", responseData.message);
+      }
     } catch (error) {
       console.error("503 Service Unavailable", error);
       navigate("/error503");
