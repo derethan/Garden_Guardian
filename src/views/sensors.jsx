@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import AddDevice from "../components/modals/AddDevice";
 
 import LoadingScreen from "../components/LoadingScreen";
+import SensorData from "../components/sensorData/SensorData";
 
 import { useGetDeviceInfo } from "../hooks/useGetDeviceInfo";
 
@@ -32,7 +33,7 @@ const Sensors = () => {
         {loading ? (
           <LoadingScreen />
         ) : hasDevice ? (
-          <h1>Has Sensor</h1>
+          <SensorData />
         ) : (
           <>
             <LoadingScreen />
