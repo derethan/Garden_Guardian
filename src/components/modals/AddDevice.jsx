@@ -12,18 +12,26 @@ import DeviceUnknownIcon from "@mui/icons-material/DeviceUnknown";
 
 import { PrimaryButton } from "../../components/PrimaryButton";
 
-import { useState } from "react";
+import {  useState } from "react";
 
 import { usePostRequest } from "../../hooks/usePostRequest";
 
-const AddDevice = ({ display, setShowAddDeviceModal }) => {
+const AddDevice = ({ display, setShowAddDeviceModal, setHasDevice }) => {
   const [deviceData, setDeviceID] = useState({
     device_id: "",
     device_name: "",
   });
 
   //Create the post request hook
-  const [postStatus, postMessage, , , postData] = usePostRequest();
+  const [, , , , postData] = usePostRequest();
+
+
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+
+
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -35,20 +43,35 @@ const AddDevice = ({ display, setShowAddDeviceModal }) => {
     });
   };
 
-  const handleSubmit = (event) => {
+    
+  const handleSubmit = async (event) => {
     const URL = import.meta.env.VITE_API_URL;
 
     event.preventDefault();
 
     // Post the device data to the API
     try {
-      postData(URL + 'users/addDevice', deviceData);
+
+      // Check if a device exists with the ID
+      const response = await postData(URL + 'users/addDevice', deviceData);
+      if (!response || response.status !== 201) {
+        console.log("There was an error adding the device. Please try again.");
+        setShowError(true);
+        setErrorMessage(response ? response.message : "There was an error adding the device. Please try again.");
+        return;
+      }
+      console.log("Device added successfully");
+
+      // Close the modal
+      setHasDevice(true);
+      setShowAddDeviceModal(false);
+
     }
     catch (error) {
       console.error(error);
     }
 
-    console.log(`Device ID: ${JSON.stringify(deviceData)}`);
+    // console.log(`Device ID: ${JSON.stringify(deviceData)}`);
   };
 
   // If the display prop is false, Do not show Modal
@@ -99,6 +122,10 @@ const AddDevice = ({ display, setShowAddDeviceModal }) => {
                 variant="outlined"
                 value={deviceData.ID}
                 onChange={handleChange}
+
+                // Add error message if device ID is not entered correctly
+                error={showError}
+                helperText={errorMessage}
               />
               <TextField
                 id="deviceNameField"
