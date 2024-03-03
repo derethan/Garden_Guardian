@@ -5,34 +5,26 @@ import LoadingScreen from "../components/LoadingScreen";
 
 import { useGetDeviceInfo } from "../hooks/useGetDeviceInfo";
 
-
 const Sensors = () => {
-
   const [loading, setLoading] = useState(true);
   const [hasDevice, setHasDevice] = useState(false);
   const [showAddDeviceModal, setShowAddDeviceModal] = useState(true);
 
-  const { userHasDevice } = useGetDeviceInfo();
+  const { checkForDevice } = useGetDeviceInfo();
 
   useEffect(() => {
-    //check if the user has a device
+    async function fetchData() {
+      //check if the user has a device
+      const deviceExists = await checkForDevice();
 
-    if (userHasDevice) {
-      setHasDevice(true);
-      setLoading(false);
-      return;
+      if (deviceExists) {
+        setHasDevice(true);
+        setLoading(false);
+        return;
+      }
     }
-    
-
-
-    // Simulate fetching user data (replace with actual logic to check if a device is added)
-    setTimeout(() => {
-      const userHasDevice = false; // Replace with actual logic to check if user has a device
-      setHasDevice(userHasDevice);
-      setLoading(false);
-    }, 2000); // Simulating loading time
-
-  }, [userHasDevice]);
+    fetchData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -42,10 +34,14 @@ const Sensors = () => {
         ) : hasDevice ? (
           <h1>Has Sensor</h1>
         ) : (
-            <>
+          <>
             <LoadingScreen />
-            <AddDevice display={showAddDeviceModal} setShowAddDeviceModal={setShowAddDeviceModal} setHasDevice={setHasDevice} />
-            </>
+            <AddDevice
+              display={showAddDeviceModal}
+              setShowAddDeviceModal={setShowAddDeviceModal}
+              setHasDevice={setHasDevice}
+            />
+          </>
         )}
       </div>
     </>
