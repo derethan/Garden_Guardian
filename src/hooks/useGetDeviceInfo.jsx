@@ -25,6 +25,31 @@ export function useGetDeviceInfo() {
 
     }
 
-    return { checkForDevice };
+
+    async function isDeviceActive () {
+        //Import url from.env
+        const URL = import.meta.env.VITE_API_URL;
+
+        try {
+            // Make a request to the server to check the latest timestamp for the device
+            const response = await fetch(URL + "sensors/status", {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+          //return true if the response is 200, otherwise return false
+            return response.ok;
+
+
+        } catch (error) {
+            console.error("There was an error checking for device: ", error);
+            return false;
+        }
+
+    }
+
+    return { checkForDevice, isDeviceActive };
 }
 

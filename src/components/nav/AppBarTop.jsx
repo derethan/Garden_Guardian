@@ -1,4 +1,4 @@
-import { Toolbar, IconButton, Typography, Box } from "@mui/material";
+import { Toolbar, IconButton, Box } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import { styled } from "@mui/system";
@@ -7,17 +7,20 @@ import AccountIcon from "@mui/icons-material/AccountCircle";
 
 import { drawerWidth } from "../../globalVar";
 
-//Sensor Icons
-import SensorsOffIcon from "@mui/icons-material/SensorsOff";
-import SensorsOnIcon from "@mui/icons-material/Sensors";
-
 //Notification Icons
 import NotificationsNone from '@mui/icons-material/NotificationsNoneOutlined';
-import NotificationsActive from '@mui/icons-material/NotificationsActive';
+// import NotificationsActive from '@mui/icons-material/NotificationsActive';
 
 //Other Navbar icons
 import SettingsIcon from '@mui/icons-material/SettingsRounded';
 
+//Import components
+import PageTitle from "./PageTitle";
+import DeviceStatusIcon from "./DeviceStatusIcon";
+
+import { useState, useEffect } from "react";
+
+import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
 
 //import props validation
 import PropTypes from "prop-types";
@@ -44,6 +47,22 @@ const AppBar = styled(MuiAppBar, {
 //AppBarTop Component
 const AppBarTop = ({ open, handleDrawerOpenClose, title }) => {
   const theme = useTheme();
+
+  const [hasDevice, setHasDevice] = useState(false);
+  const { checkForDevice } = useGetDeviceInfo();
+
+  useEffect(() => {
+    async function fetchData() {
+      //check if the user has a device
+      const deviceExists = await checkForDevice();
+
+      if (deviceExists) {
+        setHasDevice(true);
+        return;
+      }
+    }
+    fetchData();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <AppBar
@@ -73,43 +92,11 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title }) => {
             width: "100%",
           }}
         >
-          <Box sx={{ display: "flex", justifyContent: "flex-start", width: '200px' }}>
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ color: theme.typography.primary.textDark }}
-            >
-              {title}
-            </Typography>
-          </Box>
+          <PageTitle title={title} />
 
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 2,
-            }}
-          >
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ color: theme.typography.primary.textDark }}
-            >
-              Device:
-            </Typography>
-
-            <IconButton
-              color="inherit"
-              aria-label="account"
-              edge="end"
-              sx={{ marginRight: 5 }}
-            >
-              <SensorsOffIcon sx={{ color: "red" }} />
-            </IconButton>
-          </Box>
+          {hasDevice && (
+            <DeviceStatusIcon />
+          )}
 
           <Box
             sx={{
