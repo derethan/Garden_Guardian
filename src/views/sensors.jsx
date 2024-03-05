@@ -1,14 +1,24 @@
-import { useState } from "react";
-import AddDevice from "../components/modals/AddDevice";
+/**
+ * Renders the Sensors view.
+ * 
+ * @returns {JSX.Element} The rendered Sensors component.
+ */
 
+// Imports
+import { useState } from "react";
+import { useAuth } from "../hooks/useAuthProvider";
+
+// Components
+import AddDevice from "../components/modals/AddDevice";
 import LoadingScreen from "../components/LoadingScreen";
 import SensorData from "../components/sensorData/SensorData";
-import { useAuth } from "../hooks/useAuthProvider";
 
 const Sensors = () => {
   const { hasDevice } = useAuth();
   const [showAddDeviceModal, setShowAddDeviceModal] = useState(true);
 
+  // If the user has a device, render the SensorData component.
+  // otherwise, render the LoadingScreen and AddDevice components.
   return (
     <>
       <div>
