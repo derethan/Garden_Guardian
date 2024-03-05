@@ -8,8 +8,9 @@ import SensorsOnIcon from "@mui/icons-material/Sensors";
 
 import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
 
-const DeviceStatusIcon = () => {
+const DeviceStatusIcon = (deviceID) => {
     const theme = useTheme();
+
     const [deviceStatus, setDeviceStatus] = useState("offline");
     const { isDeviceActive } = useGetDeviceInfo();
 
@@ -17,8 +18,9 @@ const DeviceStatusIcon = () => {
     useEffect(() => {
         //Function to fetch the device timestamp
         const checkStatus = async () => {
+
             //Check if the device is active
-            const deviceActive = await isDeviceActive();
+            const deviceActive = await isDeviceActive(deviceID);
 
             //If the device is active, set the status to online
             if (deviceActive) {
@@ -36,7 +38,7 @@ const DeviceStatusIcon = () => {
         //Set the interval to check the device every 5 minutes
         const interval = setInterval(() => {
             checkStatus();
-        }, 5 * 60 * 1000);
+        }, 1 * 60 * 1000);
 
         //Clear the interval on unmount
         return () => clearInterval(interval);

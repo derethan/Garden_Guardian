@@ -1,8 +1,11 @@
-//import Context API
-import { createContext, useContext, useState } from "react";
+
+
+import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { usePostRequest } from "./usePostRequest";
+
+import { useGetDeviceInfo } from "./useGetDeviceInfo";
 
 //Create the context
 const AuthContext = createContext();
@@ -11,6 +14,7 @@ const URL = import.meta.env.VITE_API_URL;
 //Create the provider
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
+  const { checkForDevice } = useGetDeviceInfo();
 
   //Setup the state
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
@@ -18,8 +22,12 @@ const AuthProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || ""
   );
   const [token, setToken] = useState(localStorage.getItem("token" || ""));
+  const [hasDevice, setHasDevice] = useState(false);
+  const [deviceID, setDeviceID] = useState("");
 
-  //Create the post request hook
+
+
+  //Create the post request hook - TODO: CHANGE TO OBJECT FROM ARRAY IN USEPOSTREQUEST
   const [postStatus, postMessage, , , postData] = usePostRequest();
 
   //Handle the login
@@ -74,9 +82,7 @@ const AuthProvider = ({ children }) => {
       if (!response.ok) {
         console.error(responseData.message);
         logout();
-
       } else {
-        
         // Get the response token and update the state and local storage with the new token
         const responseToken = response.headers
           .get("Authorization")
@@ -84,18 +90,12 @@ const AuthProvider = ({ children }) => {
         setToken(responseToken);
         localStorage.setItem("token", responseToken);
 
-        console.log("Token Verified: ", responseData.message);
+        // console.log("Token Verified: ", responseData.message);
       }
     } catch (error) {
       console.error("503 Service Unavailable", error);
       navigate("/error503");
     }
-
-    //Handle response status's
-    // TODO: Handle response codes, handle if token is valid, not valid and expired
-    // If user is logged in status and it returns expired then a new token should be requested
-    // if token is not valid then the user should be logged out
-    // if token is valid then the user should be allowed to continue
   };
 
   return (
@@ -103,12 +103,17 @@ const AuthProvider = ({ children }) => {
       value={{
         token,
         user,
+        isLoggedIn,
+        hasDevice,
+        deviceID,
         loginAction,
         logout,
         verifyToken,
+        setHasDevice,
+        setDeviceID,
         postStatus,
         postMessage,
-        isLoggedIn,
+
       }}
     >
       {children}

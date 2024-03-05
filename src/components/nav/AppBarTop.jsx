@@ -8,11 +8,11 @@ import AccountIcon from "@mui/icons-material/AccountCircle";
 import { drawerWidth } from "../../globalVar";
 
 //Notification Icons
-import NotificationsNone from '@mui/icons-material/NotificationsNoneOutlined';
+import NotificationsNone from "@mui/icons-material/NotificationsNoneOutlined";
 // import NotificationsActive from '@mui/icons-material/NotificationsActive';
 
 //Other Navbar icons
-import SettingsIcon from '@mui/icons-material/SettingsRounded';
+import SettingsIcon from "@mui/icons-material/SettingsRounded";
 
 //Import components
 import PageTitle from "./PageTitle";
@@ -21,6 +21,8 @@ import DeviceStatusIcon from "./DeviceStatusIcon";
 import { useState, useEffect } from "react";
 
 import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
+
+import { useAuth } from "../../hooks/useAuthProvider";
 
 //import props validation
 import PropTypes from "prop-types";
@@ -48,20 +50,24 @@ const AppBar = styled(MuiAppBar, {
 const AppBarTop = ({ open, handleDrawerOpenClose, title }) => {
   const theme = useTheme();
 
-  const [hasDevice, setHasDevice] = useState(false);
+  //Check if the user has a device - MIGHT MOVE TO AUTHPROVIDER
   const { checkForDevice } = useGetDeviceInfo();
+  const { hasDevice, setHasDevice, deviceID, setDeviceID } = useAuth();
 
   useEffect(() => {
     async function fetchData() {
       //check if the user has a device
-      const deviceExists = await checkForDevice();
+      const response = await checkForDevice();
 
-      if (deviceExists) {
+      if (response.status) {
         setHasDevice(true);
+        setDeviceID(response.device_id);
         return;
       }
     }
-    fetchData();
+    if (!hasDevice) {
+      fetchData();
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
@@ -94,9 +100,7 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title }) => {
         >
           <PageTitle title={title} />
 
-          {hasDevice && (
-            <DeviceStatusIcon />
-          )}
+          {hasDevice && <DeviceStatusIcon deviceID={deviceID} />}
 
           <Box
             sx={{
@@ -106,7 +110,6 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title }) => {
               gap: 2,
             }}
           >
-            
             <IconButton
               color="inherit"
               aria-label="account"
