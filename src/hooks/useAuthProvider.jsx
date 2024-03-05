@@ -14,7 +14,6 @@ const URL = import.meta.env.VITE_API_URL;
 //Create the provider
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
-  const { checkForDevice } = useGetDeviceInfo();
 
   //Setup the state
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
@@ -62,39 +61,40 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setIsLoggedIn(false);
-    navigate("/login");
   };
 
   //Make a request to the protected route on the server to verify token
   const verifyToken = async (token) => {
-    try {
-      const response = await fetch(URL + "users/protected", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      // Get the response data
-      const responseData = await response.json();
-
-      // If the response is not ok then log the user out
-      if (!response.ok) {
-        console.error(responseData.message);
-        logout();
-      } else {
-        // Get the response token and update the state and local storage with the new token
-        const responseToken = response.headers
-          .get("Authorization")
-          .split(" ")[1];
-        setToken(responseToken);
-        localStorage.setItem("token", responseToken);
-
-        // console.log("Token Verified: ", responseData.message);
+    if (localStorage.getItem("token")) {
+      try {
+        const response = await fetch(URL + "users/protected", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        // Get the response data
+        const responseData = await response.json();
+  
+        // If the response is not ok then log the user out
+        if (!response.ok) {
+          console.error(responseData.message);
+          logout();
+        } else {
+          // Get the response token and update the state and local storage with the new token
+          const responseToken = response.headers
+            .get("Authorization")
+            .split(" ")[1];
+          setToken(responseToken);
+          localStorage.setItem("token", responseToken);
+  
+          // console.log("Token Verified: ", responseData.message);
+        }
+      } catch (error) {
+        console.error("503 Service Unavailable", error);
+        navigate("/error503");
       }
-    } catch (error) {
-      console.error("503 Service Unavailable", error);
-      navigate("/error503");
     }
   };
 

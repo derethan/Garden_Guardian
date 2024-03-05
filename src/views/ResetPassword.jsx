@@ -4,7 +4,7 @@
 
 // Import necessary libraries
 import { Container } from '@mui/material';
-import ResetPasswordBox from '../components/ResetPasswordBox';
+import ResetPasswordBox from '../components/account/ResetPasswordBox';
 
 
 export default function ResetPassword() {

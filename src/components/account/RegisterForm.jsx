@@ -3,12 +3,12 @@ import { Box, Button, Card, Typography, useTheme } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-import { useValidate } from "../hooks/useValidate";
-import { usePostRequest } from "../hooks/usePostRequest";
+import { useValidate } from "../../hooks/useValidate";
+import { usePostRequest } from "../../hooks/usePostRequest";
 
-import AccountDetailsInput from "./account/accountDetailsInput";
-import PasswordWithConfirmInput from "./account/PasswordWithConfirmInput";
-import LoginLink from "./account/LoginLink";
+import AccountDetailsInput from "./accountDetailsInput";
+import PasswordWithConfirmInput from "./PasswordWithConfirmInput";
+import LoginLink from "./LoginLink";
 
 // Function to handle the registration form
 const RegisterForm = () => {

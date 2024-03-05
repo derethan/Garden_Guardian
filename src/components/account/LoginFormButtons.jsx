@@ -1,11 +1,11 @@
 import { CardActions, Grid } from "@mui/material";
 
 //import PrimaryButton
-import {PrimaryButton} from "./PrimaryButton";
+import {PrimaryButton} from "../PrimaryButton";
 
 
-import DontHaveAccount from "./account/DontHaveAccountLink";
-import ForgotPasswordLink from "./account/ForgotPasswordLink";
+import DontHaveAccount from "./DontHaveAccountLink";
+import ForgotPasswordLink from "./ForgotPasswordLink";
 
 const LoginFormButtons = () => {
     return (

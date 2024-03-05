@@ -4,7 +4,7 @@
 
 // Import necessary libraries
 import { Container } from "@mui/material";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/account/RegisterForm";
 
 import { useEffect } from "react";
 import { useAuth } from "../hooks/useAuthProvider";
