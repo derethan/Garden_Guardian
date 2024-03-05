@@ -20,7 +20,6 @@ const Sensors = () => {
             <AddDevice
               display={showAddDeviceModal}
               setShowAddDeviceModal={setShowAddDeviceModal}
-              // setHasDevice={setHasDevice}
             />
           </>
         )}
