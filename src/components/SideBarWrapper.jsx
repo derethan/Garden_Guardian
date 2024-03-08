@@ -6,6 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import AppBarTitle from "./header/AppBarTitle";
 
@@ -50,8 +51,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   ...theme.mixins.toolbar,
 }));
 
-
-
 //Drawer Styled Component
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -73,6 +72,7 @@ const Drawer = styled(MuiDrawer, {
 //Main Component
 export default function SideBarWrapper({ children, view, title }) {
   const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   // Open or Close state
   const [open, setOpen] = useState(() => {
@@ -98,11 +98,13 @@ export default function SideBarWrapper({ children, view, title }) {
 
   return (
     <Box sx={{ display: "flex" }}>
+      <AppBarTop
+        open={open}
+        handleDrawerOpenClose={handleDrawerOpenClose}
+        title={title}
+      />
 
-    <AppBarTop open={open} handleDrawerOpenClose={handleDrawerOpenClose} title={title} />
-
-      <Drawer variant="permanent" open={open}>
-
+<Drawer variant={isMobile ? 'temporary' : 'permanent'} open={open} anchor={isMobile ? 'top' : 'left'}>
         <Box
           sx={{
             height: "100%",
@@ -133,15 +135,22 @@ export default function SideBarWrapper({ children, view, title }) {
       </Drawer>
 
       {/* Main Content */}
-      <Box component="main" sx={{ 
-        flexGrow: 1, 
-        p: 3, 
-        backgroundColor: theme.palette.background.default,
-        minHeight: "100vh",
-        minWidth: "100vw",
-        padding: "100px",
-      }}>
-        <div>{children}</div>
+      <Box
+        component="main"
+        maxWidth='xl'
+        sx={{
+          backgroundColor: theme.palette.background.default,
+          width: "100vw",
+          height: "100vh",
+          paddingTop: "64px",
+          paddingLeft: open ? '100px' : '32px',
+          paddingRight: open ? "100px" : "32px",
+          
+          overflowY: "auto",
+          flexGrow: 1, 
+        }}
+      >
+        {children}
       </Box>
     </Box>
   );

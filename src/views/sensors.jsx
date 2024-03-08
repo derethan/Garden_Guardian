@@ -21,7 +21,6 @@ const Sensors = () => {
   // otherwise, render the LoadingScreen and AddDevice components.
   return (
     <>
-      <div>
         {hasDevice ? (
           <SensorData />
         ) : (
@@ -33,7 +32,6 @@ const Sensors = () => {
             />
           </>
         )}
-      </div>
     </>
   );
 };
