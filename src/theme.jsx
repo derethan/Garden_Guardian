@@ -66,7 +66,7 @@ const theme = createTheme({
           style: {
             backgroundColor: "#F5F5F5", //dark grey
             marginBottom: 2,
-            boxShadow: "0 0 4px 1px #848386",
+            boxShadow: "0 0 4px 1px #D6D5D7",
           },
         },
         {

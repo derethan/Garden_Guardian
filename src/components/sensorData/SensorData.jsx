@@ -1,23 +1,25 @@
 import { Container, Box, Divider } from "@mui/material";
 
+import SummaryColumn from "./SummaryColumn";
+
 const SensorData = () => {
   return (
     <Container
-    maxWidth="xl"
+      maxWidth="xl"
       sx={{
         display: "flex",
         gap: "1rem",
         padding: "1rem",
       }}
     >
-      <Box sx={{ border: "1px solid black", 
-        width: "70%",
-    }}>asdads</Box>
-          <Divider orientation="vertical" flexItem />
+      <Box sx={{ width: "60%" }}>
+        <h1>Sensor Data</h1>
+      </Box>
+      <Divider orientation="vertical" flexItem />
 
-      <Box sx={{ border: "1px solid black",
-      width: "30%", 
-    }}>asdsad</Box>
+      <Box sx={{ width: "40%" }}>
+        <SummaryColumn />
+      </Box>
     </Container>
   );
 };

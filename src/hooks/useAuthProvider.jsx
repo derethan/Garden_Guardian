@@ -1,11 +1,9 @@
-
-
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { usePostRequest } from "./usePostRequest";
 
-import { useGetDeviceInfo } from "./useGetDeviceInfo";
+// import { useGetDeviceInfo } from "./useGetDeviceInfo";
 
 //Create the context
 const AuthContext = createContext();
@@ -15,14 +13,19 @@ const URL = import.meta.env.VITE_API_URL;
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
-  //Setup the state
+  //Setup State Variables for User related States
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || ""
   );
   const [token, setToken] = useState(localStorage.getItem("token" || ""));
   const [hasDevice, setHasDevice] = useState(false);
+
+  //Setup State variables for Device Related States
   const [deviceID, setDeviceID] = useState("");
+  const [deviceStatus, setDeviceStatus] = useState("offline");
+
+  //Setup State Variables for Interface Related States
 
 
 
@@ -106,14 +109,15 @@ const AuthProvider = ({ children }) => {
         isLoggedIn,
         hasDevice,
         deviceID,
+        deviceStatus,
         loginAction,
         logout,
         verifyToken,
         setHasDevice,
         setDeviceID,
+        setDeviceStatus,
         postStatus,
         postMessage,
-
       }}
     >
       {children}

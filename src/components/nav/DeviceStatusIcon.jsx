@@ -1,17 +1,19 @@
 import { Box, IconButton } from "@mui/material";
 import { useTheme } from "@mui/material";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 //Sensor Icons
 import SensorsOffIcon from "@mui/icons-material/SensorsOff";
 import SensorsOnIcon from "@mui/icons-material/Sensors";
 
 import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
+import { useAuth } from "../../hooks/useAuthProvider";
 
 const DeviceStatusIcon = (deviceID) => {
     const theme = useTheme();
 
-    const [deviceStatus, setDeviceStatus] = useState("offline");
+    const { deviceStatus, setDeviceStatus } = useAuth ();
+
     const { isDeviceActive } = useGetDeviceInfo();
 
   // UseEffect to check the status of the device every 5 minutes
