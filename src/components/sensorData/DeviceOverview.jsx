@@ -2,7 +2,22 @@ import { Box, Card, Typography } from "@mui/material";
 
 import gardenPic from "../../assets/videoPlaceholder.png";
 
+import { useState, useEffect } from "react";
+import { useGetSensorReading } from "../../hooks/getSensorReading";
+
 const DeviceOverview = ({ deviceID, deviceStatus }) => {
+  const { getLatestReading } = useGetSensorReading();
+  const [temperature, setTemperature] = useState('Loading...');
+
+  useEffect(() => {
+    const fetchTemperature = async () => {
+      const temp = await getLatestReading(deviceID, 'Device Temperature');
+      setTemperature(temp);
+    };
+
+    fetchTemperature();
+  }, [deviceID, getLatestReading]);
+
   return (
     <>
       <Typography variant="h6" color="text.primary" fontWeight='bold'>
@@ -42,7 +57,7 @@ const DeviceOverview = ({ deviceID, deviceStatus }) => {
             variant="body1"
             color="text.primary"
           >
-            N/A
+            {temperature}
           </Typography>
         </Box>
 
