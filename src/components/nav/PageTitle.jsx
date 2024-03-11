@@ -13,7 +13,7 @@ const PageTitle = ({ title }) => {
         variant="h6"
         noWrap
         component="div"
-        sx={{ color: theme.typography.primary.textDark }}
+        sx={{ color: theme.typography.primary.textDark, fontWeight: "bold"}}
       >
         {title}
       </Typography>
