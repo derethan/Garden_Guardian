@@ -14,6 +14,8 @@ const theme = createTheme({
     background: {
       default: "#EBEBEB", //White
       dark: "#242424", //dark grey
+      lightGrey: "#D6D5D7", //light grey
+      shaded: '#F0F0F0', //light grey
     },
     error: {
       main: "#FF0000", //red
@@ -85,6 +87,8 @@ const theme = createTheme({
  * 	Color Scheme beta
  * 
  * Anti-Flash White - #EBEBEB - Primary Background
+ * Shaded White for flat Cards - F0F0F0 - Secondary Background
+ * 
  * jet - #2A2A2A - Primary Text
 
  * Office Green - 007F00 - Darker Green - Links, Fonts, etc

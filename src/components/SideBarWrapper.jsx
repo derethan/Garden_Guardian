@@ -137,7 +137,7 @@ export default function SideBarWrapper({ children, view, title }) {
       {/* Main Content */}
       <Box
         component="main"
-        maxWidth='xl'
+        maxWidth='none'
         sx={{
           backgroundColor: theme.palette.background.default,
           width: "100vw",
@@ -147,7 +147,6 @@ export default function SideBarWrapper({ children, view, title }) {
           paddingRight: open ? "100px" : "32px",
           
           overflowY: "auto",
-          flexGrow: 1, 
         }}
       >
         {children}
