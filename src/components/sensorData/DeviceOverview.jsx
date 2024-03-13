@@ -12,11 +12,11 @@ const DeviceOverview = ({ deviceID, deviceStatus }) => {
   useEffect(() => {
     const fetchTemperature = async () => {
       const temp = await getLatestReading(deviceID, 'Device Temperature');
-      setTemperature(temp);
+      setTemperature(temp.value);
     };
 
     fetchTemperature();
-  }, [deviceID, getLatestReading]);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -57,7 +57,7 @@ const DeviceOverview = ({ deviceID, deviceStatus }) => {
             variant="body1"
             color="text.primary"
           >
-            {temperature}
+            {temperature} °C
           </Typography>
         </Box>
 

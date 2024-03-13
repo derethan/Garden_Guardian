@@ -2,6 +2,7 @@ import { Container, Box, Divider } from "@mui/material";
 
 import SummaryColumn from "./SummaryColumn";
 import SensorBanner from "./SensorBanner";
+import SensorInfoBanner from "./SensorInfoBanner";
 
 const SensorData = () => {
   return (
@@ -15,14 +16,18 @@ const SensorData = () => {
     >
       <Box sx={{ width: "70%" }}>
         <SensorBanner />
+
+        <SensorInfoBanner />
+
+
+
       </Box>
 
-
-      {/* <Divider orientation="vertical" flexItem />
+      <Divider orientation="vertical" flexItem />
 
       <Box sx={{ width: "30%" }}>
         <SummaryColumn />
-      </Box> */}
+      </Box>
     </Container>
   );
 };

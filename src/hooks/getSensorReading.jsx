@@ -1,9 +1,13 @@
 export function useGetSensorReading() {
-  // Function to get the latest reading for a device
+  const URL = import.meta.env.VITE_API_URL;
+
+  // Function to get the latest reading for a specific sensor
   async function getLatestReading(deviceID, measurement) {
-    //Import url from.env
-    const URL = import.meta.env.VITE_API_URL;
-    const endpoint = `sensors/readSensor/latest?device_id=${deviceID}&measurement=${measurement}`;
+
+    // Determine what endpoint to use based of supplied parameters.
+    // If both are supplied, use the first endpoint, else use the second endpoint 
+    const endpoint = deviceID && measurement ? `sensors/readSensor/latest?deviceID=${deviceID}&measurement=${measurement}` 
+    : `sensors/readSensor/latest/all?deviceID=${deviceID}`
 
     try {
       const response = await fetch(URL + endpoint, {
@@ -21,7 +25,7 @@ export function useGetSensorReading() {
       // Get the response data
       const responseData = await response.json();
 
-      return responseData.value;
+      return responseData;
     } catch (error) {
       console.error("There was an error checking for device: ", error);
       throw error;
