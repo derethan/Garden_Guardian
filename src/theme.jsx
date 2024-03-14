@@ -15,7 +15,7 @@ const theme = createTheme({
       default: "#EBEBEB", //White
       dark: "#242424", //dark grey
       lightGrey: "#D6D5D7", //light grey
-      shaded: '#F0F0F0', //light grey
+      shaded: "#F0F0F0", //light grey
     },
     error: {
       main: "#FF0000", //red
@@ -80,6 +80,28 @@ const theme = createTheme({
           },
         },
       ],
+    },
+    MuiButton: {
+      props: {
+        variant: "card",
+      },
+      styleOverrides: {
+        root: {
+          backgroundColor: "#F5F5F5", //light grey
+          borderRadius: 10,
+          padding: "1rem",
+          boxShadow: "0 0 10px 0 #D6D5D7",
+
+          "&:hover": {
+            backgroundColor: "#EBEBEB", //light grey
+          },
+        },
+        card: {
+          "& .MuiTouchRipple-root": {
+            color: "#007F00", //darker green
+          },
+        },
+      },
     },
   },
 

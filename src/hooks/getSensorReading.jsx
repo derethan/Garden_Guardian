@@ -6,8 +6,8 @@ export function useGetSensorReading() {
 
     // Determine what endpoint to use based of supplied parameters.
     // If both are supplied, use the first endpoint, else use the second endpoint 
-    const endpoint = deviceID && measurement ? `sensors/readSensor/latest?deviceID=${deviceID}&measurement=${measurement}` 
-    : `sensors/readSensor/latest/all?deviceID=${deviceID}`
+    const endpoint = deviceID && measurement ? `sensors/readSensor/latest?device_id=${deviceID}&measurement=${measurement}` 
+    : `sensors/readSensor/latest/all?device_id=${deviceID}`
 
     try {
       const response = await fetch(URL + endpoint, {
