@@ -6,6 +6,7 @@ const theme = createTheme({
   palette: {
     primary: {
       main: "#3F9E3F", //green
+      secondary: "#007F00", //darker green
     },
     secondary: {
       main: "#2F2C43", //dark blue
@@ -13,6 +14,8 @@ const theme = createTheme({
     background: {
       default: "#EBEBEB", //White
       dark: "#242424", //dark grey
+      lightGrey: "#D6D5D7", //light grey
+      shaded: "#F0F0F0", //light grey
     },
     error: {
       main: "#FF0000", //red
@@ -24,7 +27,8 @@ const theme = createTheme({
       main: "#87CEEB", //light blue
     },
     success: {
-      main: "#32CD32", //lime
+      main: "#007F00", //darker green
+      light: "#32CD32", //lime
     },
     text: {
       primary: "#2A2A2A", //white
@@ -64,7 +68,7 @@ const theme = createTheme({
           style: {
             backgroundColor: "#F5F5F5", //dark grey
             marginBottom: 2,
-            boxShadow: "0 0 4px 1px #848386",
+            boxShadow: "0 0 4px 1px #D6D5D7",
           },
         },
         {
@@ -77,12 +81,36 @@ const theme = createTheme({
         },
       ],
     },
+    MuiButton: {
+      props: {
+        variant: "card",
+      },
+      styleOverrides: {
+        root: {
+          backgroundColor: "#F5F5F5", //light grey
+          borderRadius: 10,
+          padding: "1rem",
+          boxShadow: "0 0 10px 0 #D6D5D7",
+
+          "&:hover": {
+            backgroundColor: "#EBEBEB", //light grey
+          },
+        },
+        card: {
+          "& .MuiTouchRipple-root": {
+            color: "#007F00", //darker green
+          },
+        },
+      },
+    },
   },
 
   /********
  * 	Color Scheme beta
  * 
  * Anti-Flash White - #EBEBEB - Primary Background
+ * Shaded White for flat Cards - F0F0F0 - Secondary Background
+ * 
  * jet - #2A2A2A - Primary Text
 
  * Office Green - 007F00 - Darker Green - Links, Fonts, etc

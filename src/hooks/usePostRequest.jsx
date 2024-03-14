@@ -37,26 +37,27 @@ export const usePostRequest = () => {
         body: JSON.stringify(data),
       });
 
-      const responseToken = response.headers.get('Authorization').split(' ')[1];
+      //if there is a response header
+      const responseToken = (response.headers.get("Authorization") || "").split(" ")[1];
+      
 
       setPostStatus(response.status);
 
       // Get the response data
       const responseData = await response.json();
-      setResponseData(responseData);
-
-      // Set the post message
-      setPostMessage(responseData.message);
-
-      if (!response.ok) {
-        throw new Error(
-          `${responseData.message} Status: ${response.status}` ||
-            `There was an error updating the database. Status: ${response.status}`
-        );
-      }
+      setResponseData(responseData); // Set the response data
+      setPostMessage(responseData.message); // Set the response message
 
       // Add the token to the response data
       responseData.token = responseToken;
+      responseData.status = response.status;
+
+      // if (!response.ok) {
+      //   throw new Error(
+      //     `${responseData.message} Status: ${response.status}` ||
+      //       `There was an error updating the database. Status: ${response.status}`
+      //   );
+      // }
 
       // Return the response data
       return responseData;

@@ -66,7 +66,7 @@ export const privateAppRoutes = [
     {Type: 'App', ID: 'Gardens', path: '/gardens', Name: 'Gardens',icon: <GrassIcon />, Component: Gardens,},
     {Type: 'App', ID: 'Schedule', path: '/schedule', Name: 'Schedule',icon: <CalendarMonthIcon />, Component: Schedule,},
     {Type: 'App', ID: 'Weather', path: '/weather', Name: 'Weather',icon: <WbSunnyIcon />, Component: Weather,},
-    {Type: 'App', ID: 'Sensors', path: '/sensors', Name: 'Sensors',icon: <SensorsIcon /> , Component: sensors,},
+    {Type: 'App', ID: 'Sensors', path: '/sensors', Name: 'Sensor Dashboard',icon: <SensorsIcon /> , Component: sensors,},
 
     // User Pages - Notifications, My Account, Setting, Logut
     {Type: 'User', ID: 'Notifications', path: '/notifications', Name: 'Notifications',icon: <NotificationsNoneOutlinedIcon />, Component: Notifications,},

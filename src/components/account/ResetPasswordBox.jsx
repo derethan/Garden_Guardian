@@ -8,9 +8,9 @@ import {
   useTheme,
 } from "@mui/material";
 
-import { PrimaryButton } from "../components/PrimaryButton";
-import DontHaveAccount from '../components/account/DontHaveAccountLink';
-import LoginLink from '../components/account/LoginLink';
+import { PrimaryButton } from "../PrimaryButton";
+import DontHaveAccount from './DontHaveAccountLink';
+import LoginLink from './LoginLink';
 
 const handleSubmit = (event) => {
   event.preventDefault();

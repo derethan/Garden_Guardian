@@ -1,37 +1,37 @@
-import { useEffect, useState } from "react";
+/**
+ * Renders the Sensors view.
+ * 
+ * @returns {JSX.Element} The rendered Sensors component.
+ */
+
+// Imports
+import { useState } from "react";
+import { useAuth } from "../hooks/useAuthProvider";
+
+// Components
 import AddDevice from "../components/modals/AddDevice";
-
 import LoadingScreen from "../components/LoadingScreen";
-
+import SensorData from "../components/sensorData/SensorData";
 
 const Sensors = () => {
-  const [loading, setLoading] = useState(true);
-  const [hasDevice, setHasDevice] = useState(false);
+  const { hasDevice } = useAuth();
   const [showAddDeviceModal, setShowAddDeviceModal] = useState(true);
 
-  useEffect(() => {
-    // Simulate fetching user data (replace with actual logic to check if a device is added)
-    setTimeout(() => {
-      const userHasDevice = false; // Replace with actual logic to check if user has a device
-      setHasDevice(userHasDevice);
-      setLoading(false);
-    }, 2000); // Simulating loading time
-  }, []);
-
+  // If the user has a device, render the SensorData component.
+  // otherwise, render the LoadingScreen and AddDevice components.
   return (
     <>
-      <div>
-        {loading ? (
-          <LoadingScreen />
-        ) : hasDevice ? (
-          <h1>Has Sensor</h1>
+        {hasDevice ? (
+          <SensorData />
         ) : (
-            <>
+          <>
             <LoadingScreen />
-            <AddDevice display={showAddDeviceModal} setShowAddDeviceModal={setShowAddDeviceModal} />
-            </>
+            <AddDevice
+              display={showAddDeviceModal}
+              setShowAddDeviceModal={setShowAddDeviceModal}
+            />
+          </>
         )}
-      </div>
     </>
   );
 };

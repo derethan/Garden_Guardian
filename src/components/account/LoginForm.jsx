@@ -1,10 +1,10 @@
 // Import necessary libraries
 import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";
 
-import { useLogin } from "../hooks/useLogin";
-import { useAuth } from "../hooks/useAuthProvider";
+import { useLogin } from "../../hooks/useLogin";
+import { useAuth } from "../../hooks/useAuthProvider";
 
-import EmailPasswordInput from "./account/EmailPasswordInput";
+import EmailPasswordInput from "./EmailPasswordInput";
 import LoginFormButtons from "./LoginFormButtons";
 
 const LoginForm = () => {

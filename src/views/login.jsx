@@ -4,7 +4,7 @@
 
 // Import necessary libraries
 import { Container } from '@mui/material';
-import LoginForm from '../components/LoginForm';
+import LoginForm from '../components/account/LoginForm';
 import OathLogin from '../components/oathLogin';
 import { useAuth } from "../hooks/useAuthProvider";
 import { useNavigate } from 'react-router-dom';
@@ -15,14 +15,14 @@ import { useEffect } from 'react';
 export default function Login() {
 
     
-    const user = useAuth();
+    const {isLoggedIn} = useAuth();
     const navigate = useNavigate();
     
     useEffect(() => {
-        if (user.isLoggedIn) {
+        if (isLoggedIn) {
             navigate('/dashboard');
         }
-    }, [user.isLoggedIn, navigate]);
+    }, [isLoggedIn, navigate]);
 
     return (
 

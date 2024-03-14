@@ -1,8 +1,9 @@
-//import Context API
 import { createContext, useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { usePostRequest } from "./usePostRequest";
+
+// import { useGetDeviceInfo } from "./useGetDeviceInfo";
 
 //Create the context
 const AuthContext = createContext();
@@ -12,14 +13,23 @@ const URL = import.meta.env.VITE_API_URL;
 const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
-  //Setup the state
+  //Setup State Variables for User related States
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("token"));
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem("user")) || ""
   );
   const [token, setToken] = useState(localStorage.getItem("token" || ""));
+  const [hasDevice, setHasDevice] = useState(false);
 
-  //Create the post request hook
+  //Setup State variables for Device Related States
+  const [deviceID, setDeviceID] = useState("");
+  const [deviceStatus, setDeviceStatus] = useState("offline");
+
+  //Setup State Variables for Interface Related States
+
+
+
+  //Create the post request hook - TODO: CHANGE TO OBJECT FROM ARRAY IN USEPOSTREQUEST
   const [postStatus, postMessage, , , postData] = usePostRequest();
 
   //Handle the login
@@ -54,48 +64,41 @@ const AuthProvider = ({ children }) => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setIsLoggedIn(false);
-    navigate("/login");
   };
 
   //Make a request to the protected route on the server to verify token
   const verifyToken = async (token) => {
-    try {
-      const response = await fetch(URL + "users/protected", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      // Get the response data
-      const responseData = await response.json();
-
-      // If the response is not ok then log the user out
-      if (!response.ok) {
-        console.error(responseData.message);
-        logout();
-
-      } else {
-        
-        // Get the response token and update the state and local storage with the new token
-        const responseToken = response.headers
-          .get("Authorization")
-          .split(" ")[1];
-        setToken(responseToken);
-        localStorage.setItem("token", responseToken);
-
-        console.log("Token Verified: ", responseData.message);
+    if (localStorage.getItem("token")) {
+      try {
+        const response = await fetch(URL + "users/protected", {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+  
+        // Get the response data
+        const responseData = await response.json();
+  
+        // If the response is not ok then log the user out
+        if (!response.ok) {
+          console.error(responseData.message);
+          logout();
+        } else {
+          // Get the response token and update the state and local storage with the new token
+          const responseToken = response.headers
+            .get("Authorization")
+            .split(" ")[1];
+          setToken(responseToken);
+          localStorage.setItem("token", responseToken);
+  
+          // console.log("Token Verified: ", responseData.message);
+        }
+      } catch (error) {
+        console.error("503 Service Unavailable", error);
+        navigate("/error503");
       }
-    } catch (error) {
-      console.error("503 Service Unavailable", error);
-      navigate("/error503");
     }
-
-    //Handle response status's
-    // TODO: Handle response codes, handle if token is valid, not valid and expired
-    // If user is logged in status and it returns expired then a new token should be requested
-    // if token is not valid then the user should be logged out
-    // if token is valid then the user should be allowed to continue
   };
 
   return (
@@ -103,12 +106,18 @@ const AuthProvider = ({ children }) => {
       value={{
         token,
         user,
+        isLoggedIn,
+        hasDevice,
+        deviceID,
+        deviceStatus,
         loginAction,
         logout,
         verifyToken,
+        setHasDevice,
+        setDeviceID,
+        setDeviceStatus,
         postStatus,
         postMessage,
-        isLoggedIn,
       }}
     >
       {children}
