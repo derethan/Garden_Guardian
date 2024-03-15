@@ -1,10 +1,5 @@
 import { Box, Button, Grid, Typography } from "@mui/material";
 
-import { useEffect, useState } from "react";
-
-import { useGetSensorReading } from "../../hooks/getSensorReading";
-import { useAuth } from "../../hooks/useAuthProvider";
-
 //Icons
 import WaterDropIcon from "@mui/icons-material/WaterDrop";
 import DeviceIcon from "@mui/icons-material/HomeMaxOutlined";
@@ -12,19 +7,7 @@ import TemperatureIcon from "@mui/icons-material/Thermostat";
 import HumidityIcon from "@mui/icons-material/Opacity";
 
 //SensorInfoBanner component
-const SensorInfoBanner = () => {
-  const { deviceID } = useAuth();
-  const { getLatestReading } = useGetSensorReading();
-  const [sensorData, setSensorData] = useState({});
-
-  useEffect(() => {
-    async function getSensorData() {
-      const data = await getLatestReading(deviceID);
-      setSensorData(data);
-    }
-
-    getSensorData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+const SensorInfoBanner = ({ sensorData }) => {
 
   return (
     <Box sx={{ paddingTop: "3rem" }}>
@@ -62,10 +45,10 @@ const SensorInfoBanner = () => {
                     (sensor === "Device Temperature" && (
                       <DeviceIcon sx={{ fontSize: 80 }} />
                     )) ||
-                    (sensor === "Temperature" && (
+                    (sensor === "Temperature Sensor" && (
                       <TemperatureIcon sx={{ fontSize: 80 }} />
                     )) ||
-                    (sensor === "Humidity" && (
+                    (sensor === "Humidity Sensor" && (
                       <HumidityIcon sx={{ fontSize: 80 }} />
                     ))}
 
@@ -75,7 +58,7 @@ const SensorInfoBanner = () => {
                     </Typography>
 
                     <Typography variant="body1">
-                      {sensorData[sensor]} {sensor === "Humidity" ? "%" : "°C"}
+                      {sensorData[sensor]} {sensor === "Humidity Sensor" ? "%" : "°C"}
                     </Typography>
                   </Box>
                 </Button>
