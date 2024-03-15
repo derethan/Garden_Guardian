@@ -40,7 +40,6 @@ const SensorData = () => {
 
       const storedData = JSON.parse(localStorage.getItem("sensorData"));
       const difference = calculateDifference(data, storedData);
-      console.log(difference);
 
       localStorage.setItem("sensorData", JSON.stringify(data));
       setSensorData(data);
@@ -48,12 +47,17 @@ const SensorData = () => {
     }
 
     getSensorData();
+    
+    //Set the interval to check the device every 1 minutes
+    setInterval(() => {
+      getSensorData();
+    }, 1 * 60 * 1000);
+
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   //Renders the Sensor Data Page
   return (
     <Container
-      className="sensorData"
       maxWidth="xl"
       sx={{
         display: "flex",
