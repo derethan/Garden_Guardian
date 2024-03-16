@@ -20,13 +20,13 @@ const SensorData = () => {
   const [sensorData, setSensorData] = useState({});
   const [difference, setDifference] = useState({});
 
-
   //Calculated the difference in the Supplied Value
   const calculateDifference = (current, previous) => {
     const change = {};
     for (const sensor in current) {
       if (previous.hasOwnProperty(sensor)) {
-        change[sensor] = current[sensor] - previous[sensor];
+        change[sensor] =
+          Math.round((current[sensor] - previous[sensor]) * 100) / 100;
       }
     }
 
@@ -47,12 +47,11 @@ const SensorData = () => {
     }
 
     getSensorData();
-    
+
     //Set the interval to check the device every 1 minutes
     setInterval(() => {
       getSensorData();
     }, 1 * 60 * 1000);
-
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   //Renders the Sensor Data Page
