@@ -5,11 +5,6 @@ import { Box, Typography, Divider } from "@mui/material";
 
 import SensorChange from "./SensorChange";
 
-//Material icons
-
-import SmallArrowUp from "@mui/icons-material/ArrowDropUpOutlined";
-import SmallArrowDown from "@mui/icons-material/ArrowDropDownOutlined";
-
 //Component for the Sensor Banner (Shaded box at the top of the Sensor Data Page)
 const SensorBanner = ({ sensorData, difference }) => {
   const temperature = sensorData[sensorTypes.temperature];
