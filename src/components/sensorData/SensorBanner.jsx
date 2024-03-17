@@ -1,10 +1,18 @@
-import { Box, Typography, Divider } from "@mui/material";
-import IncreaseIcon from "@mui/icons-material/ArrowCircleUpOutlined";
-import SmallArrowUp from "@mui/icons-material/ArrowDropUpOutlined";
+/* eslint-disable react/prop-types */
 
-const SensorBanner = ({ sensorData }) => {
+import { sensorTypes } from "../../globalVar";
+import { Box, Typography, Divider } from "@mui/material";
+
+import SensorChange from "./SensorChange";
+
+//Component for the Sensor Banner (Shaded box at the top of the Sensor Data Page)
+const SensorBanner = ({ sensorData, difference }) => {
+  const temperature = sensorData[sensorTypes.temperature];
+  const humidity = sensorData[sensorTypes.humidity];
+  const waterTemp = sensorData[sensorTypes.waterTemp];
+
   return (
-    <Box
+    <Box name="sensorBanner"
       sx={{
         backgroundColor: "background.lightGrey",
         padding: "1rem",
@@ -16,25 +24,19 @@ const SensorBanner = ({ sensorData }) => {
           justifyContent: "space-between",
         }}
       >
+        <SensorChange
+          difference={difference}
+          sensor={sensorTypes.temperature}
+        />
+
         <Typography variant="caption" fontWeight="bold">
           Current Conditions
         </Typography>
-        <Box
-          sx={{
-            display: "flex",
-            gap: "1rem",
-          }}
-        >
-          <IncreaseIcon />
-          <Typography variant="caption" fontWeight="bold">
-            Increased By{" "}
-          </Typography>
-        </Box>
       </Box>
 
       <Box sx={{ textAlign: "left" }}>
         <Typography variant="h4" fontWeight="bold">
-          Temperature:{" "}
+          Temperature: {temperature}°C
         </Typography>
       </Box>
 
@@ -45,27 +47,25 @@ const SensorBanner = ({ sensorData }) => {
           paddingTop: "1rem",
         }}
       >
+		
         <Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <SmallArrowUp />
-            <Typography variant="caption">Increase </Typography>
-          </Box>
+          <SensorChange difference={difference} sensor={sensorTypes.humidity} />
 
           <Typography variant="body1" fontWeight="bold">
-            Humidity:{" "}
+            Humidity: {humidity}%
           </Typography>
         </Box>
 
-        <Divider orientation="vertical" flexItem sx={{ width: '5px' }} />
-        
+        <Divider orientation="vertical" flexItem sx={{ width: "5px" }} />
+
         <Box>
-          <Box sx={{ display: "flex", gap: 1 }}>
-            <SmallArrowUp />
-            <Typography variant="caption">Increase </Typography>
-          </Box>
+          <SensorChange
+            difference={difference}
+            sensor={sensorTypes.waterTemp}
+          />
 
           <Typography variant="body1" fontWeight="bold">
-            Water Temp:{" "}
+            Water Temp: {waterTemp}°C
           </Typography>
         </Box>
       </Box>

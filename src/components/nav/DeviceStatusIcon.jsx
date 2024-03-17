@@ -27,10 +27,8 @@ const DeviceStatusIcon = (deviceID) => {
             //If the device is active, set the status to online
             if (deviceActive) {
                 setDeviceStatus("online");
-                console.log("Device is online");
             } else {
                 setDeviceStatus("offline");
-                console.log("Device is offline");
             }
         };
 

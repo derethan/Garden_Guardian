@@ -1,30 +1,34 @@
-import { Box, Button, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography } from "@mui/material";
 
-import { useEffect, useState } from "react";
-
-import { useGetSensorReading } from "../../hooks/getSensorReading";
-import { useAuth } from "../../hooks/useAuthProvider";
+//Import Components
+import ButtonCard from "../ButtonCard";
+import SensorCardInfo from "./SensorCardInfo";
 
 //Icons
-import WaterDropIcon from "@mui/icons-material/WaterDrop";
+// import WaterDropIcon from "@mui/icons-material/WaterDrop";
+import WaterIcon from '@mui/icons-material/WaterOutlined';
 import DeviceIcon from "@mui/icons-material/HomeMaxOutlined";
 import TemperatureIcon from "@mui/icons-material/Thermostat";
 import HumidityIcon from "@mui/icons-material/Opacity";
 
 //SensorInfoBanner component
-const SensorInfoBanner = () => {
-  const { deviceID } = useAuth();
-  const { getLatestReading } = useGetSensorReading();
-  const [sensorData, setSensorData] = useState({});
+const SensorInfoBanner = ({ sensorData }) => {
 
-  useEffect(() => {
-    async function getSensorData() {
-      const data = await getLatestReading(deviceID);
-      setSensorData(data);
+  //Function to get the icon for the sensor
+  const getIcon = (sensor) => {
+    switch (sensor) {
+      case "Water Temperature":
+        return WaterIcon;
+      case "Device Temperature":
+        return DeviceIcon;
+      case "Temperature Sensor":
+        return TemperatureIcon;
+      case "Humidity Sensor":
+        return HumidityIcon;
+      default:
+        return null;
     }
-
-    getSensorData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  };
 
   return (
     <Box sx={{ paddingTop: "3rem" }}>
@@ -38,47 +42,9 @@ const SensorInfoBanner = () => {
           Object.keys(sensorData).map((sensor, index) => {
             return (
               <Grid item xs={6} key={index}>
-                <Button
-                  variant="card"
-                  sx={{
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    gap: "0.5rem",
-                  }}
-                >
-                  <Typography
-                    variant="body1"
-                    sx={{ fontWeight: "bold", fontSize: "14px" }}
-                  >
-                    {sensor}
-                  </Typography>
-
-                  {(sensor === "Water Temperature" && (
-                    <WaterDropIcon sx={{ fontSize: 80 }} />
-                  )) ||
-                    (sensor === "Device Temperature" && (
-                      <DeviceIcon sx={{ fontSize: 80 }} />
-                    )) ||
-                    (sensor === "Temperature" && (
-                      <TemperatureIcon sx={{ fontSize: 80 }} />
-                    )) ||
-                    (sensor === "Humidity" && (
-                      <HumidityIcon sx={{ fontSize: 80 }} />
-                    ))}
-
-                  <Box>
-                    <Typography variant="caption" fontWeight="bold">
-                      Latest Reading
-                    </Typography>
-
-                    <Typography variant="body1">
-                      {sensorData[sensor]} {sensor === "Humidity" ? "%" : "°C"}
-                    </Typography>
-                  </Box>
-                </Button>
+                <ButtonCard title={sensor}>
+                  <SensorCardInfo sensor={sensor} sensorData={sensorData} Icon={getIcon (sensor)} />
+                </ButtonCard>
               </Grid>
             );
           })

@@ -11,7 +11,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import AppBarTitle from "./header/AppBarTitle";
 
 import { useTheme } from "@mui/material";
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 
 import AppBarTop from "./nav/AppBarTop";
 import NavbarList from "./nav/NavbarList";
@@ -81,7 +81,7 @@ export default function SideBarWrapper({ children, view, title }) {
   });
 
   //Use Effect to save the state of the sidebar to Local Storage
-  React.useEffect(() => {
+  useEffect(() => {
     localStorage.setItem("sidebarOpen", JSON.stringify(open));
   }, [open]);
 
