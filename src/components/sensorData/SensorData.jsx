@@ -35,12 +35,16 @@ const SensorData = () => {
 
   //Retrieves the Latest Sensor Data from the API
   useEffect(() => {
+
+    //Retrieves the Latest Sensor Data from the API
     async function getSensorData() {
       const data = await getLatestReading(deviceID);
 
+      //Retrieves the Previous Sensor Data from the Local Storage
       const storedData = JSON.parse(localStorage.getItem("sensorData"));
       const difference = calculateDifference(data, storedData);
 
+      //Stores the Current Sensor Data and the Difference in the current and previous reading
       localStorage.setItem("sensorData", JSON.stringify(data));
       setSensorData(data);
       setDifference(difference);
@@ -49,9 +53,13 @@ const SensorData = () => {
     getSensorData();
 
     //Set the interval to check the device every 1 minutes
-    setInterval(() => {
+    const interval =  setInterval(() => {
       getSensorData();
     }, 1 * 60 * 1000);
+
+    //Clear the interval when the component is unmounted
+    return () => clearInterval(interval);
+
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   //Renders the Sensor Data Page

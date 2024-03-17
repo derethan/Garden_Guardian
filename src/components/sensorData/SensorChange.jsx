@@ -23,14 +23,14 @@ const SensorChange = ({ difference, sensor }) => {
               <>
                 <IncreaseIcon />
                 <Typography variant="caption" fontWeight="bold">
-                  Increase By {difference["Temperature Sensor"]}°C
+                  Increase By {difference[sensor]} {sensor.includes ('Humidity') ? '%' : '°C'}
                 </Typography>
               </>
             ) : (
               <>
                 <DecreaseIcon />
                 <Typography variant="caption" fontWeight="bold">
-                  Decrease By {Math.abs(difference[sensor])}°C
+                  Decrease By {Math.abs(difference[sensor])} {sensor.includes ('Humidity') ? '%' : '°C'}
                 </Typography>
               </>
             )
