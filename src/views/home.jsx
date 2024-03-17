@@ -5,7 +5,6 @@
 import { Container } from "@mui/material";
 
 import IntroBanner from "../components/introBanner/IntroBanner";
-import GettingStarted from "../components/GettingStarted/GettingStarted";
 
 
 export default function Home() {
@@ -14,7 +13,6 @@ export default function Home() {
         
         <Container>
             <IntroBanner />
-            <GettingStarted />
 
         </Container>
 
