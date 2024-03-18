@@ -1,20 +1,15 @@
-/************************************************ 
-*   Welcome/Home page for the application
-*************************************************/
+/************************************************
+ *   Welcome/Home page for the application
+ *************************************************/
 
 import { Container } from "@mui/material";
 
-import IntroBanner from "../components/introBanner/IntroBanner";
 import LandingSiteNav from "../components/nav/LandingSiteNav";
-
+import HomeBanner from "../components/LandingContent/HomeBanner";
 
 export default function Home() {
-    return (
-
-        <LandingSiteNav />
-
-
-
-
-    );
+  return <>
+    <LandingSiteNav />
+    <HomeBanner />
+  </>;
 }
