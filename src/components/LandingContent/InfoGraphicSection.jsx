@@ -2,10 +2,8 @@ import { Box, Container, Typography } from "@mui/material";
 
 import sensorDiagram from "../../assets/sensorDiagram.png";
 import { PrimaryButton } from "../PrimaryButton";
-import { useTheme } from "@mui/material/styles";
 
 const InfoGraphicSection = () => {
-  const theme = useTheme();
 
   return (
     <Container
@@ -52,7 +50,7 @@ const InfoGraphicSection = () => {
         }}
       />
 
-      <PrimaryButton text={"Learn More"} fullWidth />
+      <PrimaryButton text={"Learn More"} />
     </Container>
   );
 };
