@@ -7,6 +7,7 @@ import HomeBanner from "../components/LandingContent/HomeBanner";
 import AboutSection from "../components/LandingContent/AboutSection";
 import InfoGraphicSection from "../components/LandingContent/InfoGraphicSection";
 import KeyFeaturesSection from "../components/LandingContent/KeyFeaturesSection";
+import ComingSoonSection from "../components/LandingContent/ComingSoonSection";
 
 export default function Home() {
   return <>
@@ -15,5 +16,6 @@ export default function Home() {
     <AboutSection />
     <InfoGraphicSection />
     <KeyFeaturesSection />
+    <ComingSoonSection />
   </>;
 }
