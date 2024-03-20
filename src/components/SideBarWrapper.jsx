@@ -6,9 +6,9 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import useMediaQuery from '@mui/material/useMediaQuery';
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-import AppBarTitle from "./header/AppBarTitle";
+import AppBarTitle from "./nav/AppBarTitle";
 
 import { useTheme } from "@mui/material";
 import { useState, useEffect } from "react";
@@ -72,7 +72,7 @@ const Drawer = styled(MuiDrawer, {
 //Main Component
 export default function SideBarWrapper({ children, view, title }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
   // Open or Close state
   const [open, setOpen] = useState(() => {
@@ -104,7 +104,11 @@ export default function SideBarWrapper({ children, view, title }) {
         title={title}
       />
 
-<Drawer variant={isMobile ? 'temporary' : 'permanent'} open={open} anchor={isMobile ? 'top' : 'left'}>
+      <Drawer
+        variant={isMobile ? "temporary" : "permanent"}
+        open={open}
+        anchor={isMobile ? "top" : "left"}
+      >
         <Box
           sx={{
             height: "100%",
@@ -137,15 +141,15 @@ export default function SideBarWrapper({ children, view, title }) {
       {/* Main Content */}
       <Box
         component="main"
-        maxWidth='none'
+        maxWidth="none"
         sx={{
           backgroundColor: theme.palette.background.default,
           width: "100vw",
           height: "100vh",
           paddingTop: "64px",
-          paddingLeft: open ? '100px' : '32px',
+          paddingLeft: open ? "100px" : "32px",
           paddingRight: open ? "100px" : "32px",
-          
+
           overflowY: "auto",
         }}
       >
