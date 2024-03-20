@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const InfoGraphicSection = () => {
-
   return (
     <Container
       component="section"
@@ -19,15 +18,12 @@ const InfoGraphicSection = () => {
       }}
     >
       <Typography
-        variant="h4"
-        component="h4"
+        variant="h5"
+        component="h5"
         gutterBottom
-        sx={{
-          color: "primary.textDark",
-          fontWeight: "bold",
-        }}
+        sx={{ fontWeight: "bold" }}
       >
-        Empowering Your Green Thumb
+        Empowering Your green Thumb
       </Typography>
       <Typography
         variant="caption"

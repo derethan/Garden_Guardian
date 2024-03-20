@@ -8,7 +8,7 @@ const AboutSection = () => {
         p: 2,
         boxShadow: 2,
     }}>
-      <Typography variant="h5" component="h5" fontWeight="bold" textAlign="left" ml="8px">
+      <Typography variant="h5" component="h5" fontWeight="bold" textAlign="center" ml="8px">
         About Us
       </Typography>
       <Typography variant="body2" component="p" pt='1rem'>
