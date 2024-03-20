@@ -1,22 +1,25 @@
-import AppBar from "@mui/material/AppBar";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import Menu from "@mui/material/Menu";
+import {
+  AppBar,
+  Box,
+  Button,
+  Container,
+  IconButton,
+  Menu,
+  MenuItem,
+  Toolbar,
+  Typography,
+  Avatar,
+  Tooltip,
+} from "@mui/material";
+
 import MenuIcon from "@mui/icons-material/Menu";
-import Container from "@mui/material/Container";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import Tooltip from "@mui/material/Tooltip";
-import MenuItem from "@mui/material/MenuItem";
+
 import logo from "../../assets/shield.png";
 
 import { useState } from "react";
-
-import { useTheme } from "@mui/material/styles";
-
+import { useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../hooks/useAuthProvider";
 
 const pages = [
   { name: "Home", path: "/" },
@@ -24,11 +27,18 @@ const pages = [
   { name: "Contact Us", path: "/contact" },
   { name: "Premium", path: "/premium" },
 ];
-const settings = ["Dashboard", "Account", "Settings", "Logout"];
+const settings = [
+  { name: "Dashboard", path: "/dashboard" },
+  { name: "Account", path: "/account" },
+  { name: "Settings", path: "/settings" },
+  { name: "Logout", path: "/logout" },
+];
 
 //AppBarTop Component
 const LandingSiteNav = () => {
   const theme = useTheme();
+
+  const { isLoggedIn } = useAuth();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -87,7 +97,7 @@ const LandingSiteNav = () => {
               alt="logo"
               sx={{ width: "50px", height: "50px" }}
             />
-            <Link to='/' >Garden Guardian</Link>
+            <Link to="/">Garden Guardian</Link>
           </Typography>
 
           {/* Mobile View Navbar Links and Icon */}
@@ -121,7 +131,12 @@ const LandingSiteNav = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem component={Link} to={page.path} key={page.name} onClick={handleCloseNavMenu}>
+                <MenuItem
+                  component={Link}
+                  to={page.path}
+                  key={page.name}
+                  onClick={handleCloseNavMenu}
+                >
                   <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
@@ -155,7 +170,6 @@ const LandingSiteNav = () => {
             Garden <br /> Guardian
           </Typography>
 
-
           {/* Dektop View Navbar Links */}
           <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -171,9 +185,16 @@ const LandingSiteNav = () => {
             ))}
           </Box>
 
-          
           {/* Mobile View Login Link */}
-          <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
+          <Box
+            sx={{
+              flexGrow: 0,
+              display: {
+                xs: isLoggedIn ? "none" : "flex",
+                md: isLoggedIn ? "none" : "flex",
+              },
+            }}
+          >
             <Button
               component={Link}
               to="/login"
@@ -181,46 +202,54 @@ const LandingSiteNav = () => {
                 my: 2,
                 color: theme.typography.primary.textDark,
                 display: "block",
-                fontFamily: 'AniMe',
+                fontFamily: "AniMe",
               }}
             >
               Login
             </Button>
           </Box>
+
           {/* Avatar and Profile Menu
               - TODO: Customize and add later
                       - Add conditional to display Login or Avatar Based on Auth Status */}
-          
-          {/* <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            
-            <Menu
-              sx={{ mt: '45px' }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box> */}
+
+          {isLoggedIn && (
+            <Box sx={{ flexGrow: 0 }}>
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+
+              <Menu
+                sx={{ mt: "45px" }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                {settings.map((setting) => (
+                  <MenuItem
+                    component={Link}
+                    to={setting.path}
+                    key={setting.name}
+                    onClick={handleCloseUserMenu}
+                  >
+                    <Typography textAlign="center">{setting.name}</Typography>
+                  </MenuItem>
+                ))}
+              </Menu>
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
