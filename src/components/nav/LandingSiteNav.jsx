@@ -1,25 +1,30 @@
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import MenuIcon from '@mui/icons-material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import Tooltip from '@mui/material/Tooltip';
-import MenuItem from '@mui/material/MenuItem';
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Menu from "@mui/material/Menu";
+import MenuIcon from "@mui/icons-material/Menu";
+import Container from "@mui/material/Container";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import Tooltip from "@mui/material/Tooltip";
+import MenuItem from "@mui/material/MenuItem";
+import logo from "../../assets/shield.png";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-import { useTheme } from '@mui/material/styles';
+import { useTheme } from "@mui/material/styles";
 
-import logo from '../../assets/shield.png';
+import { Link } from "react-router-dom";
 
-
-const pages = ['Home', 'Features',  'Contact Us', 'Premium'];
-const settings = ['Dashboard', 'Account', 'Settings', 'Logout'];
+const pages = [
+  { name: "Home", path: "/" },
+  { name: "Features", path: "/features" },
+  { name: "Contact Us", path: "/contact" },
+  { name: "Premium", path: "/premium" },
+];
+const settings = ["Dashboard", "Account", "Settings", "Logout"];
 
 //AppBarTop Component
 const LandingSiteNav = () => {
@@ -44,39 +49,49 @@ const LandingSiteNav = () => {
   };
 
   return (
-    <AppBar position="static" sx={{backgroundColor: 'background.default'}}>
+    <AppBar position="static" sx={{ backgroundColor: "background.default" }}>
       <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{
-          display: 'flex',
-          padding: '0',
-          [theme.breakpoints.up('md')]: {
-            padding: '0 24px',
-          },
-        }}>
-
+        <Toolbar
+          disableGutters
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            padding: "0",
+            [theme.breakpoints.up("md")]: {
+              padding: "0 24px",
+            },
+          }}
+        >
+          {/* Desktop View Logo */}
           <Typography
             variant="h6"
             noWrap
-            component="a"
+            component="h6"
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              alignItems: 'center',
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
               gap: 1,
 
-              fontFamily: 'AniMe',
+              fontFamily: "AniMe",
               fontWeight: 700,
-              fontSize: '1rem',
-              letterSpacing: '.2rem',
+              fontSize: "1rem",
+              letterSpacing: ".2rem",
               color: theme.typography.primary.textDark,
-              textDecoration: 'none',
+              textDecoration: "none",
             }}
           >
-            <img src={logo} alt="logo" style={{width: '50px', height: '50px'}} />
-            Garden Guardian
+            <Box
+              component="img"
+              src={logo}
+              alt="logo"
+              sx={{ width: "50px", height: "50px" }}
+            />
+            <Link to='/' >Garden Guardian</Link>
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          {/* Mobile View Navbar Links and Icon */}
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -91,72 +106,91 @@ const LandingSiteNav = () => {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
               sx={{
-                display: { xs: 'block', md: 'none' },
+                display: { xs: "block", md: "none" },
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem component={Link} to={page.path} key={page.name} onClick={handleCloseNavMenu}>
+                  <Typography textAlign="center">{page.name}</Typography>
                 </MenuItem>
               ))}
             </Menu>
           </Box>
 
-
-
+          {/* Mobile View Logo */}
           <Typography
             variant="h5"
             noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+            component="h5"
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              alignItems: 'center',
+              display: { xs: "flex", md: "none" },
+              alignItems: "center",
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
+              fontSize: "1rem",
+              letterSpacing: ".3rem",
               color: theme.typography.primary.textDark,
-              textDecoration: 'none',
+              textDecoration: "none",
             }}
           >
-            <img src={logo} alt="logo" style={{width: '50px', height: '50px'}} />
-            Garden Guardian
+            <Box
+              component="img"
+              src={logo}
+              alt="logo"
+              sx={{ width: "50px", height: "50px" }}
+            />
+            Garden <br /> Guardian
           </Typography>
 
 
-          <Box sx={{flexGrow:0, display: { xs: 'none', md: 'flex' } }}>
+          {/* Dektop View Navbar Links */}
+          <Box sx={{ flexGrow: 0, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                component={Link}
+                to={page.path}
+                key={page.name}
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'black', display: 'block' }}
+                sx={{ my: 2, color: "black", display: "block" }}
               >
-                {page}
+                {page.name}
               </Button>
             ))}
           </Box>
 
-          <Box sx={{flexGrow:0, display: { xs: 'flex', md: 'flex' } }}>
-              <Button
-                sx={{ my: 2, color: theme.typography.primary.textDark, display: 'block' }}
-              >
-                Login
-              </Button>
+          
+          {/* Mobile View Login Link */}
+          <Box sx={{ flexGrow: 0, display: { xs: "flex", md: "none" } }}>
+            <Button
+              component={Link}
+              to="/login"
+              sx={{
+                my: 2,
+                color: theme.typography.primary.textDark,
+                display: "block",
+                fontFamily: 'AniMe',
+              }}
+            >
+              Login
+            </Button>
           </Box>
-
+          {/* Avatar and Profile Menu
+              - TODO: Customize and add later
+                      - Add conditional to display Login or Avatar Based on Auth Status */}
+          
           {/* <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -187,8 +221,6 @@ const LandingSiteNav = () => {
               ))}
             </Menu>
           </Box> */}
-
-
         </Toolbar>
       </Container>
     </AppBar>
