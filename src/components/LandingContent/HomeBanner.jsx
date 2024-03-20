@@ -13,7 +13,7 @@ const HomeBanner = () => {
 
   return (
     <Container
-      maxWidth="xl"
+      maxWidth="lg"
       sx={{
         padding: "3rem",
         margin: "1rem",
