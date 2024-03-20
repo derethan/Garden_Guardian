@@ -12,23 +12,28 @@ const ComingSoonSection = () => {
         boxShadow: 2,
       }}
     >
-        <Typography
-            variant="h5"
-            component="h5"
-            gutterBottom
-            sx={{ fontWeight: "bold" }}
-        >
-            Get Ready, We are Launching Soon...
-        </Typography>
-        <Typography
-            variant="caption"
-            component="p"
-            gutterBottom
-            >
-            We are working hard to bring you the best experience. Stay tuned for updates.
-            </Typography>
+      <Typography
+        variant="h5"
+        component="h5"
+        gutterBottom
+        sx={{ fontWeight: "bold" }}
+      >
+        Get Ready, We are Launching Soon...
+      </Typography>
+      <Typography
+        variant="caption"
+        component="p"
+        gutterBottom
+        sx={{
+          color: "text.secondary",
+          fontWeight: "bold",
+        }}
+      >
+        We are working hard to bring you the best experience. Stay tuned for
+        updates.
+      </Typography>
 
-            <PrimaryButton text={"Sign Up"} />
+      <PrimaryButton text={"Sign Up"} />
     </Container>
   );
 };

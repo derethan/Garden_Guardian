@@ -8,6 +8,7 @@ import AboutSection from "../components/LandingContent/AboutSection";
 import InfoGraphicSection from "../components/LandingContent/InfoGraphicSection";
 import KeyFeaturesSection from "../components/LandingContent/KeyFeaturesSection";
 import ComingSoonSection from "../components/LandingContent/ComingSoonSection";
+import SiteFooter from "../components/LandingContent/SiteFooter";
 
 export default function Home() {
   return (
@@ -19,6 +20,7 @@ export default function Home() {
   <InfoGraphicSection />
   <KeyFeaturesSection />
   <ComingSoonSection />
+  <SiteFooter />
 </>
   
   );
