@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
       // Post the data to the server
       const responseData = await postData(URL + "users/login", data);
 
-      if (responseData) {
+      if (responseData && responseData.status === 201) {
         // Set the token
         setToken(responseData.token);
         localStorage.setItem("token", responseData.token);

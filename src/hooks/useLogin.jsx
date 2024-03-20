@@ -42,10 +42,12 @@ export function useLogin() {
 
         if (!response) {
           throw new Error("503 Service Unavailable");
+        } else if (response.status === 201) {
+          navigate("/dashboard");
+        } else {
+          throw new Error(response.message);
         }
-
-        // Redirect to the dashboard
-        navigate("/dashboard");
+        
         
       } catch (error) {
         console.error(error);
