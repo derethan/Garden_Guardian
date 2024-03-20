@@ -10,12 +10,16 @@ import KeyFeaturesSection from "../components/LandingContent/KeyFeaturesSection"
 import ComingSoonSection from "../components/LandingContent/ComingSoonSection";
 
 export default function Home() {
-  return <>
-    <LandingSiteNav />
-    <HomeBanner />
-    <AboutSection />
-    <InfoGraphicSection />
-    <KeyFeaturesSection />
-    <ComingSoonSection />
-  </>;
+  return (
+<>
+<LandingSiteNav />
+
+  <HomeBanner />
+  <AboutSection />
+  <InfoGraphicSection />
+  <KeyFeaturesSection />
+  <ComingSoonSection />
+</>
+  
+  );
 }
