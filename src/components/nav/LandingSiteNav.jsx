@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
+import AccountIcon from "@mui/icons-material/AccountCircle";
 
 import logo from "../../assets/shield.png";
 
@@ -217,7 +218,9 @@ const LandingSiteNav = () => {
             <Box sx={{ flexGrow: 0 }}>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <Avatar alt="Avatar" src='../../assets/logo.png'>
+                  <AccountIcon fontSize="large" />
+                  </Avatar>
                 </IconButton>
               </Tooltip>
 

@@ -102,10 +102,11 @@ export default function SideBarWrapper({ children, view, title }) {
         open={open}
         handleDrawerOpenClose={handleDrawerOpenClose}
         title={title}
+        isMobile={isMobile}
       />
 
       <Drawer
-        variant={isMobile ? "temporary" : "permanent"}
+        variant={isMobile && !open ? "temporary" : "permanent"}
         open={open}
         anchor={isMobile ? "top" : "left"}
       >

@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 import { useTheme } from "@mui/material";
 
 
-const PageTitle = ({ title }) => {
+const PageTitle = ({ title, ...props }) => {
     const theme = useTheme();
 
 
@@ -13,7 +13,7 @@ const PageTitle = ({ title }) => {
         variant="h6"
         noWrap
         component="div"
-        sx={{ color: theme.typography.primary.textDark, fontWeight: "bold"}}
+        sx={{ color: theme.typography.primary.textDark, fontWeight: "bold", ...props.sx}}
       >
         {title}
       </Typography>
