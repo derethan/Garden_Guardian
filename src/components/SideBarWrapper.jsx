@@ -20,6 +20,7 @@ import { drawerWidth } from "../globalVar";
 
 // Props Validation
 import PropTypes from "prop-types";
+import BottomNav from "./nav/BottomNav";
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -156,6 +157,8 @@ export default function SideBarWrapper({ children, view, title }) {
       >
         {children}
       </Box>
+
+        {isMobile && <BottomNav view={view} />}
     </Box>
   );
 }

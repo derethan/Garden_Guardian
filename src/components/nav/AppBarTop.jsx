@@ -77,18 +77,20 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
       sx={{ backgroundColor: theme.palette.sidebar.primary }}
     >
       <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpenClose}
-          edge="start"
-          sx={{
-            marginRight: 5,
-            ...(open && { display: "none" }),
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
+        {!isMobile && (
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpenClose}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: "none" }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
 
         <Box
           sx={{
@@ -141,7 +143,7 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
               </IconButton>
             )}
 
-            {!isMobile && (
+           
               <IconButton
                 color="inherit"
                 aria-label="account"
@@ -150,7 +152,7 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
               >
                 <AccountIcon fontSize="large" />
               </IconButton>
-            )}
+            
           </Box>
         </Box>
       </Toolbar>

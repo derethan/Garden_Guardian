@@ -8,7 +8,7 @@ const PageTitle = ({ title, ...props }) => {
 
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "flex-start", width: "200px" }}>
+    <Box sx={{ display: "flex", justifyContent: "flex-start" }}>
       <Typography
         variant="h6"
         noWrap
