@@ -73,7 +73,7 @@ const Drawer = styled(MuiDrawer, {
 //Main Component
 export default function SideBarWrapper({ children, view, title }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   // Open or Close state
   const [open, setOpen] = useState(() => {

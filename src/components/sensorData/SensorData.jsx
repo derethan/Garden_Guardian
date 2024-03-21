@@ -72,15 +72,20 @@ const SensorData = () => {
         padding: "1.5rem",
       }}
     >
-      <Box sx={{ width: "70%" }}>
+      <Box sx={{ width: {xs: '100%', md: '70%'} }}>
         <SensorBanner sensorData={sensorData} difference={difference} />
 
         <SensorInfoBanner sensorData={sensorData} />
       </Box>
 
-      <Divider orientation="vertical" flexItem />
+      <Divider orientation="vertical" flexItem sx={{
+        display: { xs: "none", md: "block"}
+      
+      }} />
 
-      <Box sx={{ width: "30%" }}>
+      <Box sx={{ width: "30%",
+      display: { xs: "none", md: "block"}
+     }}>
         <SummaryColumn />
       </Box>
     </Container>
