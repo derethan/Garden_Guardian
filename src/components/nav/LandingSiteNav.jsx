@@ -13,9 +13,9 @@ import {
 } from "@mui/material";
 
 import MenuIcon from "@mui/icons-material/Menu";
-import AccountIcon from "@mui/icons-material/AccountCircle";
 
 import logo from "../../assets/shield.png";
+import AccountMenuIcon from "./AccountMenuIcon";
 
 import { useState } from "react";
 import { useTheme } from "@mui/material";
@@ -28,12 +28,6 @@ const pages = [
   { name: "Contact Us", path: "/contact" },
   { name: "Premium", path: "/premium" },
 ];
-const settings = [
-  { name: "Dashboard", path: "/dashboard" },
-  { name: "Account", path: "/account" },
-  { name: "Settings", path: "/settings" },
-  { name: "Logout", path: "/logout" },
-];
 
 //AppBarTop Component
 const LandingSiteNav = () => {
@@ -42,21 +36,13 @@ const LandingSiteNav = () => {
   const { isLoggedIn } = useAuth();
 
   const [anchorElNav, setAnchorElNav] = useState(null);
-  const [anchorElUser, setAnchorElUser] = useState(null);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
   };
 
   return (
@@ -214,45 +200,7 @@ const LandingSiteNav = () => {
               - TODO: Customize and add later
                       - Add conditional to display Login or Avatar Based on Auth Status */}
 
-          {isLoggedIn && (
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Open settings">
-                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Avatar" src='../../assets/logo.png'>
-                  <AccountIcon fontSize="large" />
-                  </Avatar>
-                </IconButton>
-              </Tooltip>
-
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {settings.map((setting) => (
-                  <MenuItem
-                    component={Link}
-                    to={setting.path}
-                    key={setting.name}
-                    onClick={handleCloseUserMenu}
-                  >
-                    <Typography textAlign="center">{setting.name}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
-            </Box>
-          )}
+          {isLoggedIn && <AccountMenuIcon />}
         </Toolbar>
       </Container>
     </AppBar>

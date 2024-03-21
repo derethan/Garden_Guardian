@@ -27,6 +27,7 @@ import { useAuth } from "../../hooks/useAuthProvider";
 import PropTypes from "prop-types";
 
 import shield from "../../assets/shield.png";
+import AccountMenuIcon from "./AccountMenuIcon";
 
 //AppBar Styled Component
 const AppBar = styled(MuiAppBar, {
@@ -101,13 +102,18 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
             width: "100%",
           }}
         >
-          <Box name="PageTitle" display={'flex'} alignItems={'center'} gap={1}>
-            <Box
-              component="img"
-              src={shield}
-              alt="logo"
-              sx={{ width: {xs: '25px', sm: '36px'}, height: {xs: '25px', sm: '36px'} }}
-            />
+          <Box name="PageTitle" display={"flex"} alignItems={"center"} gap={1}>
+            {isMobile && (
+              <Box
+                component="img"
+                src={shield}
+                alt="logo"
+                sx={{
+                  width: { xs: "25px", sm: "36px" },
+                  height: { xs: "25px", sm: "36px" },
+                }}
+              />
+            )}
             <PageTitle
               title={title}
               sx={{
@@ -152,14 +158,8 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
               </IconButton>
             )}
 
-            <IconButton
-              color="inherit"
-              aria-label="account"
-              edge="end"
-              sx={{ marginRight: 2 }}
-            >
-              <AccountIcon fontSize="large" />
-            </IconButton>
+              <AccountMenuIcon />
+
           </Box>
         </Box>
       </Toolbar>
