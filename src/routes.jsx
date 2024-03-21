@@ -70,7 +70,7 @@ export const privateAppRoutes = [
 
     // User Pages - Notifications, My Account, Setting, Logut
     {Type: 'User', ID: 'Notifications', path: '/notifications', Name: 'Notifications',icon: <NotificationsNoneOutlinedIcon />, Component: Notifications,},
-    {Type: 'User', ID: 'MyAccount', path: '/myaccount', Name: 'My Account',icon: <ManageAccountsRoundedIcon />, Component: AccountMain,},
+    {Type: 'User', ID: 'MyAccount', path: '/account', Name: 'My Account',icon: <ManageAccountsRoundedIcon />, Component: AccountMain,},
     {Type: 'User', ID: 'Settings', path: '/settings', Name: 'Settings',icon: <SettingsRoundedIcon />, Component: AppSettings,},
     {Type: 'User', ID: 'Logout', path: '/logout', Name: 'Logout',icon: <LogoutIcon />, Component: Logout,},
 
