@@ -13,7 +13,6 @@ import { privateAppRoutes } from "../../routes";
 
 const BottomNav = ({view}) => {
   const [value, setValue] = useState(view);
-  console.log(view);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
