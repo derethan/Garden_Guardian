@@ -21,11 +21,12 @@ import DeviceStatusIcon from "./DeviceStatusIcon";
 import { useEffect } from "react";
 
 import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
-
 import { useAuth } from "../../hooks/useAuthProvider";
 
 //import props validation
 import PropTypes from "prop-types";
+
+import shield from "../../assets/shield.png";
 
 //AppBar Styled Component
 const AppBar = styled(MuiAppBar, {
@@ -100,16 +101,24 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
             width: "100%",
           }}
         >
-          <PageTitle
-            title={title}
-            sx={{
-              // Material responsive breakpoint for fontSize
-              fontSize: {
-                xs: "1rem",
-                sm: "1.2rem",
-              },
-            }}
-          />
+          <Box name="PageTitle" display={'flex'} alignItems={'center'} gap={1}>
+            <Box
+              component="img"
+              src={shield}
+              alt="logo"
+              sx={{ width: {xs: '25px', sm: '36px'}, height: {xs: '25px', sm: '36px'} }}
+            />
+            <PageTitle
+              title={title}
+              sx={{
+                // Material responsive breakpoint for fontSize
+                fontSize: {
+                  xs: "1rem",
+                  sm: "1.2rem",
+                },
+              }}
+            />
+          </Box>
 
           {hasDevice && <DeviceStatusIcon deviceID={deviceID} />}
 
@@ -143,16 +152,14 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
               </IconButton>
             )}
 
-           
-              <IconButton
-                color="inherit"
-                aria-label="account"
-                edge="end"
-                sx={{ marginRight: 2 }}
-              >
-                <AccountIcon fontSize="large" />
-              </IconButton>
-            
+            <IconButton
+              color="inherit"
+              aria-label="account"
+              edge="end"
+              sx={{ marginRight: 2 }}
+            >
+              <AccountIcon fontSize="large" />
+            </IconButton>
           </Box>
         </Box>
       </Toolbar>
