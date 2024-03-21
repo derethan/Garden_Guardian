@@ -149,6 +149,7 @@ export default function SideBarWrapper({ children, view, title }) {
           width: "100vw",
           height: "100vh",
           paddingTop: "64px",
+          pb: { xs: "64px", md: "0px" },
           paddingLeft: open ? "100px" : "32px",
           paddingRight: open ? "100px" : "32px",
 
