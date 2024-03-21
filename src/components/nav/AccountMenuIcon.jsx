@@ -16,13 +16,6 @@ import { Link } from "react-router-dom";
 //Import Private Routes
 import { privateAppRoutes } from "../../routes";
 
-const settings = [
-  { name: "Dashboard", path: "/dashboard" },
-  { name: "Account", path: "/account" },
-  { name: "Settings", path: "/settings" },
-  { name: "Logout", path: "/logout" },
-];
-
 const AccountMenuIcon = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
 
