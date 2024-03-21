@@ -9,10 +9,6 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Paper, BottomNavigation, BottomNavigationAction } from "@mui/material";
 
-import RestoreIcon from "@mui/icons-material/Restore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ArchiveIcon from "@mui/icons-material/Archive";
-
 import { privateAppRoutes } from "../../routes";
 
 const BottomNav = ({view}) => {
