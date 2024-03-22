@@ -78,37 +78,3 @@ const ProfileInfoBanner = ({ user, isMobile }) => {
 };
 
 export default ProfileInfoBanner;
-
-{
-  /* <Grid
-  item
-  xs={12}
-  md={4}
-  sx={{
-    display: "flex",
-    flexDirection: { xs: "column", md: "row" },
-    justifyContent: "center",
-  }}
->
-  <Box
-    sx={{
-      display: "flex",
-      flexDirection: "column",
-      ml: isMobile ? 0 : "auto",
-    }}
-  >
-    <Typography variant="body1">Full Name</Typography>
-    <Typography variant="body2">{user.name}</Typography>
-  </Box>
-
-  <Divider
-    orientation={isMobile ? "horizontal" : "vertical"}
-    flexItem
-    sx={{
-      mt: isMobile ? 2 : 0,
-      mb: isMobile ? 2 : 0,
-      ml: isMobile ? 0 : "auto",
-    }}
-  />
-</Grid>; */
-}
