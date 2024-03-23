@@ -24,7 +24,9 @@ const BottomNav = ({view}) => {
       elevation={3}
     >
       <BottomNavigation
-        sx={{ width: 500, margin: "auto"}}
+        sx={{ maxWidth: 500, margin: "auto"
+        
+      }}
         value={value}
         onChange={handleChange}
       >
