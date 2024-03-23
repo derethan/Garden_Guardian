@@ -28,6 +28,13 @@ export function useGetDeviceInfo() {
     }
   }
 
+  /***************************************
+   *  Function to check if device is active
+   *
+   * @param {String} deviceID - The device ID to check
+   * @returns {Boolean} - True if the device is active, false if not
+   *****************************************/
+
   async function isDeviceActive(deviceID) {
     //Import url from.env
     const URL = import.meta.env.VITE_API_URL;

@@ -1,9 +1,7 @@
-import { Toolbar, IconButton, Box } from "@mui/material";
+import { Toolbar, IconButton, Box, useTheme } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import { styled } from "@mui/system";
-import { useTheme } from "@mui/material";
-import AccountIcon from "@mui/icons-material/AccountCircle";
 
 import { drawerWidth } from "../../globalVar";
 
@@ -18,9 +16,6 @@ import SettingsIcon from "@mui/icons-material/SettingsRounded";
 import PageTitle from "./PageTitle";
 import DeviceStatusIcon from "./DeviceStatusIcon";
 
-import { useEffect } from "react";
-
-import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
 import { useAuth } from "../../hooks/useAuthProvider";
 
 //import props validation
@@ -52,25 +47,7 @@ const AppBar = styled(MuiAppBar, {
 const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
   const theme = useTheme();
 
-  //Check if the user has a device - MIGHT MOVE TO AUTHPROVIDER
-  const { checkForDevice } = useGetDeviceInfo();
-  const { hasDevice, setHasDevice, deviceID, setDeviceID } = useAuth();
-
-  useEffect(() => {
-    async function fetchData() {
-      //check if the user has a device
-      const response = await checkForDevice();
-
-      if (response.status) {
-        setHasDevice(true);
-        setDeviceID(response.device_id);
-        return;
-      }
-    }
-    if (!hasDevice) {
-      fetchData();
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const { hasDevice, deviceID } = useAuth();
 
   return (
     <AppBar
@@ -158,8 +135,7 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
               </IconButton>
             )}
 
-              <AccountMenuIcon />
-
+            <AccountMenuIcon />
           </Box>
         </Box>
       </Toolbar>
