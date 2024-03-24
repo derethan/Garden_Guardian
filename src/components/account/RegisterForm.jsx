@@ -23,8 +23,6 @@ const RegisterForm = () => {
     confirmPassword: "",
   });
 
-  // const [isRegistered, setIsRegistered] = useState(false);
-
   const [formErrors, validateForm] = useValidate(formData);
   const [postStatus, postMessage, , setPostMessage, postData] =
     usePostRequest();
@@ -41,8 +39,6 @@ const RegisterForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log("Form Data: ", formData);
-
     // If the form is valid, Post the data to the server
     if (validateForm()) {
       const URL = import.meta.env.VITE_API_URL;
@@ -52,7 +48,6 @@ const RegisterForm = () => {
       // If the user is registered, redirect to the login page
       if (success) {
         console.log("register status: ", success);
-        // setIsRegistered(success);
 
         setFormData({
           firstName: "",
@@ -122,7 +117,7 @@ const RegisterForm = () => {
             Register Account
           </Button>
         </Box>
-          <LoginLink />
+        <LoginLink />
       </Box>
     </Card>
   );

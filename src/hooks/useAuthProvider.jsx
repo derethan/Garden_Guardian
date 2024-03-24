@@ -58,10 +58,10 @@ const AuthProvider = ({ children }) => {
       }
     }
 
-    if (!hasDevice) {
+    if (!hasDevice && isLoggedIn && localStorage.getItem("user")) {
       fetchDeviceInfo();
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ isLoggedIn]); // eslint-disable-line
 
   //Create the post request hook - TODO: CHANGE TO OBJECT FROM ARRAY IN USEPOSTREQUEST
   const [postStatus, postMessage, , , postData] = usePostRequest();
@@ -93,11 +93,13 @@ const AuthProvider = ({ children }) => {
 
   // Handle the Logout
   const logout = () => {
+    setIsLoggedIn(false);
+    setHasDevice(false);
     setUser(null);
     setToken("");
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
+    setDeviceID("");
+    setDeviceInfo([]);
+    localStorage.clear();
   };
 
   //Make a request to the protected route on the server to verify token

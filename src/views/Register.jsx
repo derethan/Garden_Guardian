@@ -20,7 +20,7 @@ export default function Register() {
     if (user.isLoggedIn) {
       navigate("/dashboard");
     }
-  }, [user.isLoggedIn, navigate]);
+  }, []);// eslint-disable-line
   
   return (
     <Container maxWidth="sm" sx={{ paddingTop: 4 }}>
