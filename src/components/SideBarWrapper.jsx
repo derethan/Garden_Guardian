@@ -150,8 +150,8 @@ export default function SideBarWrapper({ children, view, title }) {
           height: "100vh",
           paddingTop: "64px",
           pb: { xs: "64px", md: "0px" },
-          paddingLeft: open ? "100px" : "32px",
-          paddingRight: open ? "100px" : "32px",
+          paddingLeft: open ? {sm: "0px", md: "100px"} : {sm: "0px", md: "32px"},
+          paddingRight: open ? {sm: "0px", md: "100px"} : {sm: "0px", md: "32px"},
 
           overflowY: "auto",
         }}

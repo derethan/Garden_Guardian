@@ -1,23 +1,22 @@
 import { useAuth } from "../hooks/useAuthProvider";
-import { Container, Box } from "@mui/material";
+import { Container, Box, Typography } from "@mui/material";
 
 
 const Dashboard = () => {
   const user = useAuth();
-  const name = user.user.name;
-  console.log(name);
+  const name = user.user.name.split(" ")[0];
 
   return (
-      <Container maxWidth="sm" sx={{ paddingTop: 4 }}>
+      <Container maxWidth="none" sx={{ paddingTop: 4 }}>
         <Box
           sx={{
             display: "flex",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             alignItems: "center",
             gap: 2,
           }}
         >
-          <h2>Welcome {name}</h2>
+          <Typography variant="h4">Welcome, {name}!</Typography>
         </Box>
 
       </Container>
