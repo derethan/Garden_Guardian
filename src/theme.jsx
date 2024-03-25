@@ -34,8 +34,10 @@ const theme = createTheme({
       light: "#32CD32", //lime
     },
     text: {
-      primary: "#2A2A2A", //white
-      secondary: "#848386", //light grey
+      main: "#008000", //green
+      cardTitle: "#2A2A2A", //dark grey
+      subtitle: "#848386", //light grey
+      textDark: "#2A2A2A", //dark grey
     },
     sidebar: {
       primary: "#D6D5D7", //light grey
