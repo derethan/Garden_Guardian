@@ -80,7 +80,7 @@ const AddDevice = ({ display, setShowAddDeviceModal }) => {
     return null;
   }
   return (
-    <div className="add-device-wrapper">
+    <div className="modal-wrapper">
       <Container
         sx={{
           display: "flex",
