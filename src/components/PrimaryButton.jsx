@@ -15,8 +15,11 @@ export const PrimaryButton = ({ fullWidth, text, ...props }) => {
         borderRadius: 20,
         opacity: props.opacity,
         marginTop: 2,
+        ...props.sx,
       }}
     >
+      {props.children}
+
       {text}
     </Button>
   );

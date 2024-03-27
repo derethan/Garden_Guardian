@@ -17,7 +17,7 @@ import {
 import { useState } from "react";
 import { useValidate } from "../../hooks/useValidate";
 
-const AddGarden = ({ show, handleClose }) => {
+const AddGarden = ({ show, handleClose,setGardens }) => {
 
     
   /************ State ***********************/
@@ -53,8 +53,9 @@ const AddGarden = ({ show, handleClose }) => {
     }
   };
 
+
+  //Function To Create a New Garden Object
   const createGarden = (formData) => {
-    //Create a new garden object in local Storage
 
     //Get the current gardens from local storage
     const gardens = JSON.parse(localStorage.getItem("gardens")) || [];
@@ -64,6 +65,9 @@ const AddGarden = ({ show, handleClose }) => {
 
     //Save the updated gardens array to local storage
     localStorage.setItem("gardens", JSON.stringify(gardens));
+
+    //Update the state of the gardens
+    setGardens(gardens);
 
     //Close the modal
     handleClose();
