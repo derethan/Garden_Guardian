@@ -1,4 +1,4 @@
-import { Toolbar, IconButton, Box, useTheme } from "@mui/material";
+import { Toolbar, IconButton, Box, useTheme, Tooltip } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import { styled } from "@mui/system";
@@ -114,25 +114,17 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
             }}
           >
             {!isMobile && (
-              <IconButton
-                color="inherit"
-                aria-label="account"
-                edge="end"
-                sx={{ marginRight: 1 }}
-              >
-                <SettingsIcon />
-              </IconButton>
-            )}
-
-            {!isMobile && (
-              <IconButton
-                color="inherit"
-                aria-label="account"
-                edge="end"
-                sx={{ marginRight: 5 }}
-              >
-                <NotificationsNone />
-              </IconButton>
+              <Tooltip title="Notifications" arrow>
+                <IconButton
+                  color="inherit"
+                  aria-label="account"
+                  edge="end"
+                  size="large"
+                  sx={{ marginRight: 1 }}
+                >
+                  <NotificationsNone />
+                </IconButton>
+              </Tooltip>
             )}
 
             <AccountMenuIcon />

@@ -43,7 +43,7 @@ const AddToGardenButton = ({ handleAddGarden }) => {
         aria-expanded={open ? "true" : undefined}
         sx={{width: '100px'}}
       >
-        <AddIcon />
+        <AddIcon sx={{color: 'white',mr:1}} />
       </PrimaryButton>
 
       <Menu
