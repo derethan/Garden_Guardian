@@ -1,12 +1,12 @@
 //Import MUI components
-import { Box, Fab, Menu, MenuItem, Typography } from "@mui/material";
+import { Box, Menu, MenuItem } from "@mui/material";
 
 //Import MUI icons
 import AddIcon from "@mui/icons-material/Add";
 
 //Import React hooks
 import { useState } from "react";
-import { PrimaryButton } from "../PrimaryButton";
+import { PrimaryButton } from "../../imports";
 
 const AddToGardenButton = ({ handleAddGarden }) => {
   const [anchorEl, setAnchorEl] = useState(null);

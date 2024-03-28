@@ -17,7 +17,11 @@ import {
 import { useState } from "react";
 import { useValidate } from "../../hooks/useValidate";
 
+import { useGardenFunctions } from "../../imports";
+
 const AddGarden = ({ show, handleClose,setGardens }) => {
+  /************ Imports ***********************/
+  const { createGarden } = useGardenFunctions();
 
     
   /************ State ***********************/
@@ -49,28 +53,22 @@ const AddGarden = ({ show, handleClose,setGardens }) => {
     const isValid = validateForm();
 
     if (isValid) {
-      createGarden(formData);
+      //Attach an ID to the garden
+      formData.gardenID = Math.floor(Math.random() * 1000);
+
+      createGarden(formData, setGardens);
+
+      //Reset the form data
+      setFormData({
+        gardenName: "",
+        gardenLocation: "",
+        gardenType: "",
+        hydroponic: false,
+      });
+
+      //Close the modal
+      handleClose();
     }
-  };
-
-
-  //Function To Create a New Garden Object
-  const createGarden = (formData) => {
-
-    //Get the current gardens from local storage
-    const gardens = JSON.parse(localStorage.getItem("gardens")) || [];
-
-    //Add the new garden to the gardens array
-    gardens.push(formData);
-
-    //Save the updated gardens array to local storage
-    localStorage.setItem("gardens", JSON.stringify(gardens));
-
-    //Update the state of the gardens
-    setGardens(gardens);
-
-    //Close the modal
-    handleClose();
   };
 
   return (
