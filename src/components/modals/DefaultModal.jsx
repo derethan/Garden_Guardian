@@ -10,7 +10,7 @@ import {
 
 import { PrimaryButton } from "../PrimaryButton";
 
-const DefaultModal = ({
+export const DefaultModal = ({
   displayModal,
   setDisplayModal,
   cancel,
@@ -60,5 +60,3 @@ const DefaultModal = ({
     </div>
   );
 };
-
-export default DefaultModal;

@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { PrimaryButton } from "../../imports";
 
-const AddToGardenButton = ({ handleAddGarden }) => {
+const AddToGardenButton = ({gardenGroups, handleAddGarden, handleAddGroup }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -30,9 +30,8 @@ const AddToGardenButton = ({ handleAddGarden }) => {
         p: 2,
       }}
     >
-
       <PrimaryButton
-        text={'ADD'}
+        text={"ADD"}
         color="primary"
         aria-label="newItem"
         id="newItem"
@@ -41,9 +40,9 @@ const AddToGardenButton = ({ handleAddGarden }) => {
         aria-controls={open ? "createMenu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
-        sx={{width: '100px'}}
+        sx={{ width: "100px" }}
       >
-        <AddIcon sx={{color: 'white',mr:1}} />
+        <AddIcon sx={{ color: "white", mr: 1 }} />
       </PrimaryButton>
 
       <Menu
@@ -64,8 +63,15 @@ const AddToGardenButton = ({ handleAddGarden }) => {
         >
           Add a New Garden
         </MenuItem>
-        <MenuItem onClick={handleClose}>Create a Plant Group</MenuItem>
-        <MenuItem onClick={handleClose}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            handleAddGroup(true);
+          }}
+        >
+          Create a Plant Group
+        </MenuItem>
+    <MenuItem disabled={gardenGroups === null} onClick={handleClose}>
           Add a New Plant to Your Garden
         </MenuItem>
       </Menu>

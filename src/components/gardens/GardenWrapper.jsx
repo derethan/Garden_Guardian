@@ -2,7 +2,6 @@ import { Box, Typography, useTheme } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "@mui/material";
 import AddToGardenButton from "../buttons/AddToGardenButton";
@@ -30,7 +29,12 @@ function a11yProps(index) {
   };
 }
 
-const GardenWrapper = ({ gardenData, handleAddGarden }) => {
+const GardenWrapper = ({
+  gardenData,
+  gardenGroups,
+  handleAddGarden,
+  handleAddGroup,
+}) => {
   const theme = useTheme();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
 
@@ -42,7 +46,11 @@ const GardenWrapper = ({ gardenData, handleAddGarden }) => {
 
   return (
     <Box sx={{ borderBottom: 1, borderColor: "divider", pt: 2 }}>
-      <AddToGardenButton  handleAddGarden={handleAddGarden} />
+      <AddToGardenButton
+        gardenGroups={gardenGroups}
+        handleAddGarden={handleAddGarden}
+        handleAddGroup={handleAddGroup}
+      />
       <Tabs
         value={value}
         onChange={handleChange}
@@ -60,9 +68,21 @@ const GardenWrapper = ({ gardenData, handleAddGarden }) => {
 
       {gardenData.map((garden, index) => (
         <TabPanel value={value} index={index} key={index}>
-          <Typography variant="h5">{garden.gardenName}</Typography>
-          <Typography variant="body1">{garden.gardenLocation}</Typography>
-          <Typography variant="body2">{garden.gardenType}</Typography>
+          {gardenGroups ? (
+            gardenGroups.map((group, index) => {
+              if (group.gardenID === garden.gardenID) {
+                return (
+                  <Typography key={index} variant="h6" sx={{ mt: 2 }}>
+                    {group.groupName}
+                  </Typography>
+                );
+              }
+            })
+          ) : (
+            <Typography variant="h6" sx={{ mt: 2 }}>
+              You have no groups in this garden
+            </Typography>
+          )}
         </TabPanel>
       ))}
     </Box>

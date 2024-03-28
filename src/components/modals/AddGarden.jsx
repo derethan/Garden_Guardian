@@ -1,4 +1,5 @@
-import DefaultModal from "./DefaultModal";
+/* eslint-disable react/prop-types */
+import {DefaultModal} from "../../imports";
 
 import {
   Box,
@@ -17,7 +18,7 @@ import {
 import { useState } from "react";
 import { useValidate } from "../../hooks/useValidate";
 
-import { useGardenFunctions } from "../../imports";
+import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
 
 const AddGarden = ({ show, handleClose,setGardens }) => {
   /************ Imports ***********************/
