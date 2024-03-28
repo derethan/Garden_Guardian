@@ -1,10 +1,11 @@
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Grid, Typography, useTheme } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "@mui/material";
 import AddToGardenButton from "../buttons/AddToGardenButton";
+import GardenGroup from "./GardenGroup";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -69,15 +70,19 @@ const GardenWrapper = ({
       {gardenData.map((garden, index) => (
         <TabPanel value={value} index={index} key={index}>
           {gardenGroups ? (
-            gardenGroups.map((group, index) => {
-              if (group.gardenID === garden.gardenID) {
-                return (
-                  <Typography key={index} variant="h6" sx={{ mt: 2 }}>
-                    {group.groupName}
-                  </Typography>
-                );
-              }
-            })
+            <Grid container spacing={2} sx={{
+              mt: 2,
+              display: "flex",
+              justifyContent: "center",
+            }}>
+              {gardenGroups
+                .filter((group) => group.gardenID === garden.gardenID)
+                .map((group, index) => (
+                  <Grid item xs={12} md={6} key={index}>
+                    <GardenGroup group={group} />
+                  </Grid>
+                ))}
+            </Grid>
           ) : (
             <Typography variant="h6" sx={{ mt: 2 }}>
               You have no groups in this garden

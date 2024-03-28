@@ -36,6 +36,7 @@ export const DefaultModal = ({
           variant="light"
           sx={{
             padding: 2,
+            width: {xs: "90%", md: "auto"},
             maxWidth: { md: "100%", lg: "100%" },
           }}
           component="form"
@@ -46,7 +47,7 @@ export const DefaultModal = ({
 
           <DialogContent>{children}</DialogContent>
 
-          <DialogActions sx={{ justifyContent: "center" }}>
+          <DialogActions sx={{ justifyContent: "center", gap:4 }}>
             {cancel && (
               <PrimaryButton
                 text="Cancel"

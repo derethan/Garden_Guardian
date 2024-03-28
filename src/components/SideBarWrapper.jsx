@@ -143,7 +143,7 @@ export default function SideBarWrapper({ children, view, title }) {
       {/* Main Content */}
       <Box
         component="main"
-        maxWidth="none"
+        maxWidth={isMobile ? "100vw" : "calc(100vw - 65px)"}
         sx={{
           backgroundColor: theme.palette.background.default,
           width: "100vw",
