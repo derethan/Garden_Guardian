@@ -2,7 +2,7 @@ import { Typography, Grid, Card } from "@mui/material";
 
 const GardenGroup = ({ group }) => {
   return (
-    <Card variant="'light" sx={{height: '400px', p: 2, mt: 2, border: '1px dotted' }}>
+    <Card variant="light" sx={{height: '400px', p: 2, mt: 2 }}>
       <Typography
         variant="h6"
         fontWeight={"bold"}
