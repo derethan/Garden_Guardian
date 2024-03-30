@@ -15,7 +15,7 @@ import { useState } from "react";
 
 import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
 
-const AddGardrenGroup = ({ gardenData, show, handleClose, setGardenGroups }) => {
+export const AddGardrenGroup = ({ gardenData, show, handleClose, setGardenGroups }) => {
     //Garden Functions
     const { createGardenGroup } = useGardenFunctions();
 

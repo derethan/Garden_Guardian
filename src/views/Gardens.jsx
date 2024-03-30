@@ -1,15 +1,22 @@
+// Desc: Gardens view
+// Importing React
+import { useState } from "react";
+
+// Material-UI
 import { Container } from "@mui/material";
+
+// Components
 import GettingStarted from "../components/gardens/GettingStarted";
 import HeroBanner from "../components/gardens/HeroBanner";
-
-import { useState } from "react";
-import AddGarden from "../components/modals/AddGarden";
+//-----------------------------------------------------------
 import GardenWrapper from "../components/gardens/GardenWrapper";
-import AddGardrenGroup from "../components/modals/AddGardenGroup";
+import { AddPlant, AddGarden, AddGardrenGroup } from "../imports"; 
 
 const Gardens = () => {
   const [ShowAddGardenModal, setShowAddGardenModal] = useState(false);
   const [ShowAddGardenGroupModal, setShowAddGardenGroupModal] = useState(false);
+  const [ShowAddPlantModal, setShowAddPlantModal] = useState(true);
+
 
   const [gardens, setGardens] = useState(
     JSON.parse(localStorage.getItem("gardens")) || null
@@ -17,6 +24,10 @@ const Gardens = () => {
 
   const [gardenGroups, setGardenGroups] = useState(
     JSON.parse(localStorage.getItem("gardenGroups")) || null
+  );
+  
+  const [gardenPlants, setGardenPlants] = useState(
+    JSON.parse(localStorage.getItem("gardenPlants")) || null
   );
 
   return (
@@ -55,6 +66,16 @@ const Gardens = () => {
           setGardenGroups={setGardenGroups}
         />
       )}
+
+      {/* Add Plant Modal */}
+      {ShowAddPlantModal && (
+        <AddPlant
+          show={ShowAddPlantModal}
+          handleClose={setShowAddPlantModal}
+          setGardenPlants={setGardenPlants}
+        />
+      )}
+
     </Container>
   );
 };

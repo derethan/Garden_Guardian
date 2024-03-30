@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import {DefaultModal} from "../../imports";
+import { DefaultModal } from "../../imports";
 
 import {
   Box,
@@ -20,11 +20,10 @@ import { useValidate } from "../../hooks/useValidate";
 
 import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
 
-const AddGarden = ({ show, handleClose,setGardens }) => {
+export const AddGarden = ({ show, handleClose, setGardens }) => {
   /************ Imports ***********************/
   const { createGarden } = useGardenFunctions();
 
-    
   /************ State ***********************/
   const [formData, setFormData] = useState({
     gardenName: "",
@@ -117,7 +116,14 @@ const AddGarden = ({ show, handleClose,setGardens }) => {
           helperText={formErrors.gardenLocation}
         />
 
-        <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: "space-between",
+            gap: 2,
+          }}
+        >
           <FormControl error={formErrors.gardenType ? true : false}>
             <InputLabel id="gardenType">Garden Type</InputLabel>
             <Select

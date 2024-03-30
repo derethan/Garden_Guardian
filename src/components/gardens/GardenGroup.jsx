@@ -1,8 +1,10 @@
-import { Typography, Grid, Card } from "@mui/material";
+/* eslint-disable react/prop-types */
+import { Typography, Card } from "@mui/material";
 
 const GardenGroup = ({ group }) => {
   return (
     <Card variant="light" sx={{height: '400px', p: 2, mt: 2 }}>
+      
       <Typography
         variant="h6"
         fontWeight={"bold"}
@@ -11,6 +13,8 @@ const GardenGroup = ({ group }) => {
       >
         {group.groupName}
       </Typography>
+
+
     </Card>
   );
 };

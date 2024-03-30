@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Box, Grid, Typography, useTheme } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
