@@ -34,8 +34,10 @@ function a11yProps(index) {
 const GardenWrapper = ({
   gardenData,
   gardenGroups,
+  gardenPlants,
   handleAddGarden,
   handleAddGroup,
+  setGardenPlants,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -71,16 +73,24 @@ const GardenWrapper = ({
       {gardenData.map((garden, index) => (
         <TabPanel value={value} index={index} key={index}>
           {gardenGroups ? (
-            <Grid container spacing={2} sx={{
-              mt: 2,
-              display: "flex",
-              justifyContent: "center",
-            }}>
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                mt: 2,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               {gardenGroups
                 .filter((group) => group.gardenID === garden.gardenID)
                 .map((group, index) => (
                   <Grid item xs={12} md={6} key={index}>
-                    <GardenGroup group={group} />
+                    <GardenGroup
+                      group={group}
+                      gardenPlants={gardenPlants}
+                      handleAddPlant={setGardenPlants}
+                    />
                   </Grid>
                 ))}
             </Grid>

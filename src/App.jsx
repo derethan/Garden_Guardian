@@ -27,8 +27,6 @@ export default function App() {
     <BrowserRouter>
 
       <ThemeProvider theme={theme}>
-      <CssBaseline />
-
         <div
           className="App"
           style={{

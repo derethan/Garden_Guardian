@@ -8,7 +8,7 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { PrimaryButton } from "../../imports";
 
-const AddToGardenButton = ({gardenGroups, handleAddGarden, handleAddGroup }) => {
+const AddToGardenButton = ({handleAddGarden, handleAddGroup }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
@@ -71,9 +71,13 @@ const AddToGardenButton = ({gardenGroups, handleAddGarden, handleAddGroup }) => 
         >
           Create a Plant Group
         </MenuItem>
-    <MenuItem disabled={gardenGroups === null} onClick={handleClose}>
+    {/* <MenuItem disabled={gardenGroups === null} onClick={() => {
+            handleClose();
+            handleAddPlant(true);
+          
+    }}>
           Add a New Plant to Your Garden
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </Box>
   );
