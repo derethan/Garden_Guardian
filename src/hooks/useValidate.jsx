@@ -22,6 +22,7 @@ export function useValidate(data) {
       "groupName",
       "garden",
       "label",
+      "gardenID",
     ];
     requiredFields.forEach((field) => {
       if (field in data && !data[field]) {

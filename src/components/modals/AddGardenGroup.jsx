@@ -1,4 +1,4 @@
-import { DefaultModal } from "../../imports";
+import { DefaultModal } from "../modals/DefaultModal";
 import {
   DialogContentText,
   Box,
@@ -89,6 +89,7 @@ export const AddGardrenGroup = ({ gardenData, show, handleClose, setGardenGroups
             value={formData.gardenID}
             onChange={handleChange}
             sx={{ width: "200px" }}
+            error={formErrors.gardenID ? true : false}
           >
             {gardenData.map((garden) => (
               <MenuItem key={garden.gardenID} value={garden.gardenID}>
@@ -96,6 +97,11 @@ export const AddGardrenGroup = ({ gardenData, show, handleClose, setGardenGroups
               </MenuItem>
             ))}
           </Select>
+          {formErrors.gardenID && (
+            <Box sx={{ color: "red", fontSize: "12px" }}>
+              {formErrors.gardenID}
+            </Box>
+          )}
         </FormControl>
 
         <TextField
