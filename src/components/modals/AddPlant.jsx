@@ -3,6 +3,7 @@ import { useState, useEffect, Fragment } from "react";
 import { DefaultModal } from "../modals/DefaultModal";
 import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
 import { useValidate } from "../../hooks/useValidate";
+import { PlantInfoContainer } from "../gardens/PlantInfoContainer";
 
 import {
   DialogContentText,
@@ -29,7 +30,9 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  const [allPlants, setAllPlants] = useState([]); //List of all plants in the database
   const [showPlantInfo, setShowPlantInfo] = useState(false); //Show the plant info Component
+  const [plantInfo, setPlantInfo] = useState(null);
 
   // Form Validation Hook
   const [formErrors, validateForm] = useValidate(formData);
@@ -41,11 +44,16 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
     const isValid = validateForm();
 
     if (isValid) {
+
+      let newPlantData = {
+        ...formData,
+        ...plantInfo,
+      };
       //Add the plant to the garden
-      console.log("Add Plant to Garden", formData);
+      console.log("Add Plant to Garden", newPlantData);
 
       //Create the new plant object
-      createGardenPlant(formData, setGardenPlants);
+      createGardenPlant(newPlantData, setGardenPlants);
 
       //reset the form
       setFormData({
@@ -87,11 +95,21 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
 
       //Set the state with the list of unique plant names
       setListOptions(options);
+      setAllPlants(data);
       setLoading(false);
     };
 
     getData();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+
+  useEffect(() => {
+    if (formData.id && allPlants.length > 0) {
+      // Get the Plant info from plantData based off the selectedPlant plantID
+      const plant = allPlants.find((plant) => plant.id === formData.id);
+      setPlantInfo(plant);
+    }
+  }, [formData]);
 
   return (
     <DefaultModal
@@ -167,14 +185,12 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               id: newValue.id,
               name: newValue.label,
             });
-            console.log("onchange", newValue);
             if (newValue.id) {
               setShowPlantInfo(true);
             } else {
               setShowPlantInfo(false);
             }
           }}
-
           // inputValue={formData.name} //this is the value that is being typed in the input field - Returned as a string
           onInputChange={(event, newInputValue) => {
             setFormData({
@@ -187,12 +203,10 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
       </Box>
 
       {showPlantInfo && (
-        <Box>
-          <Typography variant="subtitle1" sx={{ pt: 2 }}>
-            Plant Info
-          </Typography>
-        </Box>
+        <PlantInfoContainer selectedPlant={plantInfo} />
       )}
     </DefaultModal>
   );
 };
+
+//selectedPlant={formData} plantData={allPlants}

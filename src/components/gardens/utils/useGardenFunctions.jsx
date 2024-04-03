@@ -33,6 +33,22 @@ export const useGardenFunctions = () => {
     setGardenGroups(gardenGroups);
   };
 
+  const deleteGardenGroup = (groupID, setGardenGroups) => {
+    //Get the current garden groups from local storage
+    const gardenGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
+
+    //Remove the garden group from the garden groups array
+    const newGardenGroups = gardenGroups.filter(
+      (group) => group.groupID !== groupID
+    );
+
+    //Save the new garden groups array to local storage
+    localStorage.setItem("gardenGroups", JSON.stringify(newGardenGroups));
+
+    //Update the state of the garden groups
+    setGardenGroups(newGardenGroups);
+  };
+
   const createGardenPlant = (formData, setGardenPlants) => {
     //Get the current garden plants from local storage
     const gardenPlants = JSON.parse(localStorage.getItem("gardenPlants")) || [];
@@ -110,5 +126,12 @@ export const useGardenFunctions = () => {
     return data;
   };
 
-  return { createGarden, createGardenGroup, createGardenPlant, getFruitData, getEdiblePlantData };
+  return {
+    createGarden,
+    createGardenGroup,
+    createGardenPlant,
+    deleteGardenGroup,
+    getFruitData,
+    getEdiblePlantData,
+  };
 };

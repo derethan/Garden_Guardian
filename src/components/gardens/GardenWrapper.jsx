@@ -7,6 +7,9 @@ import { useState, useEffect } from "react";
 import { useMediaQuery } from "@mui/material";
 import AddToGardenButton from "../buttons/AddToGardenButton";
 import GardenGroup from "./GardenGroup";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import Button from "@mui/material/Button";
+import ButtonCard from "../ButtonCard";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -38,6 +41,7 @@ const GardenWrapper = ({
   handleAddGarden,
   handleAddGroup,
   setGardenPlants,
+  setGardenGroups,
 }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
@@ -72,33 +76,67 @@ const GardenWrapper = ({
 
       {gardenData.map((garden, index) => (
         <TabPanel value={value} index={index} key={index}>
-          {gardenGroups ? (
-            <Grid
-              container
-              spacing={2}
-              sx={{
-                mt: 2,
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              {gardenGroups
-                .filter((group) => group.gardenID === garden.gardenID)
-                .map((group, index) => (
-                  <Grid item xs={12} md={6} key={index}>
-                    <GardenGroup
-                      group={group}
-                      gardenPlants={gardenPlants}
-                      handleAddPlant={setGardenPlants}
-                    />
-                  </Grid>
-                ))}
-            </Grid>
-          ) : (
-            <Typography variant="h6" sx={{ mt: 2 }}>
-              You have no groups in this garden
-            </Typography>
-          )}
+          {
+            // Check if there are groups in the garden, if so display them
+            gardenGroups.filter((group) => group.gardenID === garden.gardenID)
+              .length > 0 ? (
+              <Grid
+                container
+                spacing={2}
+                sx={{
+                  mt: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                {gardenGroups
+                  .filter((group) => group.gardenID === garden.gardenID)
+                  .map((group, index) => (
+                    <Grid item xs={12} md={6} key={index}>
+                      <GardenGroup
+                        group={group}
+                        gardenPlants={gardenPlants}
+                        handleAddPlant={setGardenPlants}
+                        setGardenGroups={setGardenGroups}
+                      />
+                    </Grid>
+                  ))}
+              </Grid>
+            ) : (
+              // If there are no groups in the garden, display a Placeholder & message
+              <ButtonCard
+                sx={{
+                  mt: 4,
+                  mb: 4,
+                  backgroundColor: "background.lightGrey",
+                  boxShadow: "none",
+                  border: 'none',
+                }}
+                title={"Your Gardens Looking A Little Lonley..."}
+                onClick={handleAddGroup}
+              >
+                <Typography variant="h6" pt={8} pb={8}>
+                  You Currently have no Groups in this Garden.
+                </Typography>
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    gap: "1rem",
+                    pb: 4,
+                  }}
+                >
+                  <Typography variant="body1">
+                    Click here to add a Group
+                  </Typography>
+                  <AddCircleOutlineIcon />
+                </Box>
+              </ButtonCard>
+            )
+          }
         </TabPanel>
       ))}
     </Box>

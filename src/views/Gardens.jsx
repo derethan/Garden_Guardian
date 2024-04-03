@@ -45,6 +45,7 @@ const Gardens = () => {
           handleAddGarden={setShowAddGardenModal}
           handleAddGroup={setShowAddGardenGroupModal}
           setGardenPlants={setGardenPlants}
+          setGardenGroups={setGardenGroups}
         />
       ) : (
         <GettingStarted setDisplayModal={setShowAddGardenModal} />

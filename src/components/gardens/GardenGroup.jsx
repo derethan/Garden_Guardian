@@ -1,40 +1,111 @@
 /* eslint-disable react/prop-types */
-import { Box, Typography, Card, IconButton } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
+import {
+  Box,
+  Typography,
+  Card,
+  IconButton,
+  Menu,
+  MenuItem,
+  Tooltip,
+} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { AddPlant } from "../modals/AddPlant";
 
 import { useState } from "react";
+import { SmallPlantCard } from "./SmallPlantCard";
 
-const GardenGroup = ({ group, gardenPlants, handleAddPlant }) => {
+import { useGardenFunctions } from "./utils/useGardenFunctions";
+import ConfirmDelete from "../dialog/ConfirmDelete";
+
+const GardenGroup = ({
+  group,
+  gardenPlants,
+  handleAddPlant,
+  setGardenGroups,
+}) => {
   const [ShowAddPlantModal, setShowAddPlantModal] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+
+  const { deleteGardenGroup } = useGardenFunctions();
+
+  const handleDeleteGroup = () => {
+    deleteGardenGroup(group.groupID, setGardenGroups);
+  };
+
+  const handleClose = () => {
+    setShowConfirmDelete(false);
+  };
 
   return (
-    <Card variant="light" sx={{ height: "400px", p: 2, mt: 2 }}>
-      <Typography
-        variant="h6"
-        fontWeight={"bold"}
-        color={"primary"}
-        sx={{ borderBottom: 1, borderColor: "divider" }}
+    <Card variant="light" sx={{ minHeight: "400px", p: 2, mt: 2 }}>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+          borderBottom: 1,
+          borderColor: "divider",
+          pb: 1,
+        }}
       >
-        {group.groupName}
-
-        <IconButton
-          sx={{ float: "right" }}
-          onClick={() => {
-            setShowAddPlantModal(true);
-          }}
+        <Typography
+          variant="h6"
+          fontWeight={"bold"}
+          color={"primary"}
+          sx={{ pl: 4 }}
         >
-          <AddIcon />
-        </IconButton>
-      </Typography>
+          {group.groupName}
+        </Typography>
+
+        <Tooltip title="Options" arrow>
+          <IconButton
+            sx={{ mr: 2 }}
+            onClick={(event) => setAnchorEl(event.currentTarget)}
+          >
+            <MoreVertIcon />
+          </IconButton>
+        </Tooltip>
+
+        <ConfirmDelete
+          show={showConfirmDelete}
+          handleClose={handleClose}
+          handleConfirm={handleDeleteGroup}
+        />
+
+        <Menu
+          id="GardenGroupOptionsMenu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={() => setAnchorEl(null)}
+        >
+          <MenuItem
+            onClick={() => {
+              setShowAddPlantModal(true);
+              setAnchorEl(null);
+            }}
+          >
+            Add a Plant
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              setShowConfirmDelete(true);
+              setAnchorEl(null);
+            }}
+          >
+            Delete Group
+          </MenuItem>
+        </Menu>
+      </Box>
 
       {/* Display component for each Plant */}
       {gardenPlants && (
-        <Box>
+        <Box pt={4}>
           {gardenPlants
             .filter((plant) => plant.groupID === group.groupID)
             .map((plant, index) => (
-              <Typography key={index}>{plant.label}</Typography>
+              <SmallPlantCard key={index} plant={plant} />
             ))}
         </Box>
       )}
