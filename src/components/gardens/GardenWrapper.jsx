@@ -1,15 +1,26 @@
 /* eslint-disable react/prop-types */
-import { Box, Grid, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  Grid,
+  IconButton,
+  Menu,
+  MenuItem,
+  Typography,
+} from "@mui/material";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useMediaQuery } from "@mui/material";
+
+import { useGardenFunctions } from "./utils/useGardenFunctions";
+
 import AddToGardenButton from "../buttons/AddToGardenButton";
 import GardenGroup from "./GardenGroup";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import Button from "@mui/material/Button";
 import ButtonCard from "../ButtonCard";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ConfirmDelete from "../dialog/ConfirmDelete";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -40,16 +51,37 @@ const GardenWrapper = ({
   gardenPlants,
   handleAddGarden,
   handleAddGroup,
+  setGardens,
   setGardenPlants,
   setGardenGroups,
 }) => {
-  const theme = useTheme();
   const isMobile = useMediaQuery((theme) => theme.breakpoints.down("sm"));
+  const { deleteGarden } = useGardenFunctions();
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   const [value, setValue] = useState(0);
+  const [selectedGarden, setSelectedGarden] = useState(gardenData[value] || {});
 
   const handleChange = (event, value) => {
     setValue(value);
+    setSelectedGarden(gardenData[value]);
+  };
+
+  const handleClose = () => {
+    setShowConfirmDelete(false);
+  };
+
+  const handleDeleteGroup = () => {
+    deleteGarden(
+      selectedGarden.gardenID,
+      setGardens,
+      setGardenGroups,
+      setGardenPlants
+    );
+    setValue(0);
+    setSelectedGarden(gardenData[0]);
   };
 
   return (
@@ -59,25 +91,66 @@ const GardenWrapper = ({
         handleAddGarden={handleAddGarden}
         handleAddGroup={handleAddGroup}
       />
-      <Tabs
-        value={value}
-        onChange={handleChange}
-        textColor="secondary"
-        indicatorColor="primary"
-        aria-label="GardenWrapper Tabs"
-        centered={!isMobile}
-        variant={isMobile ? "fullWidth" : "standard"}
-        sx={{ borderBottom: 1, borderColor: "divider", pb: 2 }}
+
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
       >
-        {gardenData.map((garden, index) => (
-          <Tab label={garden.gardenName} {...a11yProps(index)} key={index} />
-        ))}
-      </Tabs>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          textColor="secondary"
+          indicatorColor="primary"
+          aria-label="GardenWrapper Tabs"
+          centered={!isMobile}
+          variant={isMobile ? "fullWidth" : "standard"}
+          sx={{ borderBottom: 1, borderColor: "divider", pb: 2, ml: 'auto' }}
+        >
+          {gardenData.map((garden, index) => (
+            <Tab label={garden.gardenName} {...a11yProps(index)} key={index} />
+          ))}
+        </Tabs>
+
+        {/* More Options Button */}
+        <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} sx={{ml: 'auto'}}>
+          <MoreVertIcon />
+        </IconButton>
+        {/* Delete Garden Menu */}
+        <Menu
+          id="Garden-Options-Menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={() => setAnchorEl(null)}
+        >
+          <MenuItem
+            onClick={() => {
+              setShowConfirmDelete(true);
+              setAnchorEl(null);
+            }}
+          >
+            Delete Garden
+          </MenuItem>
+        </Menu>
+        {/* Confirm Delete Dialog */}
+        <ConfirmDelete
+          title="Garden"
+          show={showConfirmDelete}
+          handleClose={handleClose}
+          handleConfirm={() => {
+            handleDeleteGroup();
+            handleClose();
+          }}
+        />
+      </Box>
 
       {gardenData.map((garden, index) => (
         <TabPanel value={value} index={index} key={index}>
           {
             // Check if there are groups in the garden, if so display them
+            gardenGroups &&
             gardenGroups.filter((group) => group.gardenID === garden.gardenID)
               .length > 0 ? (
               <Grid
@@ -98,6 +171,7 @@ const GardenWrapper = ({
                         gardenPlants={gardenPlants}
                         handleAddPlant={setGardenPlants}
                         setGardenGroups={setGardenGroups}
+                        setGardenPlants={setGardenPlants}
                       />
                     </Grid>
                   ))}
@@ -110,7 +184,7 @@ const GardenWrapper = ({
                   mb: 4,
                   backgroundColor: "background.lightGrey",
                   boxShadow: "none",
-                  border: 'none',
+                  border: "none",
                 }}
                 title={"Your Gardens Looking A Little Lonley..."}
                 onClick={handleAddGroup}

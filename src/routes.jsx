@@ -62,7 +62,7 @@ export const siteLinks = [
 export const privateAppRoutes = [
 
     // App Pages
-    // {Type: 'App', ID: 'Dashboard', path: '/dashboard', Name: 'Dashboard',icon: <DashboardIcon /> , Component: Dashboard,},
+    {Type: 'App', ID: 'Dashboard', path: '/dashboard', Name: 'Dashboard',icon: <DashboardIcon /> , Component: Dashboard,},
     {Type: 'App', ID: 'Sensors', path: '/sensors', Name: 'Sensor Dashboard',icon: <SensorsIcon /> , Component: sensors,},
 
     {Type: 'App', ID: 'Crops', path: '/gardens', Name: 'Crop Management',icon: <GrassIcon />, Component: Gardens,},

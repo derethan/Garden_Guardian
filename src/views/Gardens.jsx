@@ -44,6 +44,7 @@ const Gardens = () => {
           gardenPlants={gardenPlants}
           handleAddGarden={setShowAddGardenModal}
           handleAddGroup={setShowAddGardenGroupModal}
+          setGardens={setGardens}
           setGardenPlants={setGardenPlants}
           setGardenGroups={setGardenGroups}
         />

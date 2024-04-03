@@ -22,6 +22,7 @@ const GardenGroup = ({
   gardenPlants,
   handleAddPlant,
   setGardenGroups,
+  setGardenPlants,
 }) => {
   const [ShowAddPlantModal, setShowAddPlantModal] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -30,7 +31,7 @@ const GardenGroup = ({
   const { deleteGardenGroup } = useGardenFunctions();
 
   const handleDeleteGroup = () => {
-    deleteGardenGroup(group.groupID, setGardenGroups);
+    deleteGardenGroup(group.groupID, setGardenGroups, setGardenPlants);
   };
 
   const handleClose = () => {
@@ -59,6 +60,7 @@ const GardenGroup = ({
           {group.groupName}
         </Typography>
 
+        {/* Options Menu Icon */}
         <Tooltip title="Options" arrow>
           <IconButton
             sx={{ mr: 2 }}
@@ -68,12 +70,7 @@ const GardenGroup = ({
           </IconButton>
         </Tooltip>
 
-        <ConfirmDelete
-          show={showConfirmDelete}
-          handleClose={handleClose}
-          handleConfirm={handleDeleteGroup}
-        />
-
+        {/* Options Menu for the Options Icon */}
         <Menu
           id="GardenGroupOptionsMenu"
           anchorEl={anchorEl}
@@ -97,6 +94,14 @@ const GardenGroup = ({
             Delete Group
           </MenuItem>
         </Menu>
+
+        {/* Confirm Delete Dialog */}
+        <ConfirmDelete
+          title={"Group"}
+          show={showConfirmDelete}
+          handleClose={handleClose}
+          handleConfirm={handleDeleteGroup}
+        />
       </Box>
 
       {/* Display component for each Plant */}
@@ -105,7 +110,11 @@ const GardenGroup = ({
           {gardenPlants
             .filter((plant) => plant.groupID === group.groupID)
             .map((plant, index) => (
-              <SmallPlantCard key={index} plant={plant} />
+              <SmallPlantCard
+                key={index}
+                plant={plant}
+                setGardenPlants={setGardenPlants}
+              />
             ))}
         </Box>
       )}

@@ -1,9 +1,7 @@
-import { useState } from "react";
-
 export const useGardenFunctions = () => {
   const URL = import.meta.env.VITE_API_URL;
 
-  //Function to Create/Add a New Garden to the Local Storage and Garden State
+  // Function to Create/Add a New Garden to the Local Storage and Garden State
   const createGarden = (formData, setGardens) => {
     //Get the current gardens from local storage
     const gardens = JSON.parse(localStorage.getItem("gardens")) || [];
@@ -17,8 +15,39 @@ export const useGardenFunctions = () => {
     //Update the state of the gardens
     setGardens(gardens);
   };
+  // Function to Delete a Garden from the Local Storage and Garden State
+  const deleteGarden = (
+    gardenID,
+    setGardens,
+    setGardenGroups,
+    setGardenPlants
+  ) => {
+    //Get the current gardens from local storage
+    const gardens = JSON.parse(localStorage.getItem("gardens")) || [];
 
-  //Function to Create/Add a New Garden Group to the Local Storage and Garden Group State
+    //Remove the garden from the gardens array
+    const newGardens = gardens.filter((garden) => garden.gardenID !== gardenID);
+
+    //Save the new gardens array to local storage
+    if (newGardens.length === 0) {
+      localStorage.removeItem("gardens");
+      setGardens(null);
+    } else {
+      localStorage.setItem("gardens", JSON.stringify(newGardens));
+      setGardens(newGardens);
+    }
+
+    //Remove all groups in the garden
+    const gardenGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
+
+    //For each Group that matches the Garden ID, Run the deleteGardenGroup function
+    gardenGroups.forEach((group) => {
+      if (group.gardenID === gardenID) {
+        deleteGardenGroup(group.groupID, setGardenGroups, setGardenPlants);
+      }
+    });
+  };
+  // Function to Create/Add a New Garden Group to the Local Storage and Garden Group State
   const createGardenGroup = (formData, setGardenGroups) => {
     //Get the current garden groups from local storage
     const gardenGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
@@ -32,8 +61,8 @@ export const useGardenFunctions = () => {
     //Update the state of the garden groups
     setGardenGroups(gardenGroups);
   };
-
-  const deleteGardenGroup = (groupID, setGardenGroups) => {
+  // Function to Delete a Garden Group from the Local Storage and Garden Group State
+  const deleteGardenGroup = (groupID, setGardenGroups, setGardenPlants) => {
     //Get the current garden groups from local storage
     const gardenGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
 
@@ -43,18 +72,29 @@ export const useGardenFunctions = () => {
     );
 
     //Save the new garden groups array to local storage
-    localStorage.setItem("gardenGroups", JSON.stringify(newGardenGroups));
+    if (newGardenGroups.length === 0) {
+      localStorage.removeItem("gardenGroups");
+      setGardenGroups(null);
+    } else {
+      localStorage.setItem("gardenGroups", JSON.stringify(newGardenGroups));
+      setGardenGroups(newGardenGroups);
+    }
 
-    //Update the state of the garden groups
-    setGardenGroups(newGardenGroups);
+    //Remove all plants associated with the groupID
+    deleteGardenPlant(null, setGardenPlants, groupID);
   };
-
+  // Function to Create/Add a New Garden Plant to the Local Storage and Garden Plant State
   const createGardenPlant = (formData, setGardenPlants) => {
     //Get the current garden plants from local storage
     const gardenPlants = JSON.parse(localStorage.getItem("gardenPlants")) || [];
 
+    //Generate a unique ID for the new garden plant
+    const plantID = Math.random().toString(36).substring(2, 9);
+
+    const newFormData = { ...formData, plantID: `plant-` + plantID };
+
     //Add the new garden plant to the garden plants array
-    gardenPlants.push(formData);
+    gardenPlants.push(newFormData);
 
     //Save the new garden plants array to local storage
     localStorage.setItem("gardenPlants", JSON.stringify(gardenPlants));
@@ -62,7 +102,29 @@ export const useGardenFunctions = () => {
     //Update the state of the garden plants
     setGardenPlants(gardenPlants);
   };
+  const deleteGardenPlant = (
+    plantID = null,
+    setGardenPlants,
+    groupID = null
+  ) => {
+    //Get the current garden plants from local storage
+    const gardenPlants = JSON.parse(localStorage.getItem("gardenPlants")) || [];
 
+    //Remove the garden plant from the garden plants array
+    const newGardenPlants = gardenPlants.filter((plant) =>
+      plantID ? plant.plantID !== plantID : plant.groupID !== groupID
+    );
+
+    //Save the new garden plants array to local storage
+    if (newGardenPlants.length === 0) {
+      localStorage.removeItem("gardenPlants");
+      setGardenPlants(null);
+    } else {
+      localStorage.setItem("gardenPlants", JSON.stringify(newGardenPlants));
+      setGardenPlants(newGardenPlants);
+    }
+  };
+  // Function to Fetch the List of Fruits from the API
   const getFruitData = async () => {
     let data = [];
     // Fetch the list of fruits from the API
@@ -83,6 +145,7 @@ export const useGardenFunctions = () => {
     return data;
   };
 
+  // Function to Fetch the List of Edible Plants from the API
   const getEdiblePlantData = async () => {
     let data = [];
     const getAllPages = async (url, data = []) => {
@@ -130,7 +193,9 @@ export const useGardenFunctions = () => {
     createGarden,
     createGardenGroup,
     createGardenPlant,
+    deleteGarden,
     deleteGardenGroup,
+    deleteGardenPlant,
     getFruitData,
     getEdiblePlantData,
   };
