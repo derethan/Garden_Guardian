@@ -62,16 +62,17 @@ export const siteLinks = [
 export const privateAppRoutes = [
 
     // App Pages
-    {Type: 'App', ID: 'Dashboard', path: '/dashboard', Name: 'Dashboard',icon: <DashboardIcon /> , Component: Dashboard,},
-    {Type: 'App', ID: 'Gardens', path: '/gardens', Name: 'Gardens',icon: <GrassIcon />, Component: Gardens,},
-    {Type: 'App', ID: 'Schedule', path: '/schedule', Name: 'Schedule',icon: <CalendarMonthIcon />, Component: Schedule,},
-    {Type: 'App', ID: 'Weather', path: '/weather', Name: 'Weather',icon: <WbSunnyIcon />, Component: Weather,},
+    // {Type: 'App', ID: 'Dashboard', path: '/dashboard', Name: 'Dashboard',icon: <DashboardIcon /> , Component: Dashboard,},
     {Type: 'App', ID: 'Sensors', path: '/sensors', Name: 'Sensor Dashboard',icon: <SensorsIcon /> , Component: sensors,},
 
+    {Type: 'App', ID: 'Crops', path: '/gardens', Name: 'Crop Management',icon: <GrassIcon />, Component: Gardens,},
+    // {Type: 'App', ID: 'Schedule', path: '/schedule', Name: 'Schedule',icon: <CalendarMonthIcon />, Component: Schedule,},
+    {Type: 'App', ID: 'Weather', path: '/weather', Name: 'Weather',icon: <WbSunnyIcon />, Component: Weather,},
+
     // User Pages - Notifications, My Account, Setting, Logut
-    {Type: 'User', ID: 'Notifications', path: '/notifications', Name: 'Notifications',icon: <NotificationsNoneOutlinedIcon />, Component: Notifications,},
+    // {Type: 'User', ID: 'Notifications', path: '/notifications', Name: 'Notifications',icon: <NotificationsNoneOutlinedIcon />, Component: Notifications,},
     {Type: 'User', ID: 'MyAccount', path: '/account', Name: 'My Account',icon: <ManageAccountsRoundedIcon />, Component: AccountMain,},
-    {Type: 'User', ID: 'Settings', path: '/settings', Name: 'Settings',icon: <SettingsRoundedIcon />, Component: AppSettings,},
+    // {Type: 'User', ID: 'Settings', path: '/settings', Name: 'Settings',icon: <SettingsRoundedIcon />, Component: AppSettings,},
     {Type: 'User', ID: 'Logout', path: '/logout', Name: 'Logout',icon: <LogoutIcon />, Component: Logout,},
 
 
