@@ -1,10 +1,12 @@
 /* eslint-disable react/prop-types */
 import {
   Box,
+  Divider,
   Grid,
   IconButton,
   Menu,
   MenuItem,
+  Tooltip,
   Typography,
 } from "@mui/material";
 import Tabs from "@mui/material/Tabs";
@@ -73,7 +75,7 @@ const GardenWrapper = ({
     setShowConfirmDelete(false);
   };
 
-  const handleDeleteGroup = () => {
+  const handleDeleteGarden = () => {
     deleteGarden(
       selectedGarden.gardenID,
       setGardens,
@@ -85,13 +87,7 @@ const GardenWrapper = ({
   };
 
   return (
-    <Box sx={{ borderBottom: 1, borderColor: "divider", pt: 2 }}>
-      <AddToGardenButton
-        gardenGroups={gardenGroups}
-        handleAddGarden={handleAddGarden}
-        handleAddGroup={handleAddGroup}
-      />
-
+    <Box sx={{ borderBottom: 1, borderColor: "divider", pt: 4 }}>
       <Box
         sx={{
           display: "flex",
@@ -107,7 +103,7 @@ const GardenWrapper = ({
           aria-label="GardenWrapper Tabs"
           centered={!isMobile}
           variant={isMobile ? "fullWidth" : "standard"}
-          sx={{ borderBottom: 1, borderColor: "divider", pb: 2, ml: 'auto' }}
+          sx={{ borderBottom: 1, borderColor: "divider", pb: 2, ml: "auto" }}
         >
           {gardenData.map((garden, index) => (
             <Tab label={garden.gardenName} {...a11yProps(index)} key={index} />
@@ -115,9 +111,14 @@ const GardenWrapper = ({
         </Tabs>
 
         {/* More Options Button */}
-        <IconButton onClick={(event) => setAnchorEl(event.currentTarget)} sx={{ml: 'auto'}}>
-          <MoreVertIcon />
-        </IconButton>
+        <Tooltip title="Click here to modify your Garden" arrow>
+          <IconButton
+            onClick={(event) => setAnchorEl(event.currentTarget)}
+            sx={{ ml: "auto" }}
+          >
+            <MoreVertIcon />
+          </IconButton>
+        </Tooltip>
         {/* Delete Garden Menu */}
         <Menu
           id="Garden-Options-Menu"
@@ -125,6 +126,33 @@ const GardenWrapper = ({
           open={Boolean(anchorEl)}
           onClose={() => setAnchorEl(null)}
         >
+          <MenuItem disabled
+          sx={{
+            color: "primary.main",
+            fontWeight: "bold",
+            fontSize: "1.1rem",
+            borderBottom: 1,
+            borderColor: "silver",
+            
+          }}
+           >Garden Options</MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleAddGarden(true);
+              setAnchorEl(null);
+            }}
+          >
+            Add a new Garden
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleAddGroup(true);
+              setAnchorEl(null);
+            }}
+          >
+            Add a Plant Group
+          </MenuItem>
+   
           <MenuItem
             onClick={() => {
               setShowConfirmDelete(true);
@@ -140,7 +168,7 @@ const GardenWrapper = ({
           show={showConfirmDelete}
           handleClose={handleClose}
           handleConfirm={() => {
-            handleDeleteGroup();
+            handleDeleteGarden();
             handleClose();
           }}
         />
