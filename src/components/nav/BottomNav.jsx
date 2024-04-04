@@ -11,7 +11,7 @@ import { Paper, BottomNavigation, BottomNavigationAction } from "@mui/material";
 
 import { privateAppRoutes } from "../../routes";
 
-const BottomNav = ({view}) => {
+const BottomNav = ({ view }) => {
   const [value, setValue] = useState(view);
 
   const handleChange = (event, newValue) => {
@@ -20,14 +20,21 @@ const BottomNav = ({view}) => {
 
   return (
     <Paper
-      sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+      sx={{
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: "sidebar.primary",
+      }}
       elevation={3}
     >
       <BottomNavigation
-        sx={{ maxWidth: 500, margin: "auto",
-        backgroundColor: 'sidebar.primary'
-      }}
-
+        sx={{
+          maxWidth: 500,
+          margin: "auto",
+          backgroundColor: "sidebar.primary",
+        }}
         value={value}
         onChange={handleChange}
       >
