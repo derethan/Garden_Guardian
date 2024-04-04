@@ -24,9 +24,10 @@ const BottomNav = ({view}) => {
       elevation={3}
     >
       <BottomNavigation
-        sx={{ maxWidth: 500, margin: "auto"
-        
+        sx={{ maxWidth: 500, margin: "auto",
+        backgroundColor: 'sidebar.primary'
       }}
+
         value={value}
         onChange={handleChange}
       >
