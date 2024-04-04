@@ -39,7 +39,7 @@ const GardenGroup = ({
   };
 
   return (
-    <Card variant="light" sx={{ minHeight: "400px", p: 2, mt: 2 }}>
+    <Card variant="light" sx={{  p: 2, mt: 2 }}>
       <Box
         sx={{
           display: "flex",
@@ -105,7 +105,7 @@ const GardenGroup = ({
       </Box>
 
       {/* Display component for each Plant */}
-      {gardenPlants && (
+      {gardenPlants.some((plant) => plant.groupID === group.groupID) ? (
         <Box pt={4}>
           {gardenPlants
             .filter((plant) => plant.groupID === group.groupID)
@@ -116,6 +116,21 @@ const GardenGroup = ({
                 setGardenPlants={setGardenPlants}
               />
             ))}
+        </Box>
+      ) : (
+        <Box
+          pt={4}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "100%",
+            height: "100%",
+          }}
+        >
+          <Typography variant="body1" pb={4}>
+            There are no plants in this group.
+          </Typography>
         </Box>
       )}
 
