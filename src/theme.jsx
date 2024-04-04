@@ -8,6 +8,9 @@ const theme = createTheme({
       main: "#3F9E3F", //green
       secondary: "#007F00", //darker green
     },
+    dark: {
+      main: "#F0F0F0", //light grey
+    },
     secondary: {
       main: "#2F2C43", //dark blue
     },
@@ -31,8 +34,10 @@ const theme = createTheme({
       light: "#32CD32", //lime
     },
     text: {
-      primary: "#2A2A2A", //white
-      secondary: "#848386", //light grey
+      main: "#008000", //green
+      cardTitle: "#2A2A2A", //dark grey
+      subtitle: "#848386", //light grey
+      textDark: "#2A2A2A", //dark grey
     },
     sidebar: {
       primary: "#D6D5D7", //light grey

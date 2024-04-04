@@ -18,7 +18,7 @@ const SensorChange = ({ difference, sensor }) => {
         {
           // If the  difference is not 0, display the difference.
           // If the difference is greater then 0 display increase, else display decrease
-          difference[sensor] !== 0 ? (
+          difference[sensor] !== 0 && !isNaN (difference[sensor]) ? (
             difference[sensor] > 0 ? (
               <>
                 <IncreaseIcon />

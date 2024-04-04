@@ -39,8 +39,7 @@ export const usePostRequest = () => {
 
       //if there is a response header
       const responseToken = (response.headers.get("Authorization") || "").split(" ")[1];
-      
-
+       
       setPostStatus(response.status);
 
       // Get the response data
@@ -51,13 +50,6 @@ export const usePostRequest = () => {
       // Add the token to the response data
       responseData.token = responseToken;
       responseData.status = response.status;
-
-      // if (!response.ok) {
-      //   throw new Error(
-      //     `${responseData.message} Status: ${response.status}` ||
-      //       `There was an error updating the database. Status: ${response.status}`
-      //   );
-      // }
 
       // Return the response data
       return responseData;

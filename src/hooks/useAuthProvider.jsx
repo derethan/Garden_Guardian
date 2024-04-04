@@ -1,9 +1,9 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { usePostRequest } from "./usePostRequest";
 
-// import { useGetDeviceInfo } from "./useGetDeviceInfo";
+import { useGetDeviceInfo } from "./useGetDeviceInfo";
 
 //Create the context
 const AuthContext = createContext();
@@ -11,6 +11,8 @@ const URL = import.meta.env.VITE_API_URL;
 
 //Create the provider
 const AuthProvider = ({ children }) => {
+  // Declarations
+  const { checkForDevice } = useGetDeviceInfo();
   const navigate = useNavigate();
 
   //Setup State Variables for User related States
@@ -19,15 +21,47 @@ const AuthProvider = ({ children }) => {
     JSON.parse(localStorage.getItem("user")) || ""
   );
   const [token, setToken] = useState(localStorage.getItem("token" || ""));
-  const [hasDevice, setHasDevice] = useState(false);
 
   //Setup State variables for Device Related States
+  const [hasDevice, setHasDevice] = useState(false);
+  const [devices, setDeviceInfo] = useState([]);
+
+  // State variables for Current selected Device
   const [deviceID, setDeviceID] = useState("");
   const [deviceStatus, setDeviceStatus] = useState("offline");
 
-  //Setup State Variables for Interface Related States
+  //Check if the user has a device
+  useEffect(() => {
+    async function fetchDeviceInfo() {
+      //check if the user has a device
+      const response = await checkForDevice();
 
+      if (response.status) {
+        // Setup the device state (devices) and Current Active Device (deviceID)
+        let allDevices = response.device_id;
+        allDevices.forEach((device) => {
+          setDeviceInfo((prevState) => [...prevState, { deviceID: device }]);
+        });
 
+        // Set the hasDevice state to true
+        setHasDevice(true);
+
+        // Set the first device as the active device, if there is no active device in local storage
+        if (localStorage.getItem("activeDevice")) {
+          setDeviceID(localStorage.getItem("activeDevice"));
+        } else {
+          setDeviceID(response.device_id[0]);
+          localStorage.setItem("activeDevice", response.device_id[0]);
+        }
+
+        return;
+      }
+    }
+
+    if (!hasDevice && isLoggedIn && localStorage.getItem("user")) {
+      fetchDeviceInfo();
+    }
+  }, [ isLoggedIn]); // eslint-disable-line
 
   //Create the post request hook - TODO: CHANGE TO OBJECT FROM ARRAY IN USEPOSTREQUEST
   const [postStatus, postMessage, , , postData] = usePostRequest();
@@ -38,7 +72,7 @@ const AuthProvider = ({ children }) => {
       // Post the data to the server
       const responseData = await postData(URL + "users/login", data);
 
-      if (responseData) {
+      if (responseData && responseData.status === 201) {
         // Set the token
         setToken(responseData.token);
         localStorage.setItem("token", responseData.token);
@@ -59,11 +93,13 @@ const AuthProvider = ({ children }) => {
 
   // Handle the Logout
   const logout = () => {
+    setIsLoggedIn(false);
+    setHasDevice(false);
     setUser(null);
     setToken("");
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    setIsLoggedIn(false);
+    setDeviceID("");
+    setDeviceInfo([]);
+    localStorage.clear();
   };
 
   //Make a request to the protected route on the server to verify token
@@ -76,10 +112,10 @@ const AuthProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-  
+
         // Get the response data
         const responseData = await response.json();
-  
+
         // If the response is not ok then log the user out
         if (!response.ok) {
           console.error(responseData.message);
@@ -91,7 +127,7 @@ const AuthProvider = ({ children }) => {
             .split(" ")[1];
           setToken(responseToken);
           localStorage.setItem("token", responseToken);
-  
+
           // console.log("Token Verified: ", responseData.message);
         }
       } catch (error) {
@@ -108,6 +144,7 @@ const AuthProvider = ({ children }) => {
         user,
         isLoggedIn,
         hasDevice,
+        devices,
         deviceID,
         deviceStatus,
         loginAction,

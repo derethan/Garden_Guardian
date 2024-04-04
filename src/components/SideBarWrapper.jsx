@@ -6,9 +6,9 @@ import IconButton from "@mui/material/IconButton";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
-import useMediaQuery from '@mui/material/useMediaQuery';
+import useMediaQuery from "@mui/material/useMediaQuery";
 
-import AppBarTitle from "./header/AppBarTitle";
+import AppBarTitle from "./nav/AppBarTitle";
 
 import { useTheme } from "@mui/material";
 import { useState, useEffect } from "react";
@@ -20,6 +20,7 @@ import { drawerWidth } from "../globalVar";
 
 // Props Validation
 import PropTypes from "prop-types";
+import BottomNav from "./nav/BottomNav";
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -72,7 +73,7 @@ const Drawer = styled(MuiDrawer, {
 //Main Component
 export default function SideBarWrapper({ children, view, title }) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   // Open or Close state
   const [open, setOpen] = useState(() => {
@@ -102,9 +103,14 @@ export default function SideBarWrapper({ children, view, title }) {
         open={open}
         handleDrawerOpenClose={handleDrawerOpenClose}
         title={title}
+        isMobile={isMobile}
       />
 
-<Drawer variant={isMobile ? 'temporary' : 'permanent'} open={open} anchor={isMobile ? 'top' : 'left'}>
+      <Drawer
+        variant={isMobile && !open ? "temporary" : "permanent"}
+        open={open}
+        anchor={isMobile ? "top" : "left"}
+      >
         <Box
           sx={{
             height: "100%",
@@ -137,20 +143,23 @@ export default function SideBarWrapper({ children, view, title }) {
       {/* Main Content */}
       <Box
         component="main"
-        maxWidth='none'
+        maxWidth={isMobile ? "100vw" : "calc(100vw - 65px)"}
         sx={{
           backgroundColor: theme.palette.background.default,
           width: "100vw",
           height: "100vh",
           paddingTop: "64px",
-          paddingLeft: open ? '100px' : '32px',
-          paddingRight: open ? "100px" : "32px",
-          
+          pb: { xs: "64px", md: "0px" },
+          paddingLeft: open ? {sm: "0px", md: "100px"} : {sm: "0px", md: "32px"},
+          paddingRight: open ? {sm: "0px", md: "100px"} : {sm: "0px", md: "32px"},
+
           overflowY: "auto",
         }}
       >
         {children}
       </Box>
+
+        {isMobile && <BottomNav view={view} />}
     </Box>
   );
 }

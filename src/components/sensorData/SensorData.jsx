@@ -35,31 +35,31 @@ const SensorData = () => {
 
   //Retrieves the Latest Sensor Data from the API
   useEffect(() => {
-
     //Retrieves the Latest Sensor Data from the API
     async function getSensorData() {
       const data = await getLatestReading(deviceID);
 
-      //Retrieves the Previous Sensor Data from the Local Storage
-      const storedData = JSON.parse(localStorage.getItem("sensorData"));
-      const difference = calculateDifference(data, storedData);
+      if (localStorage.getItem("sensorData")) {
+        //Retrieves the Previous Sensor Data from the Local Storage
+        const storedData = JSON.parse(localStorage.getItem("sensorData"));
+        const difference = calculateDifference(data, storedData);
+        setDifference(difference);
+      }
 
       //Stores the Current Sensor Data and the Difference in the current and previous reading
       localStorage.setItem("sensorData", JSON.stringify(data));
       setSensorData(data);
-      setDifference(difference);
     }
 
     getSensorData();
 
     //Set the interval to check the device every 1 minutes
-    const interval =  setInterval(() => {
+    const interval = setInterval(() => {
       getSensorData();
     }, 1 * 60 * 1000);
 
     //Clear the interval when the component is unmounted
     return () => clearInterval(interval);
-
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   //Renders the Sensor Data Page
@@ -72,15 +72,20 @@ const SensorData = () => {
         padding: "1.5rem",
       }}
     >
-      <Box sx={{ width: "70%" }}>
+      <Box sx={{ width: {xs: '100%', md: '70%'} }}>
         <SensorBanner sensorData={sensorData} difference={difference} />
 
         <SensorInfoBanner sensorData={sensorData} />
       </Box>
 
-      <Divider orientation="vertical" flexItem />
+      <Divider orientation="vertical" flexItem sx={{
+        display: { xs: "none", md: "block"}
+      
+      }} />
 
-      <Box sx={{ width: "30%" }}>
+      <Box sx={{ width: "30%",
+      display: { xs: "none", md: "block"}
+     }}>
         <SummaryColumn />
       </Box>
     </Container>

@@ -1,4 +1,4 @@
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import { useTheme } from "@mui/material";
 import { useEffect } from "react";
 
@@ -54,6 +54,7 @@ const DeviceStatusIcon = (deviceID) => {
         gap: 2,
       }}
     >
+      <Tooltip title="Device Status" arrow>
       <IconButton
         color="inherit"
         aria-label="account"
@@ -66,6 +67,7 @@ const DeviceStatusIcon = (deviceID) => {
           <SensorsOffIcon sx={{ color: theme.palette.error.main }} />
         )}
       </IconButton>
+      </Tooltip>
     </Box>
   );
 };

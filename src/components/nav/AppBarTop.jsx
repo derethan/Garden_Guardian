@@ -1,9 +1,7 @@
-import { Toolbar, IconButton, Box } from "@mui/material";
+import { Toolbar, IconButton, Box, useTheme, Tooltip } from "@mui/material";
 import MuiAppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import { styled } from "@mui/system";
-import { useTheme } from "@mui/material";
-import AccountIcon from "@mui/icons-material/AccountCircle";
 
 import { drawerWidth } from "../../globalVar";
 
@@ -18,14 +16,13 @@ import SettingsIcon from "@mui/icons-material/SettingsRounded";
 import PageTitle from "./PageTitle";
 import DeviceStatusIcon from "./DeviceStatusIcon";
 
-import { useState, useEffect } from "react";
-
-import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
-
 import { useAuth } from "../../hooks/useAuthProvider";
 
 //import props validation
 import PropTypes from "prop-types";
+
+import shield from "../../assets/shield.png";
+import AccountMenuIcon from "./AccountMenuIcon";
 
 //AppBar Styled Component
 const AppBar = styled(MuiAppBar, {
@@ -47,28 +44,10 @@ const AppBar = styled(MuiAppBar, {
 }));
 
 //AppBarTop Component
-const AppBarTop = ({ open, handleDrawerOpenClose, title }) => {
+const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
   const theme = useTheme();
 
-  //Check if the user has a device - MIGHT MOVE TO AUTHPROVIDER
-  const { checkForDevice } = useGetDeviceInfo();
-  const { hasDevice, setHasDevice, deviceID, setDeviceID } = useAuth();
-
-  useEffect(() => {
-    async function fetchData() {
-      //check if the user has a device
-      const response = await checkForDevice();
-
-      if (response.status) {
-        setHasDevice(true);
-        setDeviceID(response.device_id);
-        return;
-      }
-    }
-    if (!hasDevice) {
-      fetchData();
-    }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const { hasDevice, deviceID } = useAuth();
 
   return (
     <AppBar
@@ -77,18 +56,20 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title }) => {
       sx={{ backgroundColor: theme.palette.sidebar.primary }}
     >
       <Toolbar>
-        <IconButton
-          color="inherit"
-          aria-label="open drawer"
-          onClick={handleDrawerOpenClose}
-          edge="start"
-          sx={{
-            marginRight: 5,
-            ...(open && { display: "none" }),
-          }}
-        >
-          <MenuIcon />
-        </IconButton>
+        {!isMobile && (
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpenClose}
+            edge="start"
+            sx={{
+              marginRight: 5,
+              ...(open && { display: "none" }),
+            }}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
 
         <Box
           sx={{
@@ -98,7 +79,29 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title }) => {
             width: "100%",
           }}
         >
-          <PageTitle title={title} />
+          <Box name="PageTitle" display={"flex"} alignItems={"center"} gap={1}>
+            {isMobile && (
+              <Box
+                component="img"
+                src={shield}
+                alt="logo"
+                sx={{
+                  width: { xs: "25px", sm: "36px" },
+                  height: { xs: "25px", sm: "36px" },
+                }}
+              />
+            )}
+            <PageTitle
+              title={title}
+              sx={{
+                // Material responsive breakpoint for fontSize
+                fontSize: {
+                  xs: "1rem",
+                  sm: "1.2rem",
+                },
+              }}
+            />
+          </Box>
 
           {hasDevice && <DeviceStatusIcon deviceID={deviceID} />}
 
@@ -107,35 +110,24 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title }) => {
               display: "flex",
               justifyContent: "flex-end",
               alignItems: "center",
-              gap: 2,
+              gap: 0,
             }}
           >
-            <IconButton
-              color="inherit"
-              aria-label="account"
-              edge="end"
-              sx={{ marginRight: 1 }}
-            >
-              <SettingsIcon />
-            </IconButton>
+            {!isMobile && (
+              <Tooltip title="Notifications" arrow>
+                <IconButton
+                  color="inherit"
+                  aria-label="account"
+                  edge="end"
+                  size="large"
+                  sx={{ marginRight: 1 }}
+                >
+                  <NotificationsNone />
+                </IconButton>
+              </Tooltip>
+            )}
 
-            <IconButton
-              color="inherit"
-              aria-label="account"
-              edge="end"
-              sx={{ marginRight: 5 }}
-            >
-              <NotificationsNone />
-            </IconButton>
-
-            <IconButton
-              color="inherit"
-              aria-label="account"
-              edge="end"
-              sx={{ marginRight: 2 }}
-            >
-              <AccountIcon fontSize="large" />
-            </IconButton>
+            <AccountMenuIcon />
           </Box>
         </Box>
       </Toolbar>
@@ -147,6 +139,7 @@ AppBarTop.propTypes = {
   open: PropTypes.bool.isRequired,
   handleDrawerOpenClose: PropTypes.func.isRequired,
   title: PropTypes.string,
+  isMobile: PropTypes.bool,
 };
 
 export default AppBarTop;

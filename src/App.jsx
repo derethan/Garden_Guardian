@@ -27,8 +27,6 @@ export default function App() {
     <BrowserRouter>
 
       <ThemeProvider theme={theme}>
-      <CssBaseline />
-
         <div
           className="App"
           style={{
@@ -36,9 +34,9 @@ export default function App() {
             color: theme.palette.text.primary,
           }}
         >
-          <header className="App-header">
+          {/* <header className="App-header">
             <Header />
-          </header>
+          </header> */}
 
           <main
             className="app-body"
