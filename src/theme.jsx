@@ -16,7 +16,7 @@ const theme = createTheme({
     },
     background: {
       default: "#EBEBEB", //White
-      dark: "#242424", //dark grey
+      dark: "#2A2A2A", //dark grey
       lightGrey: "#D6D5D7", //light grey
       shaded: "#F0F0F0", //light grey
     },
