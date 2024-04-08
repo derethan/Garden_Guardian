@@ -170,10 +170,10 @@ export const Plant = () => {
         sx={{
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
-          justifyContent: "center",
+          justifyContent: "space-between",
           alignItems: "center",
-          margin: "auto",
           pt: { xs: 2, md: 4 },
+          margin: "auto",
         }}
       >
         <Box
@@ -193,6 +193,7 @@ export const Plant = () => {
             margin: "auto",
             backgroundColor: theme.palette.background.lightGrey,
             width: { xs: "100%", md: "50%" },
+            mt: 2,
             pt: 2,
           }}
         >
