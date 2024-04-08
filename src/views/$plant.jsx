@@ -37,7 +37,9 @@ export const Plant = () => {
   ];
 
   const growthProps = [
-    { label: "Light", value: plantData.light || "N/A", icon: WbSunnyIcon },
+    { label: "Light", 
+    value: plantData.light || "N/A", 
+    icon: WbSunnyIcon },
     {
       label: "Humidity",
       value: plantData.humidity || "N/A",

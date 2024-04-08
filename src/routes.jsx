@@ -14,6 +14,8 @@ import Schedule from './views/Schedule';
 
 //Dynamic Routes
 import { Plant } from './views/$plant';
+import  SensorData  from './views/$SensorData';
+
 // User Pages
 import Notifications from './views/Notifications';
 import AccountMain from './views/AccountMain';
@@ -76,6 +78,7 @@ export const privateAppRoutes = [
     // {Type: 'User', ID: 'Settings', path: '/settings', Name: 'Settings',icon: <SettingsRoundedIcon />, Component: AppSettings,},
     {Type: 'User', ID: 'Logout', path: '/logout', Name: 'Logout',icon: <LogoutIcon />, Component: Logout,},
 
-    // Plant Pages Dynamic Route
+    // Dynamic Route
     {Type: 'plant', ID: 'Plant', path: 'gardens/plant/:plantID', Name: 'Plant', Component: Plant,},
+    {Type: 'sensor', ID: 'sensorData', path: 'sensors/:sensor', Name: 'Plant', Component: SensorData,},
 ]

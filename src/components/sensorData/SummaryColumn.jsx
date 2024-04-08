@@ -16,14 +16,14 @@ const SummaryColumn = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        justifyContent: "space-between",
+        justifyContent: "flex-start",
         padding: "1rem",
         height: "100%",
       }}
     >
         <DeviceOverview deviceID={deviceID} deviceStatus={deviceStatus} />
-        <PinnedReadings />
-        <Alerts />
+        {/* <PinnedReadings />
+        <Alerts /> */}
     </Card>
   );
 };
