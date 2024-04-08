@@ -18,7 +18,7 @@ import Chart from "@mui/icons-material/InsertChartOutlined";
 
 import pottedPlant from "../assets/generic_potted_plant.png";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Plant = () => {
   const theme = useTheme();
@@ -55,8 +55,19 @@ export const Plant = () => {
     },
   ];
 
-  
-  console.log(plantData);
+  // useEffect(() => {
+  //   const plant = plantData.slug || plantData.name
+  //   const  url = import.meta.env.VITE_API_URL + "api/plants/" + plant;
+
+  //   const fetchPlantInfo = async () => {
+  //     const response = await fetch(url);
+  //     const data = await response.json();
+  //     console.log(data.data.main_species);
+  //   };
+
+  //   fetchPlantInfo();
+
+  // }, []);
 
   return (
     <Container maxWidth="none">
@@ -90,7 +101,14 @@ export const Plant = () => {
               }}
             >
               <HomeIcon fontSize="inherit" sx={{ mr: 1 }} />
-              Home
+              <Typography
+                color="text.cardTitle"
+                sx={{
+                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                }}
+              >
+                Home
+              </Typography>
             </Link>
 
             <Link
@@ -102,7 +120,14 @@ export const Plant = () => {
               }}
             >
               <GardenIcon fontSize="inherit" sx={{ mr: 1 }} />
-              Crop Management
+              <Typography
+                color="text.cardTitle"
+                sx={{
+                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                }}
+              >
+                Crop Management
+              </Typography>
             </Link>
 
             <Typography
@@ -111,12 +136,14 @@ export const Plant = () => {
                 display: "flex",
                 alignItems: "center",
                 fontWeight: "bold",
+                fontSize: { xs: "0.8rem", sm: "1rem" },
               }}
             >
               <PlantIcon
                 fontSize="inherit"
                 sx={{ mr: 1, color: "primary.secondary" }}
               />
+
               {plantData.name ||
                 plantData.commonName ||
                 plantData.scientificName}
@@ -142,19 +169,20 @@ export const Plant = () => {
         maxWidth="lg"
         sx={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: { xs: "column", md: "row" },
           justifyContent: "center",
           alignItems: "center",
           margin: "auto",
-          pt: 4,
+          pt: { xs: 2, md: 4 },
         }}
       >
-        <img
+        <Box
+          component={"img"}
           src={plantData.image_url || pottedPlant}
           alt={
             plantData.name || plantData.commonName || plantData.scientificName
           }
-          style={{ width: "300px", height: "300px", borderRadius: "10%" }}
+          sx={{ width: {xs: '200px', md: '300px'}, height: {xs: '200px', md: '300px'}, borderRadius: "10%" }}
         />
         <Box
           sx={{
@@ -164,7 +192,7 @@ export const Plant = () => {
             alignItems: "center",
             margin: "auto",
             backgroundColor: theme.palette.background.lightGrey,
-            width: "50%",
+            width: { xs: "100%", md: "50%" },
             pt: 2,
           }}
         >
@@ -206,14 +234,12 @@ export const Plant = () => {
                       <Typography
                         variant="caption"
                         fontWeight={600}
-                        
                         sx={{ color: "text.main" }}
                       >
                         {property.label}
                       </Typography>
                       <Typography
                         variant="subtitle1"
-                  
                         sx={{ color: "text.cardTitle" }}
                       >
                         {property.value}
@@ -225,11 +251,11 @@ export const Plant = () => {
         </Box>
       </Box>
 
-
       <Box
         maxWidth={"lg"}
         sx={{
           display: "flex",
+          flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-between",
           alignItems: "flex-start",
           margin: "auto",
@@ -237,8 +263,7 @@ export const Plant = () => {
         }}
       >
         {/* My Plant Section*/}
-        <Box pl={2} sx={{display: 'flex', flexDirection: 'column'}}>
-
+        <Box pl={2} sx={{ display: "flex", flexDirection: "column" }}>
           <Typography variant="h4" gutterBottom pt={4}>
             My Plant
           </Typography>
@@ -250,12 +275,11 @@ export const Plant = () => {
             <Typography variant="body1" gutterBottom>
               Growth Status:
             </Typography>
-
           </Box>
         </Box>
 
         {/* Growing Info Section*/}
-        <Box sx={{textAlign: 'left'}}>
+        <Box sx={{ textAlign: "left" }}>
           <Typography variant="h4" pt={4} pl={2}>
             Growing Information
           </Typography>
@@ -268,7 +292,7 @@ export const Plant = () => {
               justifyContent: "center",
               alignItems: "center",
               margin: "auto",
-              pt: 4,
+              pt: 2,
             }}
           >
             {growthProps.map((property, index) => (
@@ -303,7 +327,6 @@ export const Plant = () => {
             ))}
           </Grid>
         </Box>
-
       </Box>
     </Container>
   );
