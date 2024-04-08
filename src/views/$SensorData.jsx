@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useLocation } from "react-router-dom";
 import {
   Container,
   Typography,
@@ -6,13 +6,22 @@ import {
   Breadcrumbs,
   useTheme,
 } from "@mui/material";
+
+// Import Icons
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
 import HomeIcon from "@mui/icons-material/Home";
-import SensorsIcon from '@mui/icons-material/Sensors';
+import SensorsIcon from "@mui/icons-material/Sensors";
+
+import { getIcon } from "../components/sensorData/util/getIcon";
 
 const SensorData = () => {
   const theme = useTheme();
+  const location = useLocation();
   const { sensor } = useParams();
+
+  //Get sensor From Location data
+  // const sensorData = location.state.sensorData;
+  const SensorIcon = getIcon(location.state.sensor);
 
   return (
     <Container maxWidth={"none"}>
@@ -58,7 +67,7 @@ const SensorData = () => {
 
             <Link
               color="inherit"
-              to="/gardens"
+              to="/sensors"
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -84,6 +93,7 @@ const SensorData = () => {
                 fontSize: { xs: "0.8rem", sm: "1rem" },
               }}
             >
+              <SensorIcon fontSize="inherit" sx={{ mr: 1 }} />
               {sensor}
             </Typography>
           </Breadcrumbs>

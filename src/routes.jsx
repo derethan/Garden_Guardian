@@ -80,5 +80,5 @@ export const privateAppRoutes = [
 
     // Dynamic Route
     {Type: 'plant', ID: 'Plant', path: 'gardens/plant/:plantID', Name: 'Plant', Component: Plant,},
-    {Type: 'sensor', ID: 'sensorData', path: 'sensors/:sensor', Name: 'Plant', Component: SensorData,},
+    {Type: 'sensor', ID: 'sensorData', path: 'sensor/:sensor', Name: 'Plant', Component: SensorData,},
 ]
