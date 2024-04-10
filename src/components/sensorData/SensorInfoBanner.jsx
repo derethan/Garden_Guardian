@@ -29,7 +29,7 @@ const SensorInfoBanner = ({ sensorData }) => {
                   title={sensor}
                   onClick={() => {
                     navigate(`/sensor/${sensor}`, {
-                      state: { sensor: sensor },
+                      state: { measurement: sensor, latestReading: sensorData[sensor] },
                     }); //navigate to the sensorData page
                   }}
                 >

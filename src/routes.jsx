@@ -67,7 +67,7 @@ export const privateAppRoutes = [
 
     // App Pages
     {Type: 'App', ID: 'Dashboard', path: '/dashboard', Name: 'Dashboard',icon: <DashboardIcon /> , Component: Dashboard,},
-    {Type: 'App', ID: 'Sensors', path: '/sensors', Name: 'Sensor Dashboard',icon: <SensorsIcon /> , Component: sensors,},
+    {Type: 'App', ID: 'Sensors', path: '/sensor', Name: 'Sensor Dashboard',icon: <SensorsIcon /> , Component: sensors,},
     {Type: 'App', ID: 'Crops', path: '/gardens', Name: 'Crop Management',icon: <GrassIcon />, Component: Gardens,},
     // {Type: 'App', ID: 'Schedule', path: '/schedule', Name: 'Schedule',icon: <CalendarMonthIcon />, Component: Schedule,},
     // {Type: 'App', ID: 'Weather', path: '/weather', Name: 'Weather',icon: <WbSunnyIcon />, Component: Weather,},

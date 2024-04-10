@@ -1,115 +1,47 @@
-import { useParams, Link, useLocation } from "react-router-dom";
-import {
-  Container,
-  Typography,
-  Box,
-  Breadcrumbs,
-  useTheme,
-} from "@mui/material";
-
-// Import Icons
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import HomeIcon from "@mui/icons-material/Home";
-import SensorsIcon from "@mui/icons-material/Sensors";
+import { useParams, useLocation } from "react-router-dom";
+import { useAuth } from "../hooks/useAuthProvider";
+import { Container } from "@mui/material";
 
 import { getIcon } from "../components/sensorData/util/getIcon";
 
-const SensorData = () => {
-  const theme = useTheme();
-  const location = useLocation();
-  const { sensor } = useParams();
+import BreadCrumbNav from "../components/nav/BreadCrumbNav";
+import SensorOverviewContainer from "../components/sensorData/SensorOverviewContainer";
+import SensorDataExplorer from "../components/sensorData/SensorDataExplorer";
 
-  //Get sensor From Location data
-  // const sensorData = location.state.sensorData;
-  const SensorIcon = getIcon(location.state.sensor);
+const SensorData = () => {
+  const location = useLocation();
+  const { deviceID } = useAuth();
+
+  //Sensor Information Passed in the Location and Param State from the Sensor Dashboard
+  const { sensor } = useParams();
+  const latestReading = location.state.latestReading;
+  const measurement = location.state.measurement;
+
+  //Get the Icon for the Selected Sensor
+  const SensorIcon = getIcon(location.state.measurement);
+
 
   return (
     <Container maxWidth={"none"}>
       {/* BreadCrumb Navigation Section*/}
-      <Box
-        pt={4}
-        sx={{
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
-      >
-        {/* BreadCrumbs*/}
-        <div
-          style={{
-            backgroundColor: theme.palette.background.lightGrey,
-            padding: "8px",
-            width: "fit-content",
-          }}
-        >
-          <Breadcrumbs
-            separator={<NavigateNextIcon fontSize="small" />}
-            aria-label="breadcrumb"
-          >
-            <Link
-              color="inherit"
-              to="/"
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <HomeIcon fontSize="inherit" sx={{ mr: 1 }} />
-              <Typography
-                color="text.cardTitle"
-                sx={{
-                  fontSize: { xs: "0.8rem", sm: "1rem" },
-                }}
-              >
-                Home
-              </Typography>
-            </Link>
+      <BreadCrumbNav
+        Icon={SensorIcon}
+      />
 
-            <Link
-              color="inherit"
-              to="/sensors"
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <SensorsIcon fontSize="inherit" sx={{ mr: 1 }} />
-              <Typography
-                color="text.cardTitle"
-                sx={{
-                  fontSize: { xs: "0.8rem", sm: "1rem" },
-                }}
-              >
-                Sensor Dashboard
-              </Typography>
-            </Link>
-
-            <Typography
-              color="primary.secondary"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                fontWeight: "bold",
-                fontSize: { xs: "0.8rem", sm: "1rem" },
-              }}
-            >
-              <SensorIcon fontSize="inherit" sx={{ mr: 1 }} />
-              {sensor}
-            </Typography>
-          </Breadcrumbs>
-        </div>
-
-        {/* Arrow For BreadCrumbs*/}
-        <div
-          style={{
-            width: "0",
-            height: "0",
-            borderTop: "20px solid transparent",
-            borderBottom: "20px solid transparent",
-            borderLeft: "20px solid " + theme.palette.background.lightGrey,
-          }}
+      {/* Overview Banner Section*/}
+      <SensorOverviewContainer
+        deviceID={deviceID}
+        sensor={sensor}
+        measurement={measurement}
+        latestReading={latestReading}
+      />
+      {/* Data Explorer Section */}
+        <SensorDataExplorer
+            deviceID={deviceID}
+            sensor={sensor}
+            measurement={measurement}
         />
-      </Box>
+
     </Container>
   );
 };
