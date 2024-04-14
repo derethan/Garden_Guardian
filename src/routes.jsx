@@ -79,6 +79,6 @@ export const privateAppRoutes = [
     {Type: 'User', ID: 'Logout', path: '/logout', Name: 'Logout',icon: <LogoutIcon />, Component: Logout,},
 
     // Dynamic Route
-    {Type: 'plant', ID: 'Plant', path: 'gardens/plant/:plantID', Name: 'Plant', Component: Plant,},
-    {Type: 'sensor', ID: 'sensorData', path: 'sensor/:sensor', Name: 'Plant', Component: SensorData,},
+    {Type: 'Dynamic', ID: 'Plant', path: 'gardens/plant/:plantID', Name: 'Crop Management', Component: Plant,},
+    {Type: 'Dynamic', ID: 'sensorData', path: 'sensor/:sensor', Name: 'Sensor Dashboard', Component: SensorData,},
 ]
