@@ -10,40 +10,40 @@ import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
 import { useAuth } from "../../hooks/useAuthProvider";
 
 const DeviceStatusIcon = (deviceID) => {
-    const theme = useTheme();
+  const theme = useTheme();
 
-    const { deviceStatus, setDeviceStatus } = useAuth ();
+  const { deviceStatus, setDeviceStatus } = useAuth();
 
-    const { isDeviceActive } = useGetDeviceInfo();
+  const { isDeviceActive } = useGetDeviceInfo();
 
   // UseEffect to check the status of the device every 5 minutes
-    useEffect(() => {
-        //Function to fetch the device timestamp
-        const checkStatus = async () => {
+  useEffect(() => {
+    //Function to fetch the device timestamp
+    const checkStatus = async () => {
+      //Check if the device is active
+      const deviceActive = await isDeviceActive(deviceID);
 
-            //Check if the device is active
-            const deviceActive = await isDeviceActive(deviceID);
+      //If the device is active, set the status to online
+      if (deviceActive) {
+        setDeviceStatus("online");
+      } else {
+        setDeviceStatus("offline");
+      }
+    };
 
-            //If the device is active, set the status to online
-            if (deviceActive) {
-                setDeviceStatus("online");
-            } else {
-                setDeviceStatus("offline");
-            }
-        };
+    if (deviceStatus !== "online") {
+      //Fetch the Device Status on Component
+      checkStatus();
+    }
 
-        //Fetch the Device Status on Component
-        checkStatus();
+    //Set the interval to check the device every  minutes
+    const interval = setInterval(() => {
+      checkStatus();
+    }, 1 * 30 * 1000);
 
-        //Set the interval to check the device every 5 minutes
-        const interval = setInterval(() => {
-            checkStatus();
-        }, 1 * 60 * 1000);
-
-        //Clear the interval on unmount
-        return () => clearInterval(interval);
-    } , []);// eslint-disable-line react-hooks/exhaustive-deps
-
+    //Clear the interval on unmount
+    return () => clearInterval(interval);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <Box
@@ -55,18 +55,18 @@ const DeviceStatusIcon = (deviceID) => {
       }}
     >
       <Tooltip title="Device Status" arrow>
-      <IconButton
-        color="inherit"
-        aria-label="account"
-        edge="end"
-        sx={{ marginRight: 5 }}
-      >
-        {deviceStatus === "online" ? (
-          <SensorsOnIcon sx={{ color: theme.palette.success.main }} />
-        ) : (
-          <SensorsOffIcon sx={{ color: theme.palette.error.main }} />
-        )}
-      </IconButton>
+        <IconButton
+          color="inherit"
+          aria-label="account"
+          edge="end"
+          sx={{ marginRight: 5 }}
+        >
+          {deviceStatus === "online" ? (
+            <SensorsOnIcon sx={{ color: theme.palette.success.main }} />
+          ) : (
+            <SensorsOffIcon sx={{ color: theme.palette.error.main }} />
+          )}
+        </IconButton>
       </Tooltip>
     </Box>
   );

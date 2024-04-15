@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import { Box, Menu, MenuItem, Typography } from "@mui/material";
 import ButtonCard from "../ButtonCard";
@@ -8,13 +9,14 @@ import { useGardenFunctions } from "./utils/useGardenFunctions";
 
 export const SmallPlantCard = ({ plant, setGardenPlants }) => {
   const { deleteGardenPlant } = useGardenFunctions();
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
   const handleClick = () => {
-    console.log("Add to garden");
     setAnchorEl(null);
+    navigate(`plant/${plant.plantID}`);
   };
 
   const handleDeletePlant = () => {
