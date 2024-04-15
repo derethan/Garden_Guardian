@@ -26,6 +26,7 @@ const SensorData = () => {
       {/* BreadCrumb Navigation Section*/}
       <BreadCrumbNav
         Icon={SensorIcon}
+        path='Sensor Dashboard'
       />
 
       {/* Overview Banner Section*/}

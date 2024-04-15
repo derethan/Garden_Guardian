@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme, Card } from "@mui/material";
 import { LineChart } from "@mui/x-charts/LineChart";
 import DataExplorerOptions from "./DataExplorerOptions";
 
@@ -57,15 +57,29 @@ const SensorDataExplorer = ({ deviceID, sensor, measurement }) => {
   };
 
   return (
-    <Box
+    // <Box
+    //   sx={{
+    //     display: "flex",
+    //     flexDirection: "column",
+    //     justifyContent: "center",
+    //     alignItems: "center",
+    //     backgroundColor: theme.palette.background.lightGrey,
+    //     mt: 4,
+    //     pb: 4,
+    //   }}
+    // >
+
+    <Card
+    variant="light"
       sx={{
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: theme.palette.background.lightGrey,
         mt: 4,
+        pt: 2,
         pb: 4,
+        mb: 4,
       }}
     >
       <Typography variant="h6" color="text.cardTitle" fontWeight={600} pt={2}>
@@ -104,7 +118,8 @@ const SensorDataExplorer = ({ deviceID, sensor, measurement }) => {
           No data available for the selected time frame.
         </Typography>
       )}
-    </Box>
+    </Card>
+    // </Box>
   );
 };
 

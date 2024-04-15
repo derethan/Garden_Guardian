@@ -1,3 +1,10 @@
+/*******************************************
+ *  Description: This component is used to display
+ *  the sensor information container on the Sensor Dashboard Page.
+ * 
+ * The Component Containes the Title and the Clickable Sensor Buttons
+ ***********************************************/
+
 import { useNavigate } from "react-router-dom";
 
 import { Box, Grid, Typography } from "@mui/material";

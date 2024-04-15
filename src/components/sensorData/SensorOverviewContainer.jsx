@@ -1,3 +1,14 @@
+/*******************************************
+ *  Description:  This component is used to display:
+ * 
+ * The overview (Todays Rundown and Some quick stats) of the sensor data on the $SensorData Page
+ * 
+ * The Component Contains:
+ * - The Todays Rundown Section
+ * - Simple Line Chart for the past 24 hours
+ * - The Averages Section
+ ***********************************************/
+
 import { useEffect, useState } from "react";
 import { Box, Grid, Typography, useTheme } from "@mui/material";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
@@ -61,7 +72,7 @@ const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
 
         {/* Chart Display*/}
         {graphData.length > 0 && (
-          <Box p={4} width={'100%'}>
+          <Box p={4} sx={{width: {xs: '100%', md: '75%'}}}>
             <SparkLineChart
               plotType="line"
               data={graphData}
@@ -84,11 +95,8 @@ const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
           pb: 4,
         }}
       >
-        <Typography variant="h6" color="text.cardTitle" fontWeight={600} pt={2}>
-          Some quick stats
-        </Typography>
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{width:{xs:'100%', sm: '75%', md:'50%'}}}>
           <Grid item xs={6} mt={2}>
             <Typography
               variant="subtitle"
@@ -109,7 +117,7 @@ const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
               color="text.subtitle"
               fontWeight={"bold"}
             >
-              Daily Average
+              Todays Average
             </Typography>
             <Typography variant="h6" color="text.main">
               {average(graphData)}{" "}

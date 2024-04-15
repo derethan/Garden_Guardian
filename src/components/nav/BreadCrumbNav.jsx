@@ -8,7 +8,7 @@ import SensorsIcon from "@mui/icons-material/Sensors";
 
 
 
-const BreadCrumbNav = ({Icon}) => {
+const BreadCrumbNav = ({Icon, path}) => {
     const theme = useTheme();
 
     const pathnames = location.pathname.split("/").filter((x) => x);
@@ -36,7 +36,7 @@ const BreadCrumbNav = ({Icon}) => {
           >
             <Link
               color="inherit"
-              to="/"
+              to="/dashboard"
               style={{
                 display: "flex",
                 alignItems: "center",
@@ -46,7 +46,7 @@ const BreadCrumbNav = ({Icon}) => {
               <Typography
                 color="text.cardTitle"
                 sx={{
-                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                  fontSize: { xs: "0.6rem", sm: "0.8rem", md: "1rem"},
                 }}
               >
                 Home
@@ -65,10 +65,11 @@ const BreadCrumbNav = ({Icon}) => {
               <Typography
                 color="text.cardTitle"
                 sx={{
-                  fontSize: { xs: "0.8rem", sm: "1rem" },
+                  fontSize: { xs: "0.6rem", sm: "0.8rem", md: "1rem"},
                 }}
               >
-                {pathnames[0].charAt(0).toUpperCase() + pathnames[0].slice(1)}
+                {path}
+                {/* {pathnames[0].charAt(0).toUpperCase() + pathnames[0].slice(1)} */}
               </Typography>
             </Link>
 
@@ -78,7 +79,7 @@ const BreadCrumbNav = ({Icon}) => {
                 display: "flex",
                 alignItems: "center",
                 fontWeight: "bold",
-                fontSize: { xs: "0.8rem", sm: "1rem" },
+                fontSize: { xs: "0.6rem", sm: "0.8rem", md: "1rem"},
               }}
             >
               <Icon fontSize="inherit" sx={{ mr: 1 }} />

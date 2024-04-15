@@ -1,3 +1,8 @@
+/*******************************************
+ *  Description: This component is used to display
+ *  The Information within the Sensor Card Buttons on the Sensor Dashboard Page
+ ***********************************************/
+
 import { Box, Typography } from "@mui/material";
 
 const SensorCardInfo = ({ sensor, sensorData, Icon }) => {
