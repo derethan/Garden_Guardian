@@ -1,6 +1,10 @@
 export const useGardenFunctions = () => {
   const URL = import.meta.env.VITE_API_URL;
 
+  /************************************************************
+ *  Functions to Related to Gardens, Groups and Plants
+ * ***********************************************************/
+
   // Function to Create/Add a New Garden to the Local Storage and Garden State
   const createGarden = (formData, setGardens) => {
     //Get the current gardens from local storage
@@ -124,26 +128,25 @@ export const useGardenFunctions = () => {
       setGardenPlants(newGardenPlants);
     }
   };
-  // Function to Fetch the List of Fruits from the API
-  const getFruitData = async () => {
-    let data = [];
-    // Fetch the list of fruits from the API
-    if (!localStorage.getItem("fruitList")) {
-      const response = await fetch(URL + `api/fruit/all`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
 
-      data = await response.json();
-      localStorage.setItem("fruitList", JSON.stringify(data));
-    } else {
-      data = JSON.parse(localStorage.getItem("fruitList"));
+
+
+  /************************************************************
+ *  Functions to Fetch Data Plant from the API
+ * ***********************************************************/
+
+  // Function to Fetch the List of All Plants from the API
+  const getAllPlants = async () => {
+    try {
+      const response = await fetch(URL + `api/plants/all`);
+      const result = await response.json();
+
+      return result;
+    } catch (error) {
+      console.error("Error:", error);
     }
-
-    return data;
   };
+
 
   // Function to Fetch the List of Edible Plants from the API
   const getEdiblePlantData = async () => {
@@ -196,7 +199,7 @@ export const useGardenFunctions = () => {
     deleteGarden,
     deleteGardenGroup,
     deleteGardenPlant,
-    getFruitData,
+    getAllPlants,
     getEdiblePlantData,
   };
 };

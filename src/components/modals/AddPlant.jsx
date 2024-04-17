@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react-hooks/exhaustive-deps */
 //Import State
 import { useState, useEffect, Fragment } from "react";
 import { DefaultModal } from "../modals/DefaultModal";
@@ -15,7 +17,7 @@ import {
 } from "@mui/material";
 
 export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
-  const { getFruitData, getEdiblePlantData, createGardenPlant } =
+  const { getAllPlants, getEdiblePlantData, createGardenPlant } =
     useGardenFunctions();
 
   // Form State
@@ -44,14 +46,10 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
     const isValid = validateForm();
 
     if (isValid) {
-
       let newPlantData = {
         ...formData,
         ...plantInfo,
       };
-      //Add the plant to the garden
-      console.log("Add Plant to Garden", newPlantData);
-
       //Create the new plant object
       createGardenPlant(newPlantData, setGardenPlants);
 
@@ -74,14 +72,14 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
       let data = [];
       setLoading(true);
 
-      const fruitData = await getFruitData(); //useGardenFunctions
-      data = [...data, ...fruitData];
+      const plantData = await getAllPlants(); //useGardenFunctions
+      data = [...data, ...plantData];
 
-      const ediblePlantData = await getEdiblePlantData(); //useGardenFunctions
-      data = [...data, ...ediblePlantData];
+      // const ediblePlantData = await getEdiblePlantData(); //useGardenFunctions
+      // data = [...data, ...ediblePlantData];
 
       // Create a list of unique plant names
-      const options = data.reduce((unique, item) => {
+      const listOptions = data.reduce((unique, item) => {
         let name = item.name || item.common_name || item.scientific_name;
         const id = item.id;
 
@@ -93,19 +91,21 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
         return unique;
       }, []);
 
+      // Sort options alphabetically based on the title property
+      listOptions.sort((a, b) => a.label.localeCompare(b.label));
+
       //Set the state with the list of unique plant names
-      setListOptions(options);
+      setListOptions(listOptions);
       setAllPlants(data);
       setLoading(false);
     };
 
     getData();
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
 
-
+  // Get the Plant info from plantData for the specifc Plant to display in the PlantInfoContainer
   useEffect(() => {
     if (formData.id && allPlants.length > 0) {
-      // Get the Plant info from plantData based off the selectedPlant plantID
       const plant = allPlants.find((plant) => plant.id === formData.id);
       setPlantInfo(plant);
     }
@@ -139,7 +139,17 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
           disablePortal
           id="plant-selection-list"
           options={listOptions}
+          isOptionEqualToValue={(option, value) => {
+            if (value === "") {
+              return true;
+            } else {
+              return option.label === value ? true : false;
+            }
+          }}
           loading={loading}
+          value={formData.label} //this is the value that is selected from the dropdown - Returned as an object
+          // inputValue={formData.name} //this is the value that is being typed in the input field - Returned as a string
+
           sx={{
             width: 300,
           }}
@@ -168,7 +178,6 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               helperText={formErrors.label}
             />
           )}
-          value={formData.label} //this is the value that is selected from the dropdown - Returned as an object
           onChange={(event, newValue) => {
             //If the newValue is null, set the value to an empty object
             if (!newValue) {
@@ -191,7 +200,6 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               setShowPlantInfo(false);
             }
           }}
-          // inputValue={formData.name} //this is the value that is being typed in the input field - Returned as a string
           onInputChange={(event, newInputValue) => {
             setFormData({
               ...formData,
@@ -202,9 +210,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
         />
       </Box>
 
-      {showPlantInfo && (
-        <PlantInfoContainer selectedPlant={plantInfo} />
-      )}
+      {showPlantInfo && <PlantInfoContainer selectedPlant={plantInfo} />}
     </DefaultModal>
   );
 };
