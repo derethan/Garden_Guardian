@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Menu, MenuItem, Typography } from "@mui/material";
 import ButtonCard from "../ButtonCard";
 import ConfirmDelete from "../dialog/ConfirmDelete";
+import defaultPlantImage from "../../assets/generic_potted_plant.png";
 
 import { useGardenFunctions } from "./utils/useGardenFunctions";
 
@@ -30,36 +31,51 @@ export const SmallPlantCard = ({ plant, setGardenPlants }) => {
         mb: 4,
       }}
       //   title={plant.label}
-      onClick={!anchorEl && !showConfirmDelete ? (event) => setAnchorEl(event.currentTarget) : null}
+      onClick={
+        !anchorEl && !showConfirmDelete
+          ? (event) => setAnchorEl(event.currentTarget)
+          : null
+      }
     >
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-around",
+          alignItems: "center",
           width: "100%",
           pl: 2,
           pr: 2,
         }}
       >
-        {plant.image_url && (
-          <Box
-            component="img"
-            src={plant.image_url}
-            alt={plant.label}
-            width={"75px"}
-            height={"75px"}
-            sx={{
-              borderRadius: "50%",
-              objectFit: "cover",
-            }}
-          />
-        )}
-        <Typography
-          variant="body1"
-          sx={{ fontWeight: "bold", fontSize: "14px" }}
-        >
-          {plant.label}
-        </Typography>
+        <Box
+          component="img"
+          src={plant.image_url || defaultPlantImage}
+          alt={plant.label}
+          width={"75px"}
+          height={"75px"}
+          sx={{
+            borderRadius: "50%",
+            objectFit: "cover",
+          }}
+        />
+        <Box sx={{display: 'flex', flexDirection: 'column', gap: 0.5}}>
+          <Typography
+            variant="body1"
+            sx={{ fontWeight: "bold", fontSize: "14px" }}
+          >
+            {plant.label}
+          </Typography>
+
+          <Typography variant="caption" sx={{ fontSize: "10px", color: 'text.subtitle', fontWeight: 'bold' }}>
+            {plant.variety || "No variety"}
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: "10px" }}>
+            {plant.startDate || "Plant Date unavailable"}
+          </Typography>
+          <Typography variant="body1" sx={{ fontSize: "10px" }}>
+            {plant.growthStatus || "Growth Status unavailable"}
+          </Typography>
+        </Box>
       </Box>
 
       <Menu
@@ -71,10 +87,14 @@ export const SmallPlantCard = ({ plant, setGardenPlants }) => {
         transformOrigin={{ vertical: "center", horizontal: "center" }}
       >
         <MenuItem onClick={handleClick}>View Plant Info</MenuItem>
-        <MenuItem onClick={() => {
-          setAnchorEl(null);
-          setShowConfirmDelete(true);
-        }}>Delete Plant</MenuItem>
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            setShowConfirmDelete(true);
+          }}
+        >
+          Delete Plant
+        </MenuItem>
       </Menu>
 
       <ConfirmDelete
@@ -83,7 +103,6 @@ export const SmallPlantCard = ({ plant, setGardenPlants }) => {
         handleClose={() => setShowConfirmDelete(false)}
         handleConfirm={handleDeletePlant}
       />
-      
     </ButtonCard>
   );
 };

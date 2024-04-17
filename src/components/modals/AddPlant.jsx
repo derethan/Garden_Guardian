@@ -35,6 +35,8 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
   const [allPlants, setAllPlants] = useState([]); //List of all plants in the database
   const [showPlantInfo, setShowPlantInfo] = useState(false); //Show the plant info Component
   const [plantInfo, setPlantInfo] = useState(null);
+  const [plantDescription, setPlantDescription] = useState(null);
+
 
   // Form Validation Hook
   const [formErrors, validateForm] = useValidate(formData);
@@ -49,7 +51,9 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
       let newPlantData = {
         ...formData,
         ...plantInfo,
+        description: plantDescription,
       };
+
       //Create the new plant object
       createGardenPlant(newPlantData, setGardenPlants);
 
@@ -210,7 +214,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
         />
       </Box>
 
-      {showPlantInfo && <PlantInfoContainer selectedPlant={plantInfo} />}
+      {showPlantInfo && <PlantInfoContainer selectedPlant={plantInfo} plantDescription={plantDescription} setPlantDescription={setPlantDescription} />}
     </DefaultModal>
   );
 };
