@@ -1,15 +1,12 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   Container,
   Box,
   Grid,
-  Breadcrumbs,
   Typography,
   useTheme,
+  Card,
 } from "@mui/material";
-import NavigateNextIcon from "@mui/icons-material/NavigateNext";
-import HomeIcon from "@mui/icons-material/Home";
-import GardenIcon from "@mui/icons-material/GrassOutlined";
 import PlantIcon from "@mui/icons-material/YardOutlined";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import HumidityIcon from "@mui/icons-material/Opacity";
@@ -19,6 +16,7 @@ import Chart from "@mui/icons-material/InsertChartOutlined";
 import pottedPlant from "../assets/generic_potted_plant.png";
 
 import { useEffect, useState } from "react";
+import BreadCrumbNav from "../components/nav/BreadCrumbNav";
 
 export const Plant = () => {
   const theme = useTheme();
@@ -34,12 +32,12 @@ export const Plant = () => {
     { label: "Scientific Name", value: plantData.scientific_name },
     { label: "Genus", value: plantData.genus },
     { label: "Family", value: plantData.family },
+    { label: "Common Name", value: plantData.commonName },
+    { label: "Description", value: plantData.description },
   ];
 
   const growthProps = [
-    { label: "Light", 
-    value: plantData.light || "N/A", 
-    icon: WbSunnyIcon },
+    { label: "Light", value: plantData.light || "N/A", icon: WbSunnyIcon },
     {
       label: "Humidity",
       value: plantData.humidity || "N/A",
@@ -74,96 +72,15 @@ export const Plant = () => {
   return (
     <Container maxWidth="none">
       {/* BreadCrumb Navigation Section*/}
-      <Box
-        pt={4}
-        sx={{
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
-      >
-        {/* BreadCrumbs*/}
-        <div
-          style={{
-            backgroundColor: theme.palette.background.lightGrey,
-            padding: "8px",
-            width: "fit-content",
-          }}
-        >
-          <Breadcrumbs
-            separator={<NavigateNextIcon fontSize="small" />}
-            aria-label="breadcrumb"
-          >
-            <Link
-              color="inherit"
-              to="/"
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <HomeIcon fontSize="inherit" sx={{ mr: 1 }} />
-              <Typography
-                color="text.cardTitle"
-                sx={{
-                  fontSize: { xs: "0.8rem", sm: "1rem" },
-                }}
-              >
-                Home
-              </Typography>
-            </Link>
 
-            <Link
-              color="inherit"
-              to="/gardens"
-              style={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <GardenIcon fontSize="inherit" sx={{ mr: 1 }} />
-              <Typography
-                color="text.cardTitle"
-                sx={{
-                  fontSize: { xs: "0.8rem", sm: "1rem" },
-                }}
-              >
-                Crop Management
-              </Typography>
-            </Link>
-
-            <Typography
-              color="primary.secondary"
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                fontWeight: "bold",
-                fontSize: { xs: "0.8rem", sm: "1rem" },
-              }}
-            >
-              <PlantIcon
-                fontSize="inherit"
-                sx={{ mr: 1, color: "primary.secondary" }}
-              />
-
-              {plantData.name ||
-                plantData.commonName ||
-                plantData.scientificName}
-            </Typography>
-          </Breadcrumbs>
-        </div>
-
-        {/* Arrow For BreadCrumbs*/}
-        <div
-          style={{
-            width: "0",
-            height: "0",
-            borderTop: "20px solid transparent",
-            borderBottom: "20px solid transparent",
-            borderLeft: "20px solid " + theme.palette.background.lightGrey,
-          }}
-        />
-      </Box>
+      {/* BreadCrumbs*/}
+      <BreadCrumbNav
+        plantName={
+          plantData.name || plantData.commonName || plantData.scientificName
+        }
+        Icon={PlantIcon}
+        path={"Crop Management"}
+      />
 
       {/* Plant Details Section*/}
       <Box
@@ -178,14 +95,21 @@ export const Plant = () => {
           margin: "auto",
         }}
       >
+        {/* Plant Image*/}
         <Box
           component={"img"}
           src={plantData.image_url || pottedPlant}
           alt={
             plantData.name || plantData.commonName || plantData.scientificName
           }
-          sx={{ width: {xs: '200px', md: '300px'}, height: {xs: '200px', md: '300px'}, borderRadius: "10%" }}
+          sx={{
+            width: { xs: "200px", md: "300px" },
+            height: { xs: "200px", md: "300px" },
+            borderRadius: "10%",
+          }}
         />
+
+        {/* Plant Properties Banner*/}
         <Box
           sx={{
             display: "flex",
@@ -199,6 +123,7 @@ export const Plant = () => {
             pt: 2,
           }}
         >
+          {/* Plant Name Header*/}
           <Typography
             variant="h4"
             gutterBottom
@@ -207,6 +132,7 @@ export const Plant = () => {
             {plantData.name || plantData.commonName || plantData.scientificName}
           </Typography>
 
+          {/* Plant details (Desc, names, etc*/}
           <Box
             sx={{
               display: "flex",
@@ -260,17 +186,25 @@ export const Plant = () => {
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-between",
-          alignItems: "flex-start",
+          alignItems: "center",
           margin: "auto",
           width: "100%",
+          mt: 4,
+          gap: 2,
         }}
       >
         {/* My Plant Section*/}
-        <Box pl={2} sx={{ display: "flex", flexDirection: "column" }}>
+        <Card
+          variant="light"
+          sx={{
+            p: 2,
+            borderRadius: 4,
+            width: { xs: "100%", md: "30%" },
+          }}
+        >
           <Typography variant="h4" gutterBottom pt={4}>
             My Plant
           </Typography>
-
           <Box>
             <Typography variant="body1" gutterBottom>
               Planted on:
@@ -279,10 +213,17 @@ export const Plant = () => {
               Growth Status:
             </Typography>
           </Box>
-        </Box>
+        </Card>
 
         {/* Growing Info Section*/}
-        <Box sx={{ textAlign: "left" }}>
+        <Card
+          variant="light"
+          sx={{
+            p: 2,
+            borderRadius: 4,
+            width: { xs: "100%", md: "65%" },
+          }}
+        >
           <Typography variant="h4" pt={4} pl={2}>
             Growing Information
           </Typography>
@@ -329,49 +270,8 @@ export const Plant = () => {
               </Grid>
             ))}
           </Grid>
-        </Box>
+        </Card>
       </Box>
     </Container>
   );
 };
-
-/*
-
-        <Typography variant="h6" gutterBottom>
-          {plantData.scientificName}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.description}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.watering}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.light}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.soil}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.temperature}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.humidity}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.fertilizer}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.pruning}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.propagation}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.harvesting}
-        </Typography>
-        <Typography variant="h6" gutterBottom>
-          {plantData.problems}
-        </Typography>
-
-        */
