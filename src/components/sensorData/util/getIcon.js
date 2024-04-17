@@ -5,6 +5,10 @@ import DeviceIcon from "@mui/icons-material/HomeMaxOutlined";
 import TemperatureIcon from "@mui/icons-material/Thermostat";
 import HumidityIcon from "@mui/icons-material/Opacity";
 
+import AutoFixHighIcon from '@mui/icons-material/AutoFixHigh';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
+import ScienceOutlinedIcon from '@mui/icons-material/ScienceOutlined';
+
 //Function to get the icon for the sensor
 export const getIcon = (sensor) => {
   switch (sensor) {
@@ -16,6 +20,8 @@ export const getIcon = (sensor) => {
       return TemperatureIcon;
     case "Humidity Sensor":
       return HumidityIcon;
+    case "PH":
+      return DriveFileRenameOutlineIcon;
     default:
       return null;
   }

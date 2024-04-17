@@ -7,7 +7,7 @@
 
 import { useNavigate } from "react-router-dom";
 
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Grid, Typography, colors } from "@mui/material";
 
 //Import Components
 import ButtonCard from "../ButtonCard";
@@ -34,6 +34,7 @@ const SensorInfoBanner = ({ sensorData }) => {
               <Grid item xs={6} key={index}>
                 <ButtonCard
                   title={sensor}
+                  sx={{ color: 'text.cardTitle' }}
                   onClick={() => {
                     navigate(`/sensor/${sensor}`, {
                       state: { measurement: sensor, latestReading: sensorData[sensor] },
