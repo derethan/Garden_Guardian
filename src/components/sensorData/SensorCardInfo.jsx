@@ -4,36 +4,14 @@
  ***********************************************/
 
 import { Box, Typography } from "@mui/material";
+import { sensorFormat } from "./util/sensorFormat";
+import { iconColor } from "./util/iconColor";
 
 const SensorCardInfo = ({ sensor, sensorData, Icon }) => {
-  const sensorFormat = (sensor) => {
-    if (sensor === "Humidity Sensor") {
-      return "%";
-    } else if (sensor === "PH") {
-      return " pH";
-    } else {
-      return "°C";
-    }
-  };
-
-  const iconColor = (sensor) => {
-    switch (sensor) {
-      case "PH":
-        if (sensorData[sensor] <= 5 || sensorData[sensor] >= 7) {
-          return "error.main";
-        } else if (sensorData[sensor] < 5.8 || sensorData[sensor] > 6.2) {
-          return "warning.main";
-        } else {
-          return "success.main";
-        }
-      default:
-        return "primary.secondary";
-    }
-  };
 
   return (
     <>
-      {Icon && <Icon sx={{ fontSize: 80, color: iconColor(sensor) }} />}
+      {Icon && <Icon sx={{ fontSize: 80, color: iconColor(sensor, sensorData) }} />}
       <Box>
         <Typography
           variant="caption"
