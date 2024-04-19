@@ -22,8 +22,6 @@ const DataExplorerOptions = ({ optionData, setOptionData }) => {
 
   //Handles the change of the Frequency and Timeframe
   const handleChange = (event) => {
-
-
     if (event.target.name === "frequency") {
       setFrequency(event.target.value); // Sets the frequency value to the slider value
 
@@ -45,7 +43,7 @@ const DataExplorerOptions = ({ optionData, setOptionData }) => {
     }
   };
 
-  //Formats the Label for the Frequency Slider - Converts the value to minutes or hours
+  //Formats the Label for the Frequency Slider - Converts the value to M/H/D format
   function valueLabelFormat(value) {
     if (value < 60) {
       return value + "m";
@@ -88,9 +86,8 @@ const DataExplorerOptions = ({ optionData, setOptionData }) => {
       }}
     >
       <Tooltip
-        title={`Display Sensor Data for the Past ${optionData.timeframe}` }
+        title={`Display Sensor Data for the Past ${optionData.timeframe}`}
         placement="top"
-        
       >
         <FormControl sx={{ width: "150px" }}>
           <InputLabel id="timeframe">Timeframe</InputLabel>
@@ -113,8 +110,12 @@ const DataExplorerOptions = ({ optionData, setOptionData }) => {
         </FormControl>
       </Tooltip>
 
-      <Tooltip title={`Display the Data every ${valueLabelFormat(setScale(frequency))} for the past ${optionData.timeframe}`}
-      placement="top">
+      <Tooltip
+        title={`Display the Data every ${valueLabelFormat(
+          setScale(frequency)
+        )} for the past ${optionData.timeframe}`}
+        placement="top"
+      >
         <Box width={"200px"}>
           <Typography id="frequency" gutterBottom>
             Frequency
