@@ -1,8 +1,8 @@
 /*******************************************
  *  Description:  This component is used to display:
- * 
+ *
  * The overview (Todays Rundown and Some quick stats) of the sensor data on the $SensorData Page
- * 
+ *
  * The Component Contains:
  * - The Todays Rundown Section
  * - Simple Line Chart for the past 24 hours
@@ -13,6 +13,7 @@ import { useEffect, useState } from "react";
 import { Box, Grid, Typography, useTheme } from "@mui/material";
 import { SparkLineChart } from "@mui/x-charts/SparkLineChart";
 import { average, highestPoint, lowestPoint } from "./util/calculations";
+import { sensorFormat } from "./util/sensorFormat";
 
 const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
   const theme = useTheme();
@@ -42,6 +43,7 @@ const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
     if (deviceID) {
       fetchData("24h", "15m");
     }
+    
   }, [deviceID, measurement]); // eslint-disable-line
 
   return (
@@ -72,13 +74,13 @@ const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
 
         {/* Chart Display*/}
         {graphData.length > 0 && (
-          <Box p={4} sx={{width: {xs: '100%', md: '75%'}}}>
+          <Box p={4} sx={{ width: { xs: "100%", md: "75%" } }}>
             <SparkLineChart
               plotType="line"
               data={graphData}
               height={50}
               showTooltip
-              colors={[theme.palette.primary.main,]}
+              colors={[theme.palette.primary.main]}
             />
           </Box>
         )}
@@ -95,8 +97,11 @@ const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
           pb: 4,
         }}
       >
-
-        <Grid container spacing={2} sx={{width:{xs:'100%', sm: '75%', md:'50%'}}}>
+        <Grid
+          container
+          spacing={2}
+          sx={{ width: { xs: "100%", sm: "75%", md: "50%" } }}
+        >
           <Grid item xs={6} mt={2}>
             <Typography
               variant="subtitle"
@@ -106,8 +111,7 @@ const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
               Current
             </Typography>
             <Typography variant="h6" color="text.main">
-              {latestReading ? latestReading : 0}{" "}
-              {measurement.includes("Humidity") ? "%" : `\u00B0C`}
+              {latestReading ? latestReading : 0} {sensorFormat(measurement)}
             </Typography>
           </Grid>
 
@@ -120,9 +124,7 @@ const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
               Todays Average
             </Typography>
             <Typography variant="h6" color="text.main">
-              {average(graphData)}{" "}
-              {measurement.includes("Humidity") ? "%" : `\u00B0C`}
-
+              {average(graphData)} {sensorFormat(measurement)}
             </Typography>
           </Grid>
 
@@ -135,8 +137,8 @@ const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
               Lowest Point
             </Typography>
             <Typography variant="h6" color="text.main">
-              {lowestPoint(Data) ? lowestPoint(Data).value : 0}{' '}
-              {measurement.includes("Humidity") ? "%" : `\u00B0C`}
+              {lowestPoint(Data) ? lowestPoint(Data).value : 0}{" "}
+              {sensorFormat(measurement)}
             </Typography>
           </Grid>
 
@@ -149,8 +151,9 @@ const SensorOverviewContainer = ({ deviceID, measurement, latestReading }) => {
               Highest Point
             </Typography>
             <Typography variant="h6" color="text.main">
-              {highestPoint(Data) ? highestPoint(Data).value : 0}{` `}
-              {measurement.includes("Humidity") ? "%" : `\u00B0C`}
+              {highestPoint(Data) ? highestPoint(Data).value : 0}
+              {` `}
+              {sensorFormat(measurement)}
             </Typography>
           </Grid>
         </Grid>
