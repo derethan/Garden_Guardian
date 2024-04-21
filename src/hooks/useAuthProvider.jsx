@@ -99,7 +99,11 @@ const AuthProvider = ({ children }) => {
     setToken("");
     setDeviceID("");
     setDeviceInfo([]);
-    localStorage.clear();
+
+    //Remove Local Storage Items
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("activeDevice");
   };
 
   //Make a request to the protected route on the server to verify token
