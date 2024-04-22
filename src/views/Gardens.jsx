@@ -25,7 +25,7 @@ const Gardens = () => {
 
   const [gardens, setGardens] = useState( () =>
     {
-      const allGardens = JSON.parse(localStorage.getItem("gardens"));
+      const allGardens = JSON.parse(localStorage.getItem("gardens")) || [];
       const userGardens = allGardens.filter(garden => garden.userID === user.id);
       return userGardens.length > 0 ? userGardens : null;
     }
@@ -43,9 +43,9 @@ const Gardens = () => {
   }
   );
 
-  useState(() => {
-    console.log("gardens", gardens);
-  }, [gardens]);
+  // useState(() => {
+  //   console.log("gardens", gardens);
+  // }, [gardens]);
 
   return (
     <Container

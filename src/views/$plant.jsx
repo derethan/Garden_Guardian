@@ -28,6 +28,9 @@ export const Plant = () => {
     : [];
   const [plantData, setPlantData] = useState(initialPlantData[0] || {});
 
+  const sowInstructions = plantData.howtoSow.split(".");
+  const Temperature =sowInstructions[sowInstructions.length - 2];
+
   const plantProperties = [
     { label: "Scientific Name", value: plantData.scientific_name },
     { label: "Genus", value: plantData.genus },
@@ -45,7 +48,7 @@ export const Plant = () => {
     },
     {
       label: "Temperature",
-      value: plantData.temperature || "N/A",
+      value: Temperature || "N/A",
       icon: TemperatureIcon,
     },
     {
@@ -55,19 +58,12 @@ export const Plant = () => {
     },
   ];
 
-  // useEffect(() => {
-  //   const plant = plantData.slug || plantData.name
-  //   const  url = import.meta.env.VITE_API_URL + "api/plants/" + plant;
+  useEffect(() => {
+console.log("plantData", plantData);
+console.log(Temperature);
 
-  //   const fetchPlantInfo = async () => {
-  //     const response = await fetch(url);
-  //     const data = await response.json();
-  //     console.log(data.data.main_species);
-  //   };
 
-  //   fetchPlantInfo();
-
-  // }, []);
+  }, []);
 
   return (
     <Container maxWidth="none">
@@ -109,7 +105,7 @@ export const Plant = () => {
           }}
         />
 
-        {/* Plant Properties Banner*/}
+        {/* Plant Name and Description Banner*/}
         <Box
           sx={{
             display: "flex",
@@ -117,6 +113,7 @@ export const Plant = () => {
             justifyContent: "center",
             alignItems: "center",
             margin: "auto",
+            borderRadius: 4,
             backgroundColor: theme.palette.background.lightGrey,
             width: { xs: "100%", md: "50%" },
             mt: 2,
