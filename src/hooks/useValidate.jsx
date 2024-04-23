@@ -16,6 +16,7 @@ export function useValidate(data) {
       "email",
       "password",
       "confirmPassword",
+      "newPassword",
       "gardenName",
       "gardenLocation",
       "gardenType",
@@ -24,6 +25,8 @@ export function useValidate(data) {
       "label",
       "gardenID",
     ];
+
+
     requiredFields.forEach((field) => {
       if (field in data && !data[field]) {
         formErrors[field] = `This Field is required`;
@@ -78,5 +81,5 @@ export function useValidate(data) {
     }
   };
 
-  return [formErrors, validateForm]; // Return the state and the event handlers
+  return [formErrors, validateForm, setErrors]; // Return the state and the event handlers
 }
