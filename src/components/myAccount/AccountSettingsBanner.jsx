@@ -3,25 +3,46 @@ import {
   Container,
   Typography,
   Grid,
-  Input,
   TextField,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { useState } from "react";
 
 import { PrimaryButton } from "../PrimaryButton";
-import PasswordWithConfirmInput from "../account/PasswordWithConfirmInput";
+
+//Form Validation Import
+import { useValidate } from "../../hooks/useValidate";
+
+import { usePostRequest } from "../../hooks/usePostRequest";
+import { useAuth } from "../../hooks/useAuthProvider";
 
 const AccountSettingsBanner = () => {
+  // User Data
+  const { user } = useAuth();
+
+  const [postStatus, postMessage, responseData, setPostMessage, postData] =
+    usePostRequest();
+
+  // State Variables
   const [formData, setFormData] = useState({
-    currentPassword: "",
-    newPassword: "",
-  });
-  const [formErrors, setFormErrors] = useState({
-    currentPassword: "",
+    password: "",
     newPassword: "",
   });
 
+  const [snackBarState, setSnackBarState] = useState({
+    open: false,
+    horizontal: "right",
+    vertical: "bottom",
+  });
+
+  // Form Validation
+  const [formErrors, validateForm, setErrors] = useValidate(formData);
+
   const handleChange = (e) => {
+    //Clear form errors
+    setErrors({});
+
     const { name, value } = e.target;
     setFormData({
       ...formData,
@@ -31,11 +52,49 @@ const AccountSettingsBanner = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    setFormData({
-      currentPassword: "",
-      newPassword: "",
-    });
+
+    // If Demo Account do not allow password change
+    if (user.email === "demo") {
+      setErrors({ password: "Password cannot be changed on a demo account" });
+      return;
+    }
+
+    // Validate Form Data
+    if (validateForm()) {
+      // If the Passwords are the same do not allow password change
+      if (formData.password === formData.newPassword) {
+        setErrors({
+          password: "New password cannot be the same as the old password",
+          newPassword: "New password cannot be the same as the old password",
+        });
+        return;
+      }
+
+      // Post Request Goes Here
+      const URL = import.meta.env.VITE_API_URL;
+
+      postData(URL + "users/changePassword", formData).then((response) => {
+        if (response.status === 401) {
+          setErrors({ password: response.message });
+          return;
+        }
+
+        if (response.status === 200) {
+          setPostMessage(response.message);
+        }
+
+        //Reset form data
+        setFormData({
+          password: "",
+          newPassword: "",
+        });
+
+        //Show Snackbar
+        setSnackBarState({ ...snackBarState, open: true });
+      });
+    } else {
+      console.log("Form is invalid");
+    }
   };
 
   return (
@@ -58,7 +117,7 @@ const AccountSettingsBanner = () => {
             md={12}
             sx={{
               display: "flex",
-              flexDirection: { xs: "column", md: "row" },
+              flexDirection: "column",
               justifyContent: "space-evenly",
               alignItems: "center",
             }}
@@ -88,20 +147,26 @@ const AccountSettingsBanner = () => {
             >
               <TextField
                 type="password"
-                name="currentPassword"
-                value={formData.currentPassword}
+                name="password"
+                label="Password"
+                autoComplete="off"
+                value={formData.password}
                 onChange={handleChange}
                 placeholder="Current Password"
                 color="primary"
                 size="small"
                 variant="outlined"
                 sx={{
-                  backgroundColor: "background.default",
+                  backgroundColor: "background.lightGrey",
+                  width: { xs: "100%", sm: "300px" },
                 }}
+                error={formErrors.password ? true : false}
+                helperText={formErrors.password}
               />
               <TextField
                 type="password"
                 name="newPassword"
+                label="New Password"
                 value={formData.newPassword}
                 onChange={handleChange}
                 placeholder="New Password"
@@ -109,14 +174,38 @@ const AccountSettingsBanner = () => {
                 size="small"
                 variant="outlined"
                 sx={{
-                  backgroundColor: "background.default",
+                  backgroundColor: "background.lightGrey",
+                  width: { xs: "100%", md: "300px" },
                 }}
+                error={formErrors.newPassword ? true : false}
+                helperText={formErrors.newPassword}
               />
+
               <PrimaryButton type="submit" text="Change Password" />
             </Box>
           </Grid>
         </Grid>
       </Box>
+
+      {/* Snackbar to display success message */}
+      <Snackbar
+        anchorOrigin={{
+          vertical: snackBarState.vertical,
+          horizontal: snackBarState.horizontal,
+        }}
+        open={snackBarState.open}
+        autoHideDuration={6000}
+        onClose={() => setSnackBarState({ ...snackBarState, open: false })}
+      >
+        <Alert
+          onClose={() => setSnackBarState({ ...snackBarState, open: false })}
+          severity="success"
+          variant="filled"
+          sx={{ width: "100%" }}
+        >
+          {postMessage}
+        </Alert>
+      </Snackbar>
     </Container>
   );
 };
