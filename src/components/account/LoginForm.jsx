@@ -3,15 +3,35 @@ import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";
 
 import { useLogin } from "../../hooks/useLogin";
 import { useAuth } from "../../hooks/useAuthProvider";
+import { useEffect } from "react";
 
 import EmailPasswordInput from "./EmailPasswordInput";
 import LoginFormButtons from "./LoginFormButtons";
 
+import { useLocation } from "react-router-dom";
+
+
 const LoginForm = () => {
-  const { loginData, formErrors, handleChange, handleSubmit } = useLogin();
+  const { loginData, formErrors, handleChange, handleSubmit, handleDemoLogin } = useLogin();
   const {postStatus, postMessage } = useAuth();
 
   const theme = useTheme();
+
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const demo = params.get("demo");
+
+  // Automatically log the user in with demo account
+  useEffect(() => {
+    if (demo) {
+      const demoAccount = {
+        email: "demo",
+        password: "demo",
+      };
+
+      handleDemoLogin(demoAccount);
+    }
+  }, []);
 
   return (
     <Card variant="light" sx={{ padding: 2 }}>
