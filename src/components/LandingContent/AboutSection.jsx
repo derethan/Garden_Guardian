@@ -1,31 +1,107 @@
-import { Container, Typography } from "@mui/material";
+import { Container, Typography, Box, colors } from "@mui/material";
 
 const AboutSection = () => {
   return (
-    <Container component="section" sx={{
+    <Container
+      component="section"
+      sx={{
         mt: 3,
         mb: 3,
         p: 2,
         boxShadow: 2,
-    }}>
-      <Typography variant="h5" component="h5" fontWeight="bold" textAlign="center" ml="8px">
+      }}
+    >
+      <Typography
+        variant="h5"
+        component="h5"
+        fontWeight="bold"
+        textAlign="center"
+        ml="8px"
+        color={"text.main"}
+      >
         About Us
       </Typography>
-      <Typography variant="body2" component="p" pt='1rem'>
+      <Typography
+        variant="caption"
+        component="p"
+        pt="1rem"
+        color={"text.cardTitle"}
+        fontWeight={"bold"}
+      >
         Here at Garden Guardian, we are not just developing an agricultural IoT
-        platform; we are cultivating a sustainable future. 
-        <br /><br />
-        Our mission is to make gardening accessible to everyone, regardless of their experience level. 
-        We believe that by empowering individuals to grow their own food, we can create a more sustainable world. 
-        <br /><br />
-        Our platform provides real-time sensor data and historical insights, essential tools for planning and managing gardens, and AI integration for advanced scheduling and crop management.
+        platform;{" "}
+        <Typography
+          variant="caption"
+          component="span"
+          color={"text.main"}
+          fontWeight={"bold"}
+        >
+          we are cultivating a sustainable future.
+        </Typography>
       </Typography>
+
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: { xs: "column", md: "row" },
+          justifyContent: { xs: "center", sm: "space-evenly" },
+          alignItems: "center",
+          mt: 2,
+        }}
+      >
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Typography
+            variant="h6"
+            component="p"
+            pt="1rem"
+            color={"text.cardTitle"}
+            fontWeight={"bold"}
+          >
+            The Goal
+          </Typography>
+          <Typography
+            variant="caption"
+            component="p"
+            pt="1rem"
+            color={"text.subtitle"}
+            fontWeight={"bold"}
+            maxWidth={"400px"}
+          >
+            Our mission is to make gardening accessible to everyone, regardless
+            of their experience level. We believe that by empowering individuals
+            to grow their own food, we can create a more sustainable future.
+          </Typography>
+        </Box>
+
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <Typography
+            variant="h6"
+            component="p"
+            pt="1rem"
+            color={"text.cardTitle"}
+            fontWeight={"bold"}
+          >
+            The Platform
+          </Typography>
+          <Typography
+            variant="caption"
+            component="p"
+            pt="1rem"
+            color={"text.subtitle"}
+            fontWeight={"bold"}
+            maxWidth={"400px"}
+          >
+            Our platform provides real-time sensor data and historical insights,
+            essential tools for planning and managing gardens, and AI
+            integration for Advanced Scheduling, Crop management and Gardening assistance.
+          </Typography>
+        </Box>
+      </Box>
     </Container>
   );
 };
 
 export default AboutSection;
-
 
 // Environmental Stewardship
 // We empower companies to optimize their growing environments, reducing waste and the use of fertilizers. Our technology supports regenerative agricultural practices, helping to sustain our planet for future generations.
