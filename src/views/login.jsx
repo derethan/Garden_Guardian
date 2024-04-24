@@ -30,7 +30,7 @@ export default function Login() {
             
             <LoginForm />
 
-            <OathLogin />
+            {/* <OathLogin /> */}
 
         </Container>
 
