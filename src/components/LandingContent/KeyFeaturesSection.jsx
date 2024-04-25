@@ -1,4 +1,7 @@
 import { Container, Grid, Typography } from "@mui/material";
+
+
+//Import MUI Icons
 import FeatureIcon from "../FeatureIcon";
 import SensorsIcon from '@mui/icons-material/Sensors';
 import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -6,6 +9,7 @@ import AnalyticsOutlinedIcon from '@mui/icons-material/AnalyticsOutlined';
 import SeedlingIcon from "../icons/SeedlingIcon";
 import LanguageOutlinedIcon from '@mui/icons-material/LanguageOutlined';
 import HealthAndSafetyOutlinedIcon from '@mui/icons-material/HealthAndSafetyOutlined';
+import GrassIcon from '@mui/icons-material/Grass';
 
 const KeyFeaturesSection = () => {
 
@@ -38,9 +42,9 @@ const KeyFeaturesSection = () => {
         </Grid>
         <Grid item xs={12} md={4}>
           <FeatureIcon
-            icon={NotificationsIcon}
-            title="Custom Alerts"
-            description="Get notified when something happens"
+            icon={GrassIcon}
+            title="Crop Management"
+            description="Keep track of your plants and their needs"
           />
         </Grid>
         <Grid item xs={12} md={4}>
