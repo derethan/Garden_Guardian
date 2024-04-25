@@ -37,6 +37,7 @@ const theme = createTheme({
       main: "#008000", //green
       cardTitle: "#2A2A2A", //dark grey
       subtitle: "#848386", //light grey
+      subtitle2: "#4F4E50", //darkest grey
       textDark: "#2A2A2A", //dark grey
     },
     sidebar: {
