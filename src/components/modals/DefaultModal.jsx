@@ -35,9 +35,12 @@ export const DefaultModal = ({
         <Card
           variant="light"
           sx={{
-            padding: 2,
-            width: {xs: "90%", md: "auto"},
+            pl: 2,
+            pr: 2,
+            width: {xs: "100%", md: "auto"},
             maxWidth: { md: "100%", lg: "100%" },
+            maxHeight: "80vh",
+            overflowY: "auto",
           }}
           component="form"
           onSubmit={handleSubmit}
@@ -47,7 +50,7 @@ export const DefaultModal = ({
 
           <DialogContent>{children}</DialogContent>
 
-          <DialogActions sx={{ justifyContent: "center", gap:4 }}>
+          <DialogActions sx={{ justifyContent: "center", gap:4, pb:2 }}>
             {cancel && (
               <PrimaryButton
                 text="Cancel"
