@@ -52,6 +52,14 @@ const AccountMenuIcon = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
+        <MenuItem
+          component={Link}
+          to={"/dashboard"}
+          key={"Dashboard"}
+          onClick={handleCloseUserMenu}
+        >
+          <Typography textAlign="center">Dashboard</Typography>
+        </MenuItem>
         {privateAppRoutes.map(
           (link) =>
             link.Type === "User" && (
