@@ -10,8 +10,6 @@ import { useEffect } from "react";
 import { useAuth } from "../hooks/useAuthProvider";
 import { useNavigate } from "react-router-dom";
 
-
-
 export default function Register() {
   const user = useAuth();
   const navigate = useNavigate();
@@ -20,11 +18,15 @@ export default function Register() {
     if (user.isLoggedIn) {
       navigate("/dashboard");
     }
-  }, []);// eslint-disable-line
-  
+  }, []); // eslint-disable-line
+
   return (
-    <Container maxWidth="sm" sx={{ paddingTop: 4 }}>
-      <RegisterForm />
-    </Container>
+    <>
+      {" "}
+      <LandingSiteNav />
+      <Container maxWidth="sm" sx={{ paddingTop: 4 }}>
+        <RegisterForm />
+      </Container>
+    </>
   );
 }
