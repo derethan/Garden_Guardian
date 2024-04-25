@@ -26,6 +26,7 @@ const BottomNav = ({ view }) => {
         left: 0,
         right: 0,
         backgroundColor: "sidebar.primary",
+        zIndex: 1000,
       }}
       elevation={3}
     >
