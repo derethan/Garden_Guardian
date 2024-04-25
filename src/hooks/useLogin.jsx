@@ -55,6 +55,28 @@ export function useLogin() {
     }
   };
 
+  // DEMO USE ONLY: Handle the demo login - When user click the Demo Button, auto log in
+  const handleDemoLogin = async (demoAccount) => {
+    
+    try {
+      // Attempt to login
+      const response = await auth.loginAction(demoAccount);
+
+      if (!response) {
+        throw new Error("503 Service Unavailable");
+      } else if (response.status === 201) {
+        navigate("/dashboard");
+      } else {
+        throw new Error(response.message);
+      }
+      
+    } catch (error) {
+      console.error(error);
+    }
+
+  };
+
+
   //Return the state and the event handlers
-  return { loginData, formErrors, handleChange, handleSubmit };
+  return { loginData, formErrors, handleChange, handleSubmit, handleDemoLogin };
 }
