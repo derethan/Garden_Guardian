@@ -1,7 +1,23 @@
-import { Container, Typography } from "@mui/material";
+import { Box, Container, Typography } from "@mui/material";
 import { PrimaryButton } from "../PrimaryButton";
 
+import { useNavigate } from "react-router-dom";
+
+//import Auth Context
+import { useAuth } from "../../hooks/useAuthProvider";
+
 const ComingSoonSection = () => {
+  const { isLoggedIn } = useAuth();
+  const Navigate = useNavigate();
+
+  const handleClick = () => {
+    Navigate("/register");
+  };
+
+  const handleDemoLogin = () => {
+    Navigate("/login?demo=true");
+  };
+
   return (
     <Container
       component="section"
@@ -16,7 +32,7 @@ const ComingSoonSection = () => {
         variant="h5"
         component="h5"
         gutterBottom
-        sx={{ fontWeight: "bold" }}
+        sx={{ fontWeight: "bold", color: "text.main" }}
       >
         Get Ready, We are Launching Soon...
       </Typography>
@@ -33,7 +49,12 @@ const ComingSoonSection = () => {
         updates.
       </Typography>
 
-      <PrimaryButton text={"Sign Up"} />
+      {!isLoggedIn && (
+        <Box sx={{ display: "flex", justifyContent: "center", gap: 2, pt: 2 }}>
+          {/* <PrimaryButton text={"Create Account"} onClick={handleClick} /> */}
+          <PrimaryButton text={"Try our Demo"} onClick={handleDemoLogin} />
+        </Box>
+      )}
     </Container>
   );
 };
