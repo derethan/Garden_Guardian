@@ -25,6 +25,7 @@ const PlantOverview = ({ user }) => {
             mt: 4,
             p: 2,
             borderRadius: 4,
+            width: { xs: "100%", md: "80%" },
           }}
         >
           <Typography variant="h6" color={"text.main"} fontWeight={"bold"}>
@@ -83,7 +84,7 @@ const PlantOverview = ({ user }) => {
             }}
           >
             <Typography variant="body2" color={"text.main"} fontWeight={"bold"}>
-              Here is what you have growing:{' '}
+              Here is what you have growing:{" "}
               <Typography
                 variant="span"
                 color={"text.subtitle"}
@@ -105,13 +106,21 @@ const PlantOverview = ({ user }) => {
                 <Typography
                   key={index}
                   variant="subtitle2"
-                  color={"text.subtitle"}
+                  color={"text.textDark"}
                   fontWeight={"bold"}
                   pt={1}
+                  pl={10}
                   textAlign={"left"}
                 >
                   {plant.name} {plant.variant && "(" + plant.variant + ")"} -{" "}
-                  {group.groupName}
+                  <Typography
+                    component={"span"}
+                    variant={"caption"}
+                    color={"text.subtitle"}
+                    fontWeight={"bold"}
+                  >
+                    {group.groupName}
+                  </Typography>
                 </Typography>
               );
             })}
@@ -119,7 +128,11 @@ const PlantOverview = ({ user }) => {
         </Card>
       ) : (
         // Display a Placeholder Card if the User has no Gardens
-        <NotFound />
+        <NotFound
+          location={"/gardens"}
+          title={"Garden Overview"}
+          subtitle={"No gardens Found"}
+        />
       )}
     </>
   );
