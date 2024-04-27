@@ -16,7 +16,7 @@ export default defineConfig(({ command, mode }) => {
     base = "/";
   } else {
     // When building for production, set the base property for GitHub Pages
-    base = "/Garden_Guardian/";
+    base = "/";
   }
 
   return {
