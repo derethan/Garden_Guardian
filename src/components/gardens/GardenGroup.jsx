@@ -105,7 +105,7 @@ const GardenGroup = ({
       </Box>
 
       {/* Display component for each Plant */}
-      {gardenPlants.some((plant) => plant.groupID === group.groupID) ? (
+      {gardenPlants && gardenPlants.some((plant) => plant.groupID === group.groupID) ? (
         <Box pt={4}>
           {gardenPlants
             .filter((plant) => plant.groupID === group.groupID)

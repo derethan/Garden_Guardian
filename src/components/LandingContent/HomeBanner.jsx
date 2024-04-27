@@ -37,7 +37,7 @@ const HomeBanner = () => {
       >
         Monitor, Manage and Grow with Ease
       </Typography>
-      <PrimaryButton text="Get Started" onClick={handleClick} />
+      {/* <PrimaryButton text="Get Started" onClick={handleClick} /> */}
     </Container>
   );
 };

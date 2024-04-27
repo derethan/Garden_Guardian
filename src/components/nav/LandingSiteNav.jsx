@@ -24,9 +24,8 @@ import { useAuth } from "../../hooks/useAuthProvider";
 
 const pages = [
   { name: "Home", path: "/" },
-  { name: "Features", path: "/features" },
-  { name: "Contact Us", path: "/contact" },
-  { name: "Premium", path: "/premium" },
+  { name: "About Us", path: "/about" },
+  // { name: "Contact Us", path: "/contact" },
 ];
 
 //AppBarTop Component

@@ -143,10 +143,10 @@ const AddDevice = ({ display, setShowAddDeviceModal }) => {
             </Box>
           </DialogContent>
           <DialogActions sx={{ justifyContent: "center" }}>
-            <PrimaryButton
+            {/* <PrimaryButton
               text="Cancel"
               onClick={() => setShowAddDeviceModal(false)}
-            />
+            /> */}
             <PrimaryButton text="Submit" type="submit" />
           </DialogActions>
         </Card>

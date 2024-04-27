@@ -1,14 +1,41 @@
-//*******************************************************************************
+/*******************************************************************************
 // Description: The PlantInfoContainer component displays the selected plant's
 // information. The component receives the selectedPlant and plantData as props.
 // The selectedPlant is the plant that the user has selected from the add Plant Modal.
 // The Container is conditionally rendered when a user selects a plant from the List.
 
 // Used IN:  AddPlant.jsx
+*******************************************************************************/
 
 import { Box, Typography } from "@mui/material";
+import placeholderPlant from "../../assets/generic_potted_plant.png";
+import { useState, useEffect } from "react";
 
-export const PlantInfoContainer = ({ selectedPlant }) => {
+import { CircularProgress } from "@mui/material";
+
+export const PlantInfoContainer = ({ selectedPlant, plantDescription, setPlantDescription }) => {
+  const URL = import.meta.env.VITE_API_URL;
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchPlantDescription = async (plantName) => {
+      setLoading(true);
+
+      try {
+        const response = await fetch(URL + `ai/${plantName}`);
+        const result = await response.json();
+        setPlantDescription(result);
+      } catch (error) {
+        console.error("Error:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (selectedPlant) {
+      fetchPlantDescription(selectedPlant.name || selectedPlant.common_name);
+    }
+  }, [selectedPlant]);
 
   return (
     <Box pt={4}>
@@ -25,42 +52,64 @@ export const PlantInfoContainer = ({ selectedPlant }) => {
             borderRadius: 5,
           }}
         >
-          {selectedPlant.image_url && (
-            <Box
-              component="img"
-              src={selectedPlant.image_url}
-              alt={selectedPlant.name}
-              width={"200px"}
-              height={"200px"}
-              ml={'auto'}
-              mr={'auto'}
-            />
-          )}
+          <Box
+            component="img"
+            src={selectedPlant.image_url || placeholderPlant}
+            alt={selectedPlant.name}
+            width={"150px"}
+            height={"150px"}
+            ml={"auto"}
+            mr={"auto"}
+          />
 
-          <Box sx={{width: {xs: '100%', md: '75%'}}}>
-            <Typography variant="h5" pb={2}>
+          <Box sx={{ width: { xs: "100%", md: "75%" } }}>
+            <Typography variant="h5" pb={0} color={'text.main'}>
               {selectedPlant.name ||
                 selectedPlant.common_name ||
                 selectedPlant.scientific_name}
             </Typography>
 
-            <Typography
-              variant="subtitle2"
-              pb={1}
-              sx={{ display: "flex", justifyContent: 'space-around' }}
-            >
-              <span style={{ fontWeight: "bold" }}>Family:</span>{" "}
-              {selectedPlant.family}
-            </Typography>
+            {selectedPlant.common_name && !selectedPlant.scientific_name && (
+              <Typography
+                variant="caption"
+                pb={1}
+                sx={{ display: "flex", justifyContent: "space-around" }}
+              >
+                <span style={{ fontWeight: "bold" }}>
+                  {selectedPlant.common_name}
+                </span>
+              </Typography>
+            )}
 
-            <Typography
-              variant="subtitle2"
-              pb={1}
-              sx={{ display: "flex", justifyContent: "space-around" }}
-            >
-              <span style={{ fontWeight: "bold" }}>Genus:</span>{" "}
-              {selectedPlant.genus}
-            </Typography>
+            {selectedPlant.family && (
+              <Typography
+                variant="subtitle2"
+                pb={1}
+                sx={{ display: "flex", justifyContent: "space-around" }}
+              >
+                <span style={{ fontWeight: "bold" }}>Family:</span>{" "}
+                {selectedPlant.family}
+              </Typography>
+            )}
+
+            {selectedPlant.genus && (
+              <Typography
+                variant="subtitle2"
+                pb={1}
+                sx={{ display: "flex", justifyContent: "space-around" }}
+              >
+                <span style={{ fontWeight: "bold" }}>Genus:</span>{" "}
+                {selectedPlant.genus}
+              </Typography>
+            )}
+
+            {!loading ? (
+              <Typography variant="body1" p={2} maxWidth={400} textAlign={'left'}>
+                {plantDescription}
+              </Typography>
+            ) : (
+              <CircularProgress p={2} />
+            )}
           </Box>
         </Box>
       ) : (

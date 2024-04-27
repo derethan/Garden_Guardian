@@ -1,5 +1,8 @@
 //Import Pages
 import Home from './views/home';
+import About from './views/About';
+
+// Auth Pages
 import Login from './views/login';
 import ResetPassword from './views/ResetPassword';
 import Register from './views/Register';
@@ -46,6 +49,7 @@ export const siteLinks = [
 
     // Content Pages
     {ID: 'Home', path: '/', Name: 'Home', Component: Home,},
+    {ID: 'About', path: '/about', Name: 'About US', Component: About,},
 
     // User Pages
     {ID: 'Login', path: '/login', Name: 'Login', Component: Login,},
@@ -67,8 +71,8 @@ export const privateAppRoutes = [
 
     // App Pages
     {Type: 'App', ID: 'Dashboard', path: '/dashboard', Name: 'Dashboard',icon: <DashboardIcon /> , Component: Dashboard,},
-    {Type: 'App', ID: 'Sensors', path: '/sensor', Name: 'Sensor Dashboard',icon: <SensorsIcon /> , Component: sensors,},
     {Type: 'App', ID: 'Crops', path: '/gardens', Name: 'Crop Management',icon: <GrassIcon />, Component: Gardens,},
+    {Type: 'App', ID: 'Sensors', path: '/sensor', Name: 'Sensor Dashboard',icon: <SensorsIcon /> , Component: sensors,},
     // {Type: 'App', ID: 'Schedule', path: '/schedule', Name: 'Schedule',icon: <CalendarMonthIcon />, Component: Schedule,},
     // {Type: 'App', ID: 'Weather', path: '/weather', Name: 'Weather',icon: <WbSunnyIcon />, Component: Weather,},
 

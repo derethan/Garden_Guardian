@@ -35,12 +35,14 @@ const AuthProvider = ({ children }) => {
     async function fetchDeviceInfo() {
       //check if the user has a device
       const response = await checkForDevice();
-
+      
       if (response.status) {
         // Setup the device state (devices) and Current Active Device (deviceID)
         let allDevices = response.device_id;
+
+        // Set the device info
         allDevices.forEach((device) => {
-          setDeviceInfo((prevState) => [...prevState, { deviceID: device }]);
+          setDeviceInfo((prevState) => [...prevState, { deviceID: device.device_id, deviceName: device.device_name }]);
         });
 
         // Set the hasDevice state to true
@@ -62,6 +64,12 @@ const AuthProvider = ({ children }) => {
       fetchDeviceInfo();
     }
   }, [ isLoggedIn]); // eslint-disable-line
+
+
+  // useEffect(() => {
+  //   console.log(devices);
+  // }, [devices]);
+
 
   //Create the post request hook - TODO: CHANGE TO OBJECT FROM ARRAY IN USEPOSTREQUEST
   const [postStatus, postMessage, , , postData] = usePostRequest();
@@ -99,7 +107,11 @@ const AuthProvider = ({ children }) => {
     setToken("");
     setDeviceID("");
     setDeviceInfo([]);
-    localStorage.clear();
+
+    //Remove Local Storage Items
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    localStorage.removeItem("activeDevice");
   };
 
   //Make a request to the protected route on the server to verify token

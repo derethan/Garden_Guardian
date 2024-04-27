@@ -16,6 +16,7 @@ export function useValidate(data) {
       "email",
       "password",
       "confirmPassword",
+      "newPassword",
       "gardenName",
       "gardenLocation",
       "gardenType",
@@ -24,6 +25,8 @@ export function useValidate(data) {
       "label",
       "gardenID",
     ];
+
+
     requiredFields.forEach((field) => {
       if (field in data && !data[field]) {
         formErrors[field] = `This Field is required`;
@@ -34,7 +37,7 @@ export function useValidate(data) {
     if (
       "email" in data &&
       !/\S+@\S+\.\S+/.test(data.email) &&
-      data.email !== ""
+      data.email !== "" && data.email !== 'demo'
     ) {
       formErrors.email = "Email address is invalid";
     }
@@ -43,7 +46,7 @@ export function useValidate(data) {
     if (
       "password" in data &&
       data.password.length < 6 &&
-      data.password !== ""
+      data.password !== "" && data.password !== 'demo'
     ) {
       formErrors.password = "Password must be at least 6 characters";
     } else {
@@ -52,7 +55,7 @@ export function useValidate(data) {
         !/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/.test(
           data.password
         ) &&
-        "password" in data
+        "password" in data && data.password !== 'demo'
       ) {
         formErrors.password =
           "Password must contain at least one uppercase letter, one lowercase letter, and one number";
@@ -78,5 +81,5 @@ export function useValidate(data) {
     }
   };
 
-  return [formErrors, validateForm]; // Return the state and the event handlers
+  return [formErrors, validateForm, setErrors]; // Return the state and the event handlers
 }

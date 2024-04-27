@@ -5,6 +5,7 @@ import { styled } from "@mui/system";
 
 import { drawerWidth } from "../../globalVar";
 
+import { Link } from "react-router-dom";
 //Notification Icons
 import NotificationsNone from "@mui/icons-material/NotificationsNoneOutlined";
 // import NotificationsActive from '@mui/icons-material/NotificationsActive';
@@ -79,18 +80,19 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
             width: "100%",
           }}
         >
+          {/* Displays the Logo and Page Title */}
           <Box name="PageTitle" display={"flex"} alignItems={"center"} gap={1}>
-            {isMobile && (
-              <Box
-                component="img"
-                src={shield}
-                alt="logo"
-                sx={{
-                  width: { xs: "25px", sm: "36px" },
-                  height: { xs: "25px", sm: "36px" },
-                }}
-              />
-            )}
+              <Link to="/">
+                <Box
+                  component="img"
+                  src={shield}
+                  alt="logo"
+                  sx={{
+                    width: { xs: "25px", sm: "36px" },
+                    height: { xs: "25px", sm: "36px" },
+                  }}
+                />
+              </Link>
             <PageTitle
               title={title}
               sx={{

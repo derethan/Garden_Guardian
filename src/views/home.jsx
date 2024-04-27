@@ -16,10 +16,10 @@ export default function Home() {
 <LandingSiteNav />
 
   <HomeBanner />
-  <AboutSection />
-  <InfoGraphicSection />
-  <KeyFeaturesSection />
   <ComingSoonSection />
+  <AboutSection />
+  {/* <InfoGraphicSection /> */}
+  <KeyFeaturesSection />
   <SiteFooter />
 </>
   

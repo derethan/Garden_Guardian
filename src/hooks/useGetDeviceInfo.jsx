@@ -68,5 +68,30 @@ export function useGetDeviceInfo() {
     }
   }
 
-  return { checkForDevice, isDeviceActive };
+  async function getSensorInfo(deviceID) {
+    //Import url from.env
+    const URL = import.meta.env.VITE_API_URL;
+
+    try {
+      // Make a request to the server to check the latest timestamp for the device
+      const response = await fetch(URL + "sensors/status/sensor", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          device_id: deviceID.deviceID,
+        },
+      });
+      // Get the response data
+      const responseData = await response.json();
+
+      return responseData;
+
+    } catch (error) {
+      console.error("There was an error checking for device: ", error);
+      return false;
+    }
+  }
+
+  return { checkForDevice, isDeviceActive, getSensorInfo };
 }

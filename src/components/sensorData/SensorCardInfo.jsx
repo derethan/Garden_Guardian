@@ -4,18 +4,26 @@
  ***********************************************/
 
 import { Box, Typography } from "@mui/material";
+import { sensorFormat } from "./util/sensorFormat";
+import { iconColor } from "./util/iconColor";
 
 const SensorCardInfo = ({ sensor, sensorData, Icon }) => {
+
   return (
     <>
-        <Icon sx={{ fontSize: 80}} />
+      {Icon && <Icon sx={{ fontSize: 80, color: iconColor(sensor, sensorData) }} />}
       <Box>
-        <Typography variant="caption" fontWeight="bold">
+        <Typography
+          variant="caption"
+          fontWeight={"bold"}
+          color={"text.subtitle"}
+        >
           Latest Reading
         </Typography>
 
-        <Typography variant="body1">
-          {sensorData[sensor]} {sensor === "Humidity Sensor" ? "%" : "°C"}
+        <Typography variant="body1" color={"text.cardTitle"} fontWeight={600}>
+          {sensorData[sensor]}
+          {sensorFormat(sensor)}
         </Typography>
       </Box>
     </>
