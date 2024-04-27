@@ -4,12 +4,12 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 import { useNavigate } from "react-router-dom";
 
-const NotFound = () => {
+const NotFound = ({ location, title, ...props }) => {
   // Initialize the Navigation Hook
   const navigate = useNavigate();
 
   const handleclick = () => {
-    navigate("/gardens");
+    navigate(location);
   };
 
   return (
@@ -17,7 +17,8 @@ const NotFound = () => {
       sx={{
         mt: 4,
         mb: 4,
-        width: { xs: "100%", md: "inherit" },
+        maxWidth: { xs: "100%", md: "500px" },
+        height: "250px",
         backgroundColor: "background.lightGrey",
         boxShadow: "none",
         border: "3px dashed #2A2A2A",
@@ -30,12 +31,12 @@ const NotFound = () => {
       }}
       onClick={handleclick}
     >
-      <Typography variant="h6" color={"text.main"} fontWeight={"bold"}>
-        Garden Overview
+      <Typography variant="h6" color={"text.main"} fontWeight={"bold"} pt={2}>
+        {title}
       </Typography>
 
       <Typography variant="h6" pt={2} pb={2}>
-        No Gardens Found!
+        {props.subtitle || "No Data Found"}
       </Typography>
 
       <Box
@@ -51,7 +52,7 @@ const NotFound = () => {
         <AddCircleOutlineIcon />
 
         <Typography variant="body1">
-          Click here to head over to the Crop Management Page to Get Started
+          Click here to Get Started
         </Typography>
       </Box>
     </ButtonCard>
