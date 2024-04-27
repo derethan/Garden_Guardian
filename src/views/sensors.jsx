@@ -1,7 +1,6 @@
 /**
- * Renders the Sensors view.
- * 
- * @returns {JSX.Element} The rendered Sensors component.
+ *  This page contains the Sensors component, 
+ * which is the main page for the user to view their sensor data.
  */
 
 // Imports
@@ -21,17 +20,17 @@ const Sensors = () => {
   // otherwise, render the LoadingScreen and AddDevice components.
   return (
     <>
-        {hasDevice ? (
-          <SensorData />
-        ) : (
-          <>
-            <LoadingScreen />
-            <AddDevice
-              display={showAddDeviceModal}
-              setShowAddDeviceModal={setShowAddDeviceModal}
-            />
-          </>
-        )}
+      {hasDevice ? (
+        <SensorData />
+      ) : (
+        <>
+          <LoadingScreen />
+          <AddDevice
+            display={showAddDeviceModal}
+            setShowAddDeviceModal={setShowAddDeviceModal}
+          />
+        </>
+      )}
     </>
   );
 };
