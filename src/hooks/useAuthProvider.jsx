@@ -28,6 +28,7 @@ const AuthProvider = ({ children }) => {
 
   // State variables for Current selected Device
   const [deviceID, setDeviceID] = useState("");
+  const [activeDevice, setActiveDevice] = useState();
   const [deviceStatus, setDeviceStatus] = useState("offline");
 
   //Check if the user has a device
@@ -51,9 +52,11 @@ const AuthProvider = ({ children }) => {
         // Set the first device as the active device, if there is no active device in local storage
         if (localStorage.getItem("activeDevice")) {
           setDeviceID(localStorage.getItem("activeDevice"));
+          setActiveDevice(allDevices.find((device) => device.device_id === localStorage.getItem("activeDevice")));
         } else {
-          setDeviceID(response.device_id[0]);
-          localStorage.setItem("activeDevice", response.device_id[0]);
+          setDeviceID(allDevices[0].device_id);
+          localStorage.setItem("activeDevice", allDevices[0].device_id);
+          setActiveDevice(allDevices[0]);
         }
 
         return;
@@ -67,8 +70,8 @@ const AuthProvider = ({ children }) => {
 
 
   // useEffect(() => {
-  //   console.log(devices);
-  // }, [devices]);
+  //   console.log(activeDevice);
+  // }, [activeDevice]);
 
 
   //Create the post request hook - TODO: CHANGE TO OBJECT FROM ARRAY IN USEPOSTREQUEST
@@ -159,6 +162,7 @@ const AuthProvider = ({ children }) => {
         devices,
         deviceID,
         deviceStatus,
+        activeDevice,
         loginAction,
         logout,
         verifyToken,
