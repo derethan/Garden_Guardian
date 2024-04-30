@@ -1,31 +1,28 @@
 import "./App.css";
 
-// Import MUI Dependencies
+// Import Dependencies
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "@mui/material";
-
-// Import Components
-import Header from "./components/header/header";
-import SideBarWrapper from "../src/components/SideBarWrapper";
+import { Suspense } from "react";
 
 // Import Routes
 import { siteLinks, privateAppRoutes } from "./routes";
 import PrivateRoute from "./hooks/PrivateRoute";
 
-// Import MUI Styles
-import CssBaseline from "@mui/material/CssBaseline";
-
 // Import Theme
+import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 
+// Import Components
+import SideBarWrapper from "../src/components/SideBarWrapper";
+import LoadingScreen from "./components/LoadingScreen";
+
+// Import context Providers
 import AuthProvider from "./hooks/useAuthProvider";
 
 // Main App Component
 export default function App() {
   return (
-    
     <BrowserRouter>
-
       <ThemeProvider theme={theme}>
         <div
           className="App"
@@ -34,10 +31,6 @@ export default function App() {
             color: theme.palette.text.primary,
           }}
         >
-          {/* <header className="App-header">
-            <Header />
-          </header> */}
-
           <main
             className="app-body"
             style={{
@@ -52,10 +45,13 @@ export default function App() {
                   <Route
                     key={link.ID}
                     path={link.path}
-                    element={<link.Component />}
+                    element={
+                      <Suspense fallback={<LoadingScreen />}>
+                        <link.Component />
+                      </Suspense>
+                    }
                   />
                 ))}
-
                 {/* Maps the Private Routes */}
                 <Route element={<PrivateRoute />}>
                   {privateAppRoutes.map((link) => (
@@ -63,8 +59,14 @@ export default function App() {
                       key={link.ID}
                       path={link.path}
                       element={
-                        <SideBarWrapper view={link.path} key={link.ID} title={link.Name}>
-                          <link.Component />
+                        <SideBarWrapper
+                          view={link.path}
+                          key={link.ID}
+                          title={link.Name}
+                        >
+                          <Suspense fallback={<LoadingScreen />}>
+                            <link.Component />
+                          </Suspense>
                         </SideBarWrapper>
                       }
                     />
