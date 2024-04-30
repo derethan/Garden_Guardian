@@ -1,0 +1,1 @@
+import{j as o}from"./index-05GlEqCj.js";import{B as a}from"./Button-rxqk8oU0.js";const s=({fullWidth:t,text:i,...r})=>o.jsxs(a,{...r,fullWidth:t,variant:"contained",color:"primary",sx:{borderRadius:20,opacity:r.opacity,marginTop:2,...r.sx},children:[r.children,i]});export{s as P};
