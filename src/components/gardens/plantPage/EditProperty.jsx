@@ -5,15 +5,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  TextField,
 } from "@mui/material";
-
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DateCalendar } from "@mui/x-date-pickers";
-
-import { useState } from "react";
-import dayjs from "dayjs";
 
 import { useGardenFunctions } from "../utils/useGardenFunctions";
 
@@ -48,6 +40,7 @@ const EditProperty = ({
     setFormData(null);
   };
 
+  // Close the dialog and reset the formData
   const handClose = () => {
     setOpen(false);
     setFormData(null);
@@ -66,6 +59,7 @@ const EditProperty = ({
         },
       }}
     >
+      
       <DialogTitle>{title}</DialogTitle>
 
       <DialogContent>
@@ -75,7 +69,7 @@ const EditProperty = ({
       </DialogContent>
 
       <DialogActions>
-        <Button onClick={() => setOpen(false)}>Cancel</Button>
+        <Button onClick={handClose}>Cancel</Button>
         <Button type="submit" disabled={!formData}>
           Save
         </Button>
@@ -85,6 +79,3 @@ const EditProperty = ({
 };
 
 export default EditProperty;
-
-// const formData = new FormData(event.currentTarget);
-// const formJson = Object.fromEntries(formData.entries());
