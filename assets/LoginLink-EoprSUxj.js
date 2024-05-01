@@ -1,0 +1,1 @@
+import{a,j as r,L as n,T as s}from"./index-P0Wgf1Vu.js";const e=()=>{const o=a();return r.jsx(n,{to:"/login",children:r.jsxs(s,{variant:"body2",color:o.typography.primary.textDark,sx:{"&:hover":{color:o.typography.primary.main}},children:["Already have an account?",r.jsx("br",{})," Log In"]})})};export{e as L};
