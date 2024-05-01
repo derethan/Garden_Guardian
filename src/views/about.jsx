@@ -47,7 +47,7 @@ const About = () => {
                     color={"text.main"}
                     fontWeight={"bold"}
                   >
-                    we are cultivating a sustainable future for all.
+                    we are cultivating a sustainable future for everyone.
                   </Typography>
                 </Typography>
               </CardContent>
@@ -64,7 +64,7 @@ const About = () => {
                 >
                   Economic Viability
                 </Typography>
-                <Typography variant="body2" align="left" pt={4}>
+                <Typography variant="body2" align="left" pt={4} p={2}>
                   In times of rising living costs, we believe in equipping
                   individuals with the tools to be more self-reliant. <br /><br /> Our
                   platform makes small-scale farming accessible to all, enabling
@@ -86,7 +86,7 @@ const About = () => {
                 >
                   Environmental Stewardship
                 </Typography>
-                <Typography variant="body2" align="left" pt={4}>
+                <Typography variant="body2" align="left" pt={4} p={2}>
                   We empower people to optimize their growing environments,
                   reducing waste, and the use of fertilizers. Our technology
                   supports regenerative agricultural practices, helping to
@@ -106,7 +106,7 @@ const About = () => {
                 >
                   Growing Towards the Future
                 </Typography>
-                <Typography variant="body2" align="left" pt={4}>
+                <Typography variant="body2" align="left" pt={4} p={2}>
                   Currently in the development phase, we are actively refining
                   our platform to meet the needs of both home-based enthusiasts
                   and greenhouse operators.

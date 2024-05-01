@@ -10,6 +10,9 @@ import { useEffect } from "react";
 import { useAuth } from "../hooks/useAuthProvider";
 import { useNavigate } from "react-router-dom";
 
+import LandingSiteNav from "../components/nav/LandingSiteNav";
+
+
 export default function Register() {
   const user = useAuth();
   const navigate = useNavigate();
