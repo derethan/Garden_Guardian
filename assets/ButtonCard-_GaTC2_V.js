@@ -1,1 +1,0 @@
-import{j as n,q as s,T as a}from"./index-eF4N_X0g.js";const o=({title:e,children:r,...t})=>n.jsxs(s,{variant:"card",...t,sx:{width:"100%",display:"flex",flexDirection:"column",justifyContent:"center",alignItems:"center",gap:"0.5rem",...t.sx},children:[n.jsx(a,{variant:"body1",sx:{fontWeight:"bold",fontSize:"14px"},children:e}),r]});export{o as B};
