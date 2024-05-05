@@ -56,15 +56,11 @@ import GrowingInfo from "../components/gardens/plantPage/GrowingInfo";
       value: plantData.fertilizer || "N/A",
       icon: Chart,
     },
-    {
-      label: "fff Profile",
-      value: plantData.fertilizer || "N/A",
-      icon: Chart,
-    },
+
   ];
 
   useEffect(() => {
-    // console.log("plantData", plantData);
+    console.log("plantData", plantData);
     // console.log(sowInstructions);
   }, []);
 
@@ -97,6 +93,7 @@ import GrowingInfo from "../components/gardens/plantPage/GrowingInfo";
           width: "100%",
           mt: 4,
           gap: 2,
+          mb: 4,
         }}
       >
         {/* My Plant Section 
@@ -106,7 +103,7 @@ import GrowingInfo from "../components/gardens/plantPage/GrowingInfo";
 
 
         {/* Growing Info Section*/}
-        {/* <GrowingInfo plantData={plantData} growthProps={growthProps} /> */}
+        <GrowingInfo plantData={plantData} growthProps={growthProps} />
 
       </Box>
     </Container>

@@ -115,7 +115,7 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
               gap: 0,
             }}
           >
-            {!isMobile && (
+            {/* {!isMobile && (
               <Tooltip title="Notifications" arrow>
                 <IconButton
                   color="inherit"
@@ -127,7 +127,7 @@ const AppBarTop = ({ open, handleDrawerOpenClose, title, isMobile }) => {
                   <NotificationsNone />
                 </IconButton>
               </Tooltip>
-            )}
+            )} */}
 
             <AccountMenuIcon />
           </Box>

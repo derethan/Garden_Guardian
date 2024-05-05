@@ -116,7 +116,7 @@ const DataExplorerOptions = ({ optionData, setOptionData }) => {
         )} for the past ${optionData.timeframe}`}
         placement="top"
       >
-        <Box width={"200px"}>
+        <Box width={"150px"}>
           <Typography id="frequency" gutterBottom>
             Frequency
           </Typography>

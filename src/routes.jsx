@@ -19,8 +19,8 @@ const Gardens = lazy(() => import("./views/Gardens"));
 // import Schedule from './views/Schedule';
 
 //Dynamic Routes
-const Plant = lazy(() => import("./views/$plant"));
-const SensorData = lazy(() => import("./views/$SensorData"));
+const Plant = lazy(() => import("./views/plant"));
+const Sensor = lazy(() => import("./views/Sensor"));
 
 // User Pages
 // import Notifications from './views/Notifications';
@@ -138,6 +138,6 @@ export const privateAppRoutes = [
     ID: "sensorData",
     path: "sensor/:sensor",
     Name: "Sensor Dashboard",
-    Component: SensorData,
+    Component: Sensor,
   },
 ];

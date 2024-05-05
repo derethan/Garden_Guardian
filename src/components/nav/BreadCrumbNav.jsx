@@ -86,7 +86,7 @@ const BreadCrumbNav = ({ Icon, path, ...props }) => {
             }}
           >
             <Icon fontSize="inherit" sx={{ mr: 1 }} />
-            {props.plantName || currentPath}
+            {props.plantName || props.sensorName || currentPath}
           </Typography>
         </Breadcrumbs>
       </div>

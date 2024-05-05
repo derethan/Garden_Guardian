@@ -40,7 +40,6 @@ const AuthProvider = ({ children }) => {
       if (response.status) {
         // Setup the device state (devices) and Current Active Device (deviceID)
         let allDevices = response.device_id;
-
         // Set the device info
         allDevices.forEach((device) => {
           setDeviceInfo((prevState) => [...prevState, { deviceID: device.device_id, deviceName: device.device_name }]);
@@ -60,13 +59,16 @@ const AuthProvider = ({ children }) => {
         }
 
         return;
+      } else {
+        //test log
+        console.log("No device found");
       }
     }
 
-    if (!hasDevice && isLoggedIn && localStorage.getItem("user")) {
+    if (!devices.length > 0 && isLoggedIn && localStorage.getItem("user")) {
       fetchDeviceInfo();
     }
-  }, [ isLoggedIn]); // eslint-disable-line
+  }, [ isLoggedIn, deviceID]); // eslint-disable-line
 
 
   // useEffect(() => {

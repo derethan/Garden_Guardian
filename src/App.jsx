@@ -1,7 +1,10 @@
 import "./App.css";
 
+const isDevelopment = import.meta.env.MODE === 'development';
+const basename = isDevelopment ? '/' : '/';
+
 // Import Dependencies
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter,HashRouter, Routes, Route } from "react-router-dom";
 import { Suspense } from "react";
 
 // Import Routes
@@ -21,8 +24,12 @@ import AuthProvider from "./hooks/useAuthProvider";
 
 // Main App Component
 export default function App() {
+
+  const Router = isDevelopment ? BrowserRouter : HashRouter;
+
+
   return (
-    <BrowserRouter>
+    <Router basename={basename}>
       <ThemeProvider theme={theme}>
         <div
           className="App"
@@ -34,7 +41,7 @@ export default function App() {
           <main
             className="app-body"
             style={{
-              backgroundColor: theme.palette.background.default,
+              backgroundColor: theme.palette.background.shaded,
               color: theme.palette.text.primary,
             }}
           >
@@ -77,6 +84,6 @@ export default function App() {
           </main>
         </div>
       </ThemeProvider>
-    </BrowserRouter>
+    </Router>
   );
 } // end App

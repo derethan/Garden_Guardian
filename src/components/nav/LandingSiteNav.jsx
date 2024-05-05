@@ -45,7 +45,7 @@ const LandingSiteNav = () => {
   };
 
   return (
-    <AppBar position="static" sx={{ backgroundColor: "background.default" }}>
+    <AppBar position="static" sx={{ backgroundColor: "sidebar.primary" }}>
       <Container maxWidth="xl">
         <Toolbar
           disableGutters

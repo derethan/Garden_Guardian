@@ -26,6 +26,7 @@ const ComingSoonSection = () => {
         mb: 3,
         p: 4,
         boxShadow: 2,
+        backgroundColor: "background.default",
       }}
     >
       <Typography

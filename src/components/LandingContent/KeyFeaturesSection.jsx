@@ -21,12 +21,14 @@ const KeyFeaturesSection = () => {
         mb: 3,
         p: 2,
         boxShadow: 2,
+        backgroundColor: "background.default",
       }}
     >
       <Typography
         variant="h5"
         component="h5"
         gutterBottom
+        color={"text.main"}
         sx={{ fontWeight: "bold" }}
       >
         Key Features

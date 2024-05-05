@@ -5,7 +5,7 @@ import DataExplorerOptions from "./DataExplorerOptions";
 
 import useMediaQuery from "@mui/material/useMediaQuery";
 
-const SensorDataExplorer = ({ deviceID, sensor, measurement }) => {
+const SensorDataExplorer = ({ deviceID, measurement }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 

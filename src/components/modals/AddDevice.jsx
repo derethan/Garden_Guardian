@@ -21,9 +21,9 @@ import { useAuth } from "../../hooks/useAuthProvider";
 
 const AddDevice = ({ display, setShowAddDeviceModal }) => {
 
-  const { setHasDevice } = useAuth();
+  const { setHasDevice, setDeviceID } = useAuth();
 
-  const [deviceData, setDeviceID] = useState({
+  const [deviceData, setDeviceData] = useState({
     device_id: "",
     device_name: "",
   });
@@ -36,7 +36,7 @@ const AddDevice = ({ display, setShowAddDeviceModal }) => {
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setDeviceID((prevValue) => {
+    setDeviceData((prevValue) => {
       return {
         ...prevValue,
         [name]: value,
@@ -66,6 +66,7 @@ const AddDevice = ({ display, setShowAddDeviceModal }) => {
       console.log("Device added successfully");
 
       // Set the hasDevice state to true
+      setDeviceID(deviceData.device_id);
       setHasDevice(true);
 
       // Close the modal

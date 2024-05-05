@@ -9,6 +9,7 @@ const AboutSection = () => {
         mb: 3,
         p: 2,
         boxShadow: 2,
+        backgroundColor: "background.default",
       }}
     >
       <Typography
