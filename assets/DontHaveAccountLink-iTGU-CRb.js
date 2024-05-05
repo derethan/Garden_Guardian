@@ -1,1 +1,0 @@
-import{a,j as r,L as t,T as e}from"./index-p7gBa-6G.js";const n=()=>{const o=a();return r.jsx(t,{to:"/register",children:r.jsxs(e,{variant:"body2",color:o.typography.primary.textDark,sx:{"&:hover":{color:o.typography.primary.main}},children:["Don't have an account? ",r.jsx("br",{})," Sign up"]})})};export{n as D};
