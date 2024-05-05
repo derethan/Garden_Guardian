@@ -1,1 +1,0 @@
-import{j as i,q as n}from"./index-pZlVVNNX.js";const s=({fullWidth:t,text:a,...r})=>i.jsxs(n,{...r,fullWidth:t,variant:"contained",color:"primary",sx:{borderRadius:20,opacity:r.opacity,marginTop:2,...r.sx},children:[r.children,a]});export{s as P};
