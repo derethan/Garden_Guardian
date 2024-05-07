@@ -7,6 +7,7 @@ import ConfirmDelete from "../dialog/ConfirmDelete";
 import defaultPlantImage from "../../assets/generic_potted_plant.png";
 
 import { useGardenFunctions } from "./utils/useGardenFunctions";
+import dayjs from "dayjs";
 
 export const SmallPlantCard = ({ plant, setGardenPlants }) => {
   const { deleteGardenPlant } = useGardenFunctions();
@@ -58,23 +59,44 @@ export const SmallPlantCard = ({ plant, setGardenPlants }) => {
             objectFit: "cover",
           }}
         />
-        <Box sx={{display: 'flex', flexDirection: 'column', gap: 0.5}}>
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
           <Typography
-            variant="body1"
-            sx={{ fontWeight: "bold", fontSize: "14px" }}
+            variant="body2"
+            color={"text.main"}
+            fontWeight={"bold"}
           >
             {plant.label}
           </Typography>
-
-          <Typography variant="caption" sx={{ fontSize: "10px", color: 'text.subtitle', fontWeight: 'bold' }}>
-            {plant.variety || "No variety"}
+          {plant.variety && (
+            <Typography
+              variant="caption"
+              sx={{
+                fontSize: "10px",
+                color: "text.subtitle",
+                fontWeight: "bold",
+              }}
+            >
+              {plant.variety || "No variety"}
+            </Typography>
+          )}
+          {plant.startDate && (
+            <Typography
+              variant="caption"
+              color={"text.subtitle"}
+              fontWeight={"bold"}
+            >
+              {dayjs(plant.startDate).format("ddd MMMM DD, YYYY")}
+            </Typography>
+          )}
+          {plant.growthStage && (
+          <Typography
+            variant="caption"
+            color={"text.subtitle"}
+            fontWeight={"bold"}
+          >
+            {plant.growthStage}
           </Typography>
-          <Typography variant="body1" sx={{ fontSize: "10px" }}>
-            {plant.startDate || "Plant Date unavailable"}
-          </Typography>
-          <Typography variant="body1" sx={{ fontSize: "10px" }}>
-            {plant.growthStatus || "Growth Status unavailable"}
-          </Typography>
+          )}
         </Box>
       </Box>
 

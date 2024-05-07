@@ -1,7 +1,7 @@
 /*******************************************
  *  Description: This component is used to display
  *  the sensor information container on the Sensor Dashboard Page.
- * 
+ *
  * The Component Containes the Title and the Clickable Sensor Buttons
  ***********************************************/
 
@@ -34,10 +34,15 @@ const SensorInfoBanner = ({ sensorData }) => {
               <Grid item xs={6} key={index}>
                 <ButtonCard
                   title={sensor}
-                  sx={{ color: 'text.cardTitle' }}
+                  sx={{ color: "text.cardTitle" }}
                   onClick={() => {
-                    navigate(`/sensor/${sensor}`, {
-                      state: { measurement: sensor, latestReading: sensorData[sensor] },
+                    const url =
+                      `/sensor/` + sensor.toLowerCase().replace(/\s/g, "");
+                    navigate(url, {
+                      state: {
+                        measurement: sensor,
+                        latestReading: sensorData[sensor],
+                      },
                     }); //navigate to the sensorData page
                   }}
                 >

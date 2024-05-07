@@ -1,5 +1,5 @@
 import { Box, Breadcrumbs, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 // Import Icons
 import NavigateNextIcon from "@mui/icons-material/NavigateNext";
@@ -9,9 +9,11 @@ import GardenIcon from "@mui/icons-material/GrassOutlined";
 
 const BreadCrumbNav = ({ Icon, path, ...props }) => {
   const theme = useTheme();
+  const location = useLocation();
 
   const pathnames = location.pathname.split("/").filter((x) => x);
   const currentPath = pathnames[pathnames.length - 1].replace(/%20/g, " ");
+
   return (
     <Box
       pt={4}
@@ -86,7 +88,7 @@ const BreadCrumbNav = ({ Icon, path, ...props }) => {
             }}
           >
             <Icon fontSize="inherit" sx={{ mr: 1 }} />
-            {props.plantName || currentPath}
+            {props.plantName || props.sensorName || currentPath}
           </Typography>
         </Breadcrumbs>
       </div>

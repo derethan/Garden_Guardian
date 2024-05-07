@@ -167,6 +167,28 @@ export const useGardenFunctions = () => {
     }
   };
 
+  const addPlantAttributes = (formData, property, plantData) => {
+    //Get the current garden plants from local storage
+    const gardenPlants = JSON.parse(localStorage.getItem("gardenPlants")) || [];
+
+    //Find the plant in the garden plants array
+    const currentPlant =
+      gardenPlants[
+        gardenPlants.findIndex((plant) => plant.plantID === plantData.plantID)
+      ];
+
+    //Update the plant with the new property
+    const updatedPlant = { ...currentPlant, [property]: formData };
+
+    //Update the garden plants array with the updated plant
+    gardenPlants[
+      gardenPlants.findIndex((plant) => plant.plantID === plantData.plantID)
+    ] = updatedPlant;
+
+    //Save the new garden plants array to local storage
+    localStorage.setItem("gardenPlants", JSON.stringify(gardenPlants));
+
+  };
   /************************************************************
    *  Functions to Fetch Data Plant from the API
    * ***********************************************************/
@@ -234,6 +256,7 @@ export const useGardenFunctions = () => {
     deleteGarden,
     deleteGardenGroup,
     deleteGardenPlant,
+    addPlantAttributes,
     getAllPlants,
     getEdiblePlantData,
   };

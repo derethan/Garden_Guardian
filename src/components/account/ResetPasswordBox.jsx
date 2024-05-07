@@ -9,34 +9,53 @@ import {
 } from "@mui/material";
 
 import { PrimaryButton } from "../PrimaryButton";
-import DontHaveAccount from './DontHaveAccountLink';
-import LoginLink from './LoginLink';
+import DontHaveAccount from "./DontHaveAccountLink";
+import LoginLink from "./LoginLink";
 
-const handleSubmit = (event) => {
-  event.preventDefault();
-
-  const data = new FormData(event.currentTarget);
-
-  console.log({
-    email: data.get("email"),
-  });
-};
+import { useState } from "react";
+import { useValidate } from "../../hooks/useValidate";
 
 const ResetPasswordBox = () => {
   const theme = useTheme();
+
+  const [formData, setFormData] = useState({
+    email: "",
+  });
+  const [formErrors, validateForm, setErrors] = useValidate(formData);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    console.log(formData);
+    if (validateForm()) {
+      console.log("Valid Form");
+    } else {
+      console.log("Invalid Form");
+    }
+  };
+
   return (
-    <Card variant="light"
+    <Card
+      variant="light"
       sx={{
         padding: 2,
       }}
     >
       <CardContent>
-      <Typography variant="h4" color={theme.typography.primary.cardTitle} sx={{
-          fontWeight: 600,
-        }}>
+        <Typography
+          variant="h4"
+          color={theme.typography.primary.cardTitle}
+          sx={{
+            fontWeight: 600,
+          }}
+        >
           Reset Password
         </Typography>
-        <Typography variant="subtitle2" color={theme.typography.primary.subtitle} sx={{paddingTop:'8px'}}>
+        <Typography
+          variant="subtitle2"
+          color={theme.typography.primary.subtitle}
+          sx={{ paddingTop: "8px" }}
+        >
           Enter your email address to reset your password
         </Typography>
       </CardContent>
@@ -53,23 +72,29 @@ const ResetPasswordBox = () => {
           size="small"
           variant="outlined"
           sx={{
-            backgroundColor: 'background.default',
+            backgroundColor: "background.default",
           }}
+          onChange={(event) => {
+            setFormData({ ...formData, email: event.target.value });
+            setErrors({ ...formErrors, email: "" });
+          }}
+          error={formErrors.email ? true : false}
+          helperText={formErrors.email}
         />
-        
-        <PrimaryButton fullWidth type='submit' text="Reset Password" />
 
-      </Box>
-      
-      <Box sx={{
-        paddingTop: 4,
-        display: 'flex',
-        justifyContent: 'space-between',
-        }}>
-      <DontHaveAccount />
-      <LoginLink />
+        <PrimaryButton disabled fullWidth type="submit" text="Reset Password" />
       </Box>
 
+      <Box
+        sx={{
+          paddingTop: 4,
+          display: "flex",
+          justifyContent: "space-between",
+        }}
+      >
+        <DontHaveAccount />
+        <LoginLink />
+      </Box>
     </Card>
   );
 };

@@ -24,6 +24,7 @@ const DeviceSensorContainer = ({ device }) => {
       variant="light"
       sx={{
         p: 2,
+        mt: 2,
         borderRadius: 4,
       }}
     >
@@ -43,26 +44,43 @@ const DeviceSensorContainer = ({ device }) => {
       </Box>
 
       {/* Display the sensor data */}
-      <Box>
-        {deviceSensors.length > 0 ? (
-          <Grid container spacing={2} pt={4}>
-            {deviceSensors.map((sensor) => (
-              <Grid item xs={6} sm={4} md={6} p={1} key={sensor.sensorID}>
-                <Typography variant="body1" color={"text.cardTitle"} fontWeight={'bold'}>
+      {deviceSensors.length > 0 ? (
+        <Grid container pt={4}>
+          {deviceSensors.map((sensor, key) => (
+            <Grid item xs={6} sm={4} md={12} lg={6} p={1} key={key}>
+              <Box
+                sx={{
+                  backgroundColor: "background.shaded",
+                  padding: "0.5em", // padding inside the box
+                }}
+              >
+                <Typography
+                  variant="body1"
+                  color={"text.cardTitle"}
+                  fontWeight={"bold"}
+                >
                   {sensor.sensor}
                 </Typography>
-                <Typography variant="caption" color={sensor.sensorStatus === 'Online' ? 'success.main': 'error.main'} fontWeight={'bold'}>
+                <Typography
+                  variant="caption"
+                  color={
+                    sensor.sensorStatus === "Online"
+                      ? "success.main"
+                      : "error.main"
+                  }
+                  fontWeight={"bold"}
+                >
                   {sensor.sensorStatus}
                 </Typography>
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Typography variant="body1" color={"text.subtitle"}>
-            No sensors found
-          </Typography>
-        )}
-      </Box>
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography variant="body1" color={"text.textDark"} pt={2}>
+          No sensors found
+        </Typography>
+      )}
     </Card>
   );
 };

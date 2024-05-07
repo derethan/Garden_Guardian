@@ -21,7 +21,7 @@ const DeviceOverview = ({ deviceID, deviceStatus }) => {
   return (
     <>
       <Typography variant="h6" color="text.primary" fontWeight='bold'>
-        Device Overview
+        Active Device
       </Typography>
 
       <Card

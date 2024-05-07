@@ -9,6 +9,7 @@ const AboutSection = () => {
         mb: 3,
         p: 2,
         boxShadow: 2,
+        backgroundColor: "background.default",
       }}
     >
       <Typography
@@ -19,7 +20,7 @@ const AboutSection = () => {
         ml="8px"
         color={"text.main"}
       >
-        About Us
+        Here at Garden Guardian,
       </Typography>
       <Typography
         variant="caption"
@@ -28,7 +29,7 @@ const AboutSection = () => {
         color={"text.cardTitle"}
         fontWeight={"bold"}
       >
-        Here at Garden Guardian, we are not just developing an agricultural IoT
+         We are not just developing an agricultural IoT
         platform;{" "}
         <Typography
           variant="caption"
@@ -36,7 +37,7 @@ const AboutSection = () => {
           color={"text.main"}
           fontWeight={"bold"}
         >
-          we are cultivating a sustainable future.
+          we are cultivating a sustainable future for everyone.
         </Typography>
       </Typography>
 

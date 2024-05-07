@@ -30,7 +30,7 @@ const DashboardHeader = ({ name }) => {
           color: theme.typography.primary.subtitle,
         }}
       >
-        Here is a quick overview of your activity since your last login.
+        Here is a quick overview of your activity since your last visit.
       </Typography>
     </Box>
   );

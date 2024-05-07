@@ -1,4 +1,4 @@
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuthProvider";
 import { Container } from "@mui/material";
 
@@ -13,12 +13,12 @@ const SensorData = () => {
   const { deviceID } = useAuth();
 
   //Sensor Information Passed in the Location and Param State from the Sensor Dashboard
-  const { sensor } = useParams();
-  const latestReading = location.state.latestReading;
-  const measurement = location.state.measurement;
+  // const { sensor } = useParams();
+  const latestReading = location.state?.latestReading ? location.state.latestReading : 0;
+  const measurement = location.state?.measurement ? location.state.measurement : "PH";
 
   //Get the Icon for the Selected Sensor
-  const SensorIcon = getIcon(location.state.measurement);
+  const SensorIcon = getIcon(measurement);
 
 
   return (
@@ -27,19 +27,18 @@ const SensorData = () => {
       <BreadCrumbNav
         Icon={SensorIcon}
         path='Sensor Dashboard'
+        sensorName={measurement}
       />
 
       {/* Overview Banner Section*/}
       <SensorOverviewContainer
         deviceID={deviceID}
-        sensor={sensor}
         measurement={measurement}
         latestReading={latestReading}
       />
       {/* Data Explorer Section */}
         <SensorDataExplorer
             deviceID={deviceID}
-            sensor={sensor}
             measurement={measurement}
         />
 

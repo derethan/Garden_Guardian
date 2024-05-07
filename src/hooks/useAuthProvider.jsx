@@ -28,6 +28,7 @@ const AuthProvider = ({ children }) => {
 
   // State variables for Current selected Device
   const [deviceID, setDeviceID] = useState("");
+  const [activeDevice, setActiveDevice] = useState();
   const [deviceStatus, setDeviceStatus] = useState("offline");
 
   //Check if the user has a device
@@ -39,7 +40,6 @@ const AuthProvider = ({ children }) => {
       if (response.status) {
         // Setup the device state (devices) and Current Active Device (deviceID)
         let allDevices = response.device_id;
-
         // Set the device info
         allDevices.forEach((device) => {
           setDeviceInfo((prevState) => [...prevState, { deviceID: device.device_id, deviceName: device.device_name }]);
@@ -51,24 +51,29 @@ const AuthProvider = ({ children }) => {
         // Set the first device as the active device, if there is no active device in local storage
         if (localStorage.getItem("activeDevice")) {
           setDeviceID(localStorage.getItem("activeDevice"));
+          setActiveDevice(allDevices.find((device) => device.device_id === localStorage.getItem("activeDevice")));
         } else {
-          setDeviceID(response.device_id[0]);
-          localStorage.setItem("activeDevice", response.device_id[0]);
+          setDeviceID(allDevices[0].device_id);
+          localStorage.setItem("activeDevice", allDevices[0].device_id);
+          setActiveDevice(allDevices[0]);
         }
 
         return;
+      } else {
+        //test log
+        console.log("No device found");
       }
     }
 
-    if (!hasDevice && isLoggedIn && localStorage.getItem("user")) {
+    if (!devices.length > 0 && isLoggedIn && localStorage.getItem("user")) {
       fetchDeviceInfo();
     }
-  }, [ isLoggedIn]); // eslint-disable-line
+  }, [ isLoggedIn, deviceID]); // eslint-disable-line
 
 
   // useEffect(() => {
-  //   console.log(devices);
-  // }, [devices]);
+  //   console.log(activeDevice);
+  // }, [activeDevice]);
 
 
   //Create the post request hook - TODO: CHANGE TO OBJECT FROM ARRAY IN USEPOSTREQUEST
@@ -159,6 +164,7 @@ const AuthProvider = ({ children }) => {
         devices,
         deviceID,
         deviceStatus,
+        activeDevice,
         loginAction,
         logout,
         verifyToken,

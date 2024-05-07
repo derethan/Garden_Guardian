@@ -1,31 +1,35 @@
 import "./App.css";
 
-// Import MUI Dependencies
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { ThemeProvider } from "@mui/material";
+const isDevelopment = import.meta.env.MODE === 'development';
+const basename = isDevelopment ? '/' : '/';
 
-// Import Components
-import Header from "./components/header/header";
-import SideBarWrapper from "../src/components/SideBarWrapper";
+// Import Dependencies
+import { BrowserRouter,HashRouter, Routes, Route } from "react-router-dom";
+import { Suspense } from "react";
 
 // Import Routes
 import { siteLinks, privateAppRoutes } from "./routes";
 import PrivateRoute from "./hooks/PrivateRoute";
 
-// Import MUI Styles
-import CssBaseline from "@mui/material/CssBaseline";
-
 // Import Theme
+import { ThemeProvider } from "@mui/material";
 import theme from "./theme";
 
+// Import Components
+import SideBarWrapper from "../src/components/SideBarWrapper";
+import LoadingScreen from "./components/LoadingScreen";
+
+// Import context Providers
 import AuthProvider from "./hooks/useAuthProvider";
 
 // Main App Component
 export default function App() {
-  return (
-    
-    <BrowserRouter>
 
+  const Router = isDevelopment ? BrowserRouter : HashRouter;
+
+
+  return (
+    <Router basename={basename}>
       <ThemeProvider theme={theme}>
         <div
           className="App"
@@ -34,14 +38,10 @@ export default function App() {
             color: theme.palette.text.primary,
           }}
         >
-          {/* <header className="App-header">
-            <Header />
-          </header> */}
-
           <main
             className="app-body"
             style={{
-              backgroundColor: theme.palette.background.default,
+              backgroundColor: theme.palette.background.shaded,
               color: theme.palette.text.primary,
             }}
           >
@@ -52,10 +52,13 @@ export default function App() {
                   <Route
                     key={link.ID}
                     path={link.path}
-                    element={<link.Component />}
+                    element={
+                      <Suspense fallback={<LoadingScreen />}>
+                        <link.Component />
+                      </Suspense>
+                    }
                   />
                 ))}
-
                 {/* Maps the Private Routes */}
                 <Route element={<PrivateRoute />}>
                   {privateAppRoutes.map((link) => (
@@ -63,8 +66,14 @@ export default function App() {
                       key={link.ID}
                       path={link.path}
                       element={
-                        <SideBarWrapper view={link.path} key={link.ID} title={link.Name}>
-                          <link.Component />
+                        <SideBarWrapper
+                          view={link.path}
+                          key={link.ID}
+                          title={link.Name}
+                        >
+                          <Suspense fallback={<LoadingScreen />}>
+                            <link.Component />
+                          </Suspense>
                         </SideBarWrapper>
                       }
                     />
@@ -75,6 +84,6 @@ export default function App() {
           </main>
         </div>
       </ThemeProvider>
-    </BrowserRouter>
+    </Router>
   );
 } // end App

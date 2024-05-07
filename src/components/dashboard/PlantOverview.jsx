@@ -26,6 +26,7 @@ const PlantOverview = ({ user }) => {
             p: 2,
             borderRadius: 4,
             width: { xs: "100%", md: "80%" },
+            maxWidth: '500px',
           }}
         >
           <Typography variant="h6" color={"text.main"} fontWeight={"bold"}>

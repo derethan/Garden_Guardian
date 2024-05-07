@@ -13,7 +13,11 @@ import { useState, useEffect } from "react";
 
 import { CircularProgress } from "@mui/material";
 
-export const PlantInfoContainer = ({ selectedPlant, plantDescription, setPlantDescription }) => {
+export const PlantInfoContainer = ({
+  selectedPlant,
+  plantDescription,
+  setPlantDescription,
+}) => {
   const URL = import.meta.env.VITE_API_URL;
   const [loading, setLoading] = useState(false);
 
@@ -63,7 +67,7 @@ export const PlantInfoContainer = ({ selectedPlant, plantDescription, setPlantDe
           />
 
           <Box sx={{ width: { xs: "100%", md: "75%" } }}>
-            <Typography variant="h5" pb={0} color={'text.main'}>
+            <Typography variant="h5" pb={0} color={"text.main"}>
               {selectedPlant.name ||
                 selectedPlant.common_name ||
                 selectedPlant.scientific_name}
@@ -104,11 +108,20 @@ export const PlantInfoContainer = ({ selectedPlant, plantDescription, setPlantDe
             )}
 
             {!loading ? (
-              <Typography variant="body1" p={2} maxWidth={400} textAlign={'left'}>
-                {plantDescription}
-              </Typography>
+              <Box sx={{ display: "flex", gap: 1, justifyContent:'center' }}>
+                <Typography
+                  variant="body1"
+                  p={2}
+                  maxWidth={400}
+                  textAlign={"left"}
+                >
+                  {plantDescription}
+                </Typography>
+              </Box>
             ) : (
-              <CircularProgress p={2} />
+              <Box pt={4}>
+                <CircularProgress />
+              </Box>
             )}
           </Box>
         </Box>
