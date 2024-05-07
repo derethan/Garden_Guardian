@@ -29,15 +29,19 @@ const MyPlant = ({ plantData }) => {
     plantData.startDate ? dayjs(plantData.startDate) : null
   );
   const [growthStage, setGrowthStage] = useState(plantData.growthStage || null);
-  const [lastWatering, setLastWatering] = useState(plantData.lastWatering ? dayjs(plantData.setLastWatering) : null);
-  const [lastFeeding, setLastFeeding] = useState(plantData.lastFeeding ? dayjs(plantData.setLastFeeding) : null);
+  const [lastWatering, setLastWatering] = useState(
+    plantData.lastWatering ? dayjs(plantData.setLastWatering) : null
+  );
+  const [lastFeeding, setLastFeeding] = useState(
+    plantData.lastFeeding ? dayjs(plantData.setLastFeeding) : null
+  );
 
   // Function to handle the click event on the Edit Icon
-  const handleClick = (property, setStateFunction, title, caption) => {
-    setCurrentProperty({ property, setStateFunction, title, caption });
+  const handleClick = (property) => {
+    setCurrentProperty(property);
+    // setCurrentProperty({ property, setStateFunction, title, caption });
     setOpenEditWindow(true);
   };
-
 
   // FormFields - These are the fields that the user can edit
   const plantProperties = [
@@ -56,6 +60,24 @@ const MyPlant = ({ plantData }) => {
       setState: setGrowthStage,
       title: "Select a Growth Stage",
       caption: "What is the current Growth Stage of your Plant?",
+      // formContent: () => (
+      //   <FormControl fullWidth sx={{ mt: 4 }}>
+      //     <InputLabel id="growthStage">Growth Stage</InputLabel>
+      //     <Select
+      //       label="Growth Stage"
+      //       labelId="growthStage"
+      //       id="growthStage"
+      //       value={formData || growthStage}
+      //       onChange={(event) => setFormData(event.target.value)}
+      //     >
+      //       <MenuItem value={"Germination"}>Germination</MenuItem>
+      //       <MenuItem value={"Seedling"}>Seedling</MenuItem>
+      //       <MenuItem value={"Vegetative"}>Vegetative</MenuItem>
+      //       <MenuItem value={"Flowering"}>Flowering</MenuItem>
+      //       <MenuItem value={"Harvest"}>Harvest</MenuItem>
+      //     </Select>
+      //   </FormControl>
+      // ),
     },
     {
       property: "lastWatering",
@@ -68,7 +90,7 @@ const MyPlant = ({ plantData }) => {
     {
       property: "lastFeeding",
       placeHolder: "Last Feeding",
-      state: lastFeeding ? lastFeeding.format("ddd MMMM DD, YYYY"): null,
+      state: lastFeeding ? lastFeeding.format("ddd MMMM DD, YYYY") : null,
       setState: setLastFeeding,
       title: "Select a Date",
       caption: "When did you last feed your Plant?",
@@ -135,38 +157,30 @@ const MyPlant = ({ plantData }) => {
       </Typography>
 
       {/* Plant Properties - Renders the List of Properties under the My Plant Header */}
-      <Box>
+      <Box sx={{ p: { xs: 2, md: 0 } }}>
         {plantProperties.map((property) => (
           <Box
             key={property.property}
             sx={{
               display: "flex",
+              justifyContent: { xs: "flex-start", md: "space-between" },
               alignItems: "center",
-              justifyContent: "center",
               gap: 1,
             }}
           >
-            <Typography variant="body2" fontWeight={"bold"}>
+            <Typography variant="body2" fontWeight={"bold"} textAlign={"left"}>
               {property.placeHolder}:{" "}
             </Typography>
             <Typography
               variant="caption"
               color={"text.subtitle"}
               fontWeight={"bold"}
+              textAlign={"center"}
             >
-              {property.state ? property.state : "No Start Date Set"}{" "}
+              {property.state ? property.state : "No Set"}{" "}
             </Typography>
 
-            <IconButton
-              onClick={() =>
-                handleClick(
-                  property.property,
-                  property.setState,
-                  property.title,
-                  property.caption
-                )
-              }
-            >
+            <IconButton onClick={() => handleClick(property)}>
               <EditIcon sx={{ fontSize: 14 }} />
             </IconButton>
           </Box>
@@ -177,13 +191,13 @@ const MyPlant = ({ plantData }) => {
       <EditProperty
         open={openEditWindow}
         setOpen={setOpenEditWindow}
-        property={currentProperty.property}
         plantData={plantData}
-        setStateData={currentProperty.setStateFunction}
         formData={formData}
         setFormData={setFormData}
         title={currentProperty.title}
         caption={currentProperty.caption}
+        property={currentProperty.property}
+        setStateData={currentProperty.setState}
       >
         {formProps[currentProperty.property]}
       </EditProperty>
