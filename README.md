@@ -50,6 +50,13 @@ On the Navigation bar:
 - Notification System
 - Gardening Assistance and Recommendations
 
+## Motivation
+My goal for developing Garden Guardian was to provide a way to simplify the process of gardening. 
+
+As a gardener i was looking for a creative way to automate the process of tracking the various conditions of my greenhouse, Thats where the Garden Guardian device comes in. With access to realtime data i no longer need to take regular readings to ensure optimal growing condition saving me considerable time.
+
+In addition to this i was looking for an easy way to track what plants i have growing and where they are. When growing allot of plants it can easily become a mess trying to keep track of what plant varieties i have, there stage of growth, when they were last fed, etc., especially when every different plant has different requirements. Our Crop management feature is being designed to handle just that.
+
 ## Technologies
 
 - React to handle the the Web Application
@@ -57,6 +64,7 @@ On the Navigation bar:
 - Node.js & Express handles backend functionality (API, AI Features, User Accounts and authentication)
 - MySQL For User and Device Data
 - Influx DB for real-time storage and retrieval of time series data.
+- C/C++ For the Embedded Programming of the Arduino Iot Device
 
 
 ## Check out the demo below
