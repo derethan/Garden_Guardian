@@ -10,7 +10,7 @@ const GrowingInfo = ({ plantData, growthProps }) => {
         width: { xs: "100%", md: "65%" },
       }}
     >
-      <Typography variant="h4" pt={4} pl={2}>
+      <Typography variant="h4" color={'text.main'}  pt={4} pl={2}>
         Growing Information
       </Typography>
       <Grid
@@ -18,39 +18,45 @@ const GrowingInfo = ({ plantData, growthProps }) => {
         spacing={2}
         sx={{
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          margin: "auto",
-          pt: 2,
+          textAlign: "left",
+          mt: 2,
+          p: 2,
         }}
       >
-        {growthProps.map((property, index) => (
-          <Grid item xs={12} md={6} key={index}>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                margin: "auto",
-              }}
-            >
-              <Typography
-                variant="h6"
-                fontWeight={"bold"}
-                color={"primary"}
-                gutterBottom
-                sx={{ display: "flex", alignItems: "center", gap: 1 }}
-              >
-                {property.icon && <property.icon />}
-                {property.label}
-              </Typography>
-              <Typography variant="body1" color={"text.subtitle"} gutterBottom>
-                {property.value}
-              </Typography>
-            </Box>
-          </Grid>
-        ))}
+        {growthProps.map(
+          (property, index) =>
+            property.value != "N/A" && (
+              <Grid item xs={12} md={6} key={index}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "flex-start",
+                    alignItems: "flex-start",
+                    margin: "auto",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight={"bold"}
+                    color={"primary"}
+                    gutterBottom
+                    sx={{ display: "flex", alignItems: "center", gap: 1 }}
+                  >
+                    {property.icon && <property.icon />}
+                    {property.label}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    color={"text.subtitle"}
+                    gutterBottom
+                  >
+                    {property.value}
+                  </Typography>
+                </Box>
+              </Grid>
+            )
+        )}
       </Grid>
     </Card>
   );
