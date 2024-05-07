@@ -60,24 +60,6 @@ const MyPlant = ({ plantData }) => {
       setState: setGrowthStage,
       title: "Select a Growth Stage",
       caption: "What is the current Growth Stage of your Plant?",
-      // formContent: () => (
-      //   <FormControl fullWidth sx={{ mt: 4 }}>
-      //     <InputLabel id="growthStage">Growth Stage</InputLabel>
-      //     <Select
-      //       label="Growth Stage"
-      //       labelId="growthStage"
-      //       id="growthStage"
-      //       value={formData || growthStage}
-      //       onChange={(event) => setFormData(event.target.value)}
-      //     >
-      //       <MenuItem value={"Germination"}>Germination</MenuItem>
-      //       <MenuItem value={"Seedling"}>Seedling</MenuItem>
-      //       <MenuItem value={"Vegetative"}>Vegetative</MenuItem>
-      //       <MenuItem value={"Flowering"}>Flowering</MenuItem>
-      //       <MenuItem value={"Harvest"}>Harvest</MenuItem>
-      //     </Select>
-      //   </FormControl>
-      // ),
     },
     {
       property: "lastWatering",
@@ -177,7 +159,7 @@ const MyPlant = ({ plantData }) => {
               fontWeight={"bold"}
               textAlign={"center"}
             >
-              {property.state ? property.state : "No Set"}{" "}
+              {property.state ? property.state : "Not Set"}{" "}
             </Typography>
 
             <IconButton onClick={() => handleClick(property)}>
