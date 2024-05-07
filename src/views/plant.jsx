@@ -1,34 +1,43 @@
-import { useParams } from "react-router-dom";
-import {
-  Container,
-  Box,
-  Grid,
-  Typography,
-  useTheme,
-  Card,
-} from "@mui/material";
-import PlantIcon from "@mui/icons-material/YardOutlined";
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import HumidityIcon from "@mui/icons-material/Opacity";
-import TemperatureIcon from "@mui/icons-material/Thermostat";
-import Chart from "@mui/icons-material/InsertChartOutlined";
-
+// Desc: This file contains the Plant component which is the Dynamic Plant Page that displays the details of a specific plant.
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+//Import MUI Components
+import { Container, Box, useTheme } from "@mui/material";
+
+//Import Components
 import BreadCrumbNav from "../components/nav/BreadCrumbNav";
 import PlantDetails from "../components/gardens/plantPage/PlantDetails";
 import MyPlant from "../components/gardens/plantPage/MyPlant";
 import GrowingInfo from "../components/gardens/plantPage/GrowingInfo";
 
- const Plant = () => {
+//Import icons
+import PlantIcon from "@mui/icons-material/YardOutlined";
+import AgricultureIcon from "@mui/icons-material/Agriculture";
+import ContentCutIcon from "@mui/icons-material/ContentCut";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
+
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+import HumidityIcon from "@mui/icons-material/Opacity";
+import TemperatureIcon from "@mui/icons-material/Thermostat";
+import Chart from "@mui/icons-material/InsertChartOutlined";
+import StraightenIcon from "@mui/icons-material/Straighten";
+
+const Plant = () => {
   const theme = useTheme();
   let { plantID } = useParams();
 
+  //Fetching Plant Data from Local Storage
   const storedPlants = JSON.parse(localStorage.getItem("gardenPlants"));
   const initialPlantData = storedPlants
     ? storedPlants.filter((plant) => plant.plantID === plantID)
     : [];
+
+  //State to store the Current Plant Data
   const [plantData, setPlantData] = useState(initialPlantData[0] || {});
 
+  //Contains the  Properties to diplay For the Plant Header
   const plantProperties = [
     { label: "Scientific Name", value: plantData.scientific_name },
     { label: "Genus", value: plantData.genus },
@@ -37,26 +46,53 @@ import GrowingInfo from "../components/gardens/plantPage/GrowingInfo";
     { label: "Description", value: plantData.description },
   ];
 
-  const sowInstructions = plantData.howtoSow.split(".");
-  const Temperature = sowInstructions[sowInstructions.length - 2];
+  // Extracting the Plant Growth Properties That are to be displayed
+  const sowInstructions = plantData.howtoSow.split(".").filter((item) => item);
+  const sowInstructionsAllButLastTwo = sowInstructions.slice(0, -2);
+  const howtoSow = sowInstructionsAllButLastTwo.join(". ") + ".";
+  const spacing = plantData.spacing || "N/A";
+  const Temperature = sowInstructions[sowInstructions.length - 2] || "N/A";
+  const harvestTime = plantData.harvestTime || "N/A";
+  const plantsToavoid =
+    plantData.avoid.replace("Avoid growing close to:", "").trim() || "N/A";
+  const plantWith =
+    plantData.growsWith
+      .replace("Compatible with (can grow beside):", "")
+      .trim() || "N/A";
+
+  //Contains the Properties to display in the Growing Info Section.
+  // Each Property has a label, value and an icon
   const growthProps = [
-    { label: "Light", value: plantData.light || "N/A", icon: WbSunnyIcon },
     {
-      label: "Humidity",
-      value: plantData.humidity || "N/A",
-      icon: HumidityIcon,
+      label: "How to Sow",
+      value: howtoSow,
+      icon: AgricultureIcon,
+    },
+    {
+      label: "Spacing",
+      value: spacing,
+      icon: StraightenIcon,
     },
     {
       label: "Temperature",
-      value: Temperature || "N/A",
+      value: Temperature,
       icon: TemperatureIcon,
     },
     {
-      label: "Nutrient Profile",
-      value: plantData.fertilizer || "N/A",
-      icon: Chart,
+      label: "Harvest Time",
+      value: harvestTime,
+      icon: ContentCutIcon,
     },
-
+    {
+      label: "Avoid Planting With",
+      value: plantsToavoid,
+      icon: WarningAmberIcon,
+    },
+    {
+      label: "Compatible Plants",
+      value: plantWith,
+      icon: ThumbUpAltIcon,
+    },
   ];
 
   useEffect(() => {
@@ -88,7 +124,7 @@ import GrowingInfo from "../components/gardens/plantPage/GrowingInfo";
           display: "flex",
           flexDirection: { xs: "column", md: "row" },
           justifyContent: "space-between",
-          alignItems: "center",
+          alignItems: "flex-start",
           margin: "auto",
           width: "100%",
           mt: 4,
@@ -101,10 +137,8 @@ import GrowingInfo from "../components/gardens/plantPage/GrowingInfo";
         */}
         <MyPlant plantData={plantData} />
 
-
         {/* Growing Info Section*/}
         <GrowingInfo plantData={plantData} growthProps={growthProps} />
-
       </Box>
     </Container>
   );
