@@ -29,7 +29,7 @@ const HeroBanner = () => {
             color: theme.typography.primary.cardTitle,
           }}
         >
-          Welcome to you personal Crop Management Page.
+          Welcome to your personal Crop Management Page.
         </Typography>
         <Typography
           variant="subtitle2"
