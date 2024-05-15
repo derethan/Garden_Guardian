@@ -26,13 +26,14 @@ const AccountMenuIcon = () => {
     setAnchorElUser(null);
   };
 
+
   return (
     <Box sx={{ flexGrow: 0 }}>
       <Tooltip title="Options">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="Avatar" src="../../assets/logo.png">
+          {/* <Avatar alt="Avatar" src="../../assets/logo.png"> */}
             <AccountIcon fontSize="large" />
-          </Avatar>
+          {/* </Avatar> */}
         </IconButton>
       </Tooltip>
 
