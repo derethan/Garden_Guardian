@@ -1,5 +1,3 @@
-/* eslint-disable react/prop-types */
-/* eslint-disable react-hooks/exhaustive-deps */
 //Import State
 import { useState, useEffect, Fragment } from "react";
 import { DefaultModal } from "../modals/DefaultModal";
@@ -7,18 +5,23 @@ import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
 import { useValidate } from "../../hooks/useValidate";
 import { PlantInfoContainer } from "../gardens/PlantInfoContainer";
 
+//Import MUI Components
 import {
   DialogContentText,
   Autocomplete,
+  createFilterOptions,
   TextField,
   Box,
   Typography,
   CircularProgress,
 } from "@mui/material";
 
+import NewPlantDialog from "./createNewPlant/NewPlantDialog";
+
+const filter = createFilterOptions();
+
 export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
-  const { getAllPlants, getEdiblePlantData, createGardenPlant } =
-    useGardenFunctions();
+  const { getAllPlants, createGardenPlant } = useGardenFunctions();
 
   // Form State
   const [formData, setFormData] = useState({
@@ -29,14 +32,18 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
   });
 
   const [listOptions, setListOptions] = useState([]);
+  const [selectedListItem, setSelectedListItem] = useState(null);
+
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [allPlants, setAllPlants] = useState([]); //List of all plants in the database
+
   const [showPlantInfo, setShowPlantInfo] = useState(false); //Show the plant info Component
-  const [plantInfo, setPlantInfo] = useState(null);
+  const [plantInfo, setPlantInfo] = useState(null); // Plant Info for the selected Plant in the List
   const [plantDescription, setPlantDescription] = useState(null);
 
+  const [openNewPlantDialog, toggleOpenNewPlantDialog] = useState(false);
 
   // Form Validation Hook
   const [formErrors, validateForm] = useValidate(formData);
@@ -79,9 +86,6 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
       const plantData = await getAllPlants(); //useGardenFunctions
       data = [...data, ...plantData];
 
-      // const ediblePlantData = await getEdiblePlantData(); //useGardenFunctions
-      // data = [...data, ...ediblePlantData];
-
       // Create a list of unique plant names
       const listOptions = data.reduce((unique, item) => {
         let name = item.name || item.common_name || item.scientific_name;
@@ -107,11 +111,12 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
     getData();
   }, []);
 
-  // Get the Plant info from plantData for the specifc Plant to display in the PlantInfoContainer
+  // Get the Specific Plant Details for the user selected plant (Displays in the Plant Details section)
   useEffect(() => {
     if (formData.id && allPlants.length > 0) {
       const plant = allPlants.find((plant) => plant.id === formData.id);
       setPlantInfo(plant);
+      console.log(plant);
     }
   }, [formData]);
 
@@ -140,9 +145,13 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
         }}
       >
         <Autocomplete
+          sx={{
+            width: 300,
+          }}
           disablePortal
           id="plant-selection-list"
           options={listOptions}
+          // groupBy={(option) => option.label[0]}
           isOptionEqualToValue={(option, value) => {
             if (value === "") {
               return true;
@@ -154,9 +163,6 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
           value={formData.label} //this is the value that is selected from the dropdown - Returned as an object
           // inputValue={formData.name} //this is the value that is being typed in the input field - Returned as a string
 
-          sx={{
-            width: 300,
-          }}
           onOpen={() => {
             setOpen(true);
           }}
@@ -191,17 +197,25 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
                 name: "",
               };
             }
-            //Set the value to the selected plant
-            setFormData({
-              ...formData,
-              label: newValue.label,
-              id: newValue.id,
-              name: newValue.label,
-            });
-            if (newValue.id) {
-              setShowPlantInfo(true);
+
+            if (newValue.label && newValue.id === null) {
+              //Set the value to the selected plant
+              setSelectedListItem(newValue);
+              toggleOpenNewPlantDialog(true);
             } else {
-              setShowPlantInfo(false);
+              //Set the value to the selected plant
+              setFormData({
+                ...formData,
+                label: newValue.label,
+                id: newValue.id,
+                name: newValue.label,
+              });
+
+              if (newValue.id) {
+                setShowPlantInfo(true);
+              } else {
+                setShowPlantInfo(false);
+              }
             }
           }}
           onInputChange={(event, newInputValue) => {
@@ -211,12 +225,41 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
             });
             setShowPlantInfo(false);
           }}
+          filterOptions={(options, params) => {
+            const filtered = filter(options, params);
+
+            if (params.inputValue !== "") {
+              filtered.push({
+                label: `Add A New Plant`,
+                id: null,
+              });
+            }
+            return filtered;
+          }}
+          getOptionLabel={(option) => {
+            if (typeof option === "string") {
+              return option;
+            }
+            return option.label;
+          }}
         />
       </Box>
 
-      {showPlantInfo && <PlantInfoContainer selectedPlant={plantInfo} plantDescription={plantDescription} setPlantDescription={setPlantDescription} />}
+      {openNewPlantDialog && (
+        <NewPlantDialog
+          open={openNewPlantDialog}
+          toggleOpen={toggleOpenNewPlantDialog}
+          selectedPlant={formData} // pass formData as selectedPlant prop
+        />
+      )}
+
+      {showPlantInfo && (
+        <PlantInfoContainer
+          selectedPlant={plantInfo}
+          plantDescription={plantDescription}
+          setPlantDescription={setPlantDescription}
+        />
+      )}
     </DefaultModal>
   );
 };
-
-//selectedPlant={formData} plantData={allPlants}
