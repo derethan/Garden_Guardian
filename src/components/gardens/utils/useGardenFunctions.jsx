@@ -187,8 +187,8 @@ export const useGardenFunctions = () => {
 
     //Save the new garden plants array to local storage
     localStorage.setItem("gardenPlants", JSON.stringify(gardenPlants));
-
   };
+
   /************************************************************
    *  Functions to Fetch Data Plant from the API
    * ***********************************************************/
@@ -205,48 +205,31 @@ export const useGardenFunctions = () => {
     }
   };
 
-  // Function to Fetch the List of Edible Plants from the API
-  const getEdiblePlantData = async () => {
-    let data = [];
-    const getAllPages = async (url, data = []) => {
-      try {
-        const response = await fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+  /************************************************************
+   *  Functions to add, update, delete plants and varieties to the database
+   * ***********************************************************/
 
-        const result = await response.json();
-        const newData = [...data, ...result.data];
+  // Function to Add a New Plant to the Database
+  const addNewPlant = async (formData) => {
+    
+    // Send the new plant data to the API
+    try {
+      const response = await fetch(URL + `api/plants/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-        if (result.links.next) {
-          let pageLink = result.links.next;
+      const result = await response.json();
+      result.status = response.status;
 
-          // Remove the base URL from the link
-          pageLink = pageLink.replace("/api/v1/plants", "");
+      return result;
 
-          return getAllPages(URL + `api/plants/edible` + pageLink, newData);
-        } else {
-          console.log("All pages fetched");
-          return newData;
-        }
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    };
-
-    // Fetch the list of Edible plants from the API
-    if (!localStorage.getItem("veggieList")) {
-      const veggieData = await getAllPages(URL + `api/plants/edible`);
-      data = [...data, ...veggieData];
-      localStorage.setItem("veggieList", JSON.stringify(veggieData));
-    } else {
-      const veggieData = JSON.parse(localStorage.getItem("veggieList"));
-      data = [...data, ...veggieData];
-    }
-
-    return data;
+    } catch (error) {
+      console.error("Error:", error);
+    } 
   };
 
   return {
@@ -258,6 +241,6 @@ export const useGardenFunctions = () => {
     deleteGardenPlant,
     addPlantAttributes,
     getAllPlants,
-    getEdiblePlantData,
+    addNewPlant,
   };
 };
