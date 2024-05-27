@@ -46,12 +46,15 @@ const Plant = () => {
     { label: "Description", value: plantData.description },
   ];
 
-  // Extracting the Plant Growth Properties That are to be displayed
-  const sowInstructions = plantData.howtoSow.split(".").filter((item) => item);
-  const sowInstructionsAllButLastTwo = sowInstructions.slice(0, -2);
-  const howtoSow = sowInstructionsAllButLastTwo.join(". ") + ".";
+  // Extracting the Plant Growth Properties That are to be displayed  
+  let howtoSow = plantData.howtoSow.replace ('(Show °C/cm)', '') || "N/A";
+  howtoSow = howtoSow.replace ('(Show °F/in)', '') || "N/A";
+
+
   const spacing = plantData.spacing || "N/A";
-  const Temperature = sowInstructions[sowInstructions.length - 2] || "N/A";
+
+  const Temperature = plantData.temperature || "N/A";
+
   const harvestTime = plantData.harvestTime || "N/A";
   const plantsToavoid =
     plantData.avoid.replace("Avoid growing close to:", "").trim() || "N/A";
@@ -95,10 +98,6 @@ const Plant = () => {
     },
   ];
 
-  useEffect(() => {
-    console.log("plantData", plantData);
-    // console.log(sowInstructions);
-  }, []);
 
   return (
     <Container maxWidth="none">
