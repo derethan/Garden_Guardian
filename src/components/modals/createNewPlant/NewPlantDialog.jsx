@@ -13,48 +13,134 @@ import {
   Typography,
 } from "@mui/material";
 
-import Step1 from "./Step1";
-import Step2 from "./Step2";
-import Step3 from "./Step3";
+import Step1 from "./NewPlantName";
+import Step2 from "./NewVarietyName";
+import Step3 from "./PlantDetails";
 import StepNavButtons from "./StepNavButtons";
+
+import { useGardenFunctions } from "../../gardens/utils/useGardenFunctions";
 
 const steps = ["Select a Name", "Select a Variety", "Add your New Plant"];
 
-const NewPlantDialog = ({ open, toggleOpen, selectedPlant }) => {
+const NewPlantDialog = ({ open, toggleOpen, selectedPlant, setUpdateListOptions }) => {
+  const { addNewPlant } = useGardenFunctions();
+
   const [activeStep, setActiveStep] = useState(selectedPlant.id ? 1 : 0);
   const [skipped, setSkipped] = useState(new Set());
+  const [enableAddPlantButton, setEnableAddPlantButton] = useState(false);
 
   const [newPlantValue, setNewPlantValue] = useState("");
   const [newVarietyValue, setNewVarietyValue] = useState("");
+  const [plantProps, setPlantProps] = useState([
+    {
+      title: "Description",
+      value: "",
+    },
+    {
+      title: "Harvest Time",
+      value: "",
+    },
+    {
+      title: "How to Sow",
+      value: "",
+    },
+    {
+      title: "Spacing",
+      value: "",
+    },
+    {
+      title: "Grows Well With",
+      value: "",
+    },
+    {
+      title: "Avoid Planting With",
+      value: "",
+    },
+  ]);
+  const [formErrors, setFormErrors] = useState({
+    plant: "",
+    variety: "",
+  });
 
   // useEffect(() => {
-  //   console.log(formSelection);
-  // }, [formSelection]);
+  //   console.log('Selected Plant: ', selectedPlant);
+  // }, [selectedPlant]);
 
   const handleClose = () => {
     toggleOpen(false);
+    setUpdateListOptions(false);
   };
 
-  const handleCreateNewPlant = (event) => {
-    event.preventDefault();
+  // Handle Adding the plant to the Database - util/useGardenFunctions for this
+  const handleAddPlant = async () => {
+    //Combine the plant name and variety and properties
+    const newPlant = {
+      plant: newPlantValue,
+      variety: newVarietyValue,
+      properties: plantProps,
+    };
 
-    // //set the new plant data
-    // setFormData({
-    //   ...newPlantValue,
-    // });
+    //Add the new plant to the database
+    const addPlant = await addNewPlant(newPlant);
 
-    handleClose();
-  };
+    if (addPlant.error) {
+      setFormErrors({
+        error: addPlant.error,
+      });
 
-  // Handle reset of the stepper
-  const handleReset = () => {
-    setActiveStep(0);
-    setSkipped(new Set());
+      setEnableAddPlantButton(false);
+      return;
+    }
+
+    //If the plant was added successfully, move to the next step
+    if (addPlant.status === 200) {
+      setUpdateListOptions(true);
+      handleNext();
+    }
   };
 
   // Handle the Back button
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setEnableAddPlantButton(false);
+
+    //Reset the form errors
+    setFormErrors({
+      plant: "",
+      variety: "",
+    });
+
+    //Reset the plant properties
+    plantProps.forEach((prop) => {
+      setPlantProps((prevProps) => {
+        return prevProps.map((item) => {
+          if (item.title === prop.title) {
+            return { ...item, value: "" };
+          }
+          return item;
+        });
+      });
+    });
+  };
+
+  // Handle the Next button
+  const handleNext = () => {
+    //Before moving to the next step, check if the fields for that step are filled (if required)
+    if (activeStep === 0 && !newPlantValue) {
+      setFormErrors({
+        plant: "Plant name is required",
+      });
+      return;
+    }
+
+    let newSkipped = skipped;
+    if (isStepSkipped(activeStep)) {
+      newSkipped = new Set(newSkipped.values());
+      newSkipped.delete(activeStep);
+    }
+
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setSkipped(newSkipped);
   };
 
   // Determine if a step is optional
@@ -77,20 +163,10 @@ const NewPlantDialog = ({ open, toggleOpen, selectedPlant }) => {
       newSkipped.add(activeStep);
       return newSkipped;
     });
+    setNewVarietyValue("");
   };
 
-  // Handle the Next button
-  const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
-
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
-  };
-
+  // Check if the Step is Skipped
   const isStepSkipped = (step) => {
     return skipped.has(step);
   };
@@ -132,42 +208,58 @@ const NewPlantDialog = ({ open, toggleOpen, selectedPlant }) => {
 
           {activeStep === steps.length ? (
             <>
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                All steps completed - you&apos;re finished
+              {/* Step 4 - Success Message */}
+              <Typography sx={{ mt:2, p:2 }}>
+                {!newVarietyValue
+                  ? `${newPlantValue} has been added successfully!`
+                  : `A new variety of ${newPlantValue},  ${newVarietyValue} has been added successfully!`}
               </Typography>
+
               <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Box sx={{ flex: "1 1 auto" }} />
-                <Button onClick={handleCreateNewPlant}>Close</Button>
+
+                <Button onClick={handleClose}>Close</Button>
               </Box>
             </>
           ) : (
             <>
               {/* Step Content */}
-              <Typography sx={{ mt: 2, mb: 1 }}>
-                Step {activeStep + 1}
-              </Typography>
 
               {/* Step 1 - Plant name */}
               {activeStep === 0 && (
                 <Step1
                   newPlantValue={newPlantValue}
                   setNewPlantValue={setNewPlantValue}
+                  formErrors={formErrors}
+                  setFormErrors={setFormErrors}
                 />
               )}
 
               {/* Step 2 - Variety */}
               {activeStep === 1 && (
                 <Step2
+                  newPlantValue={newPlantValue}
                   newVarietyValue={newVarietyValue}
                   setNewVarietyValue={setNewVarietyValue}
+                  formErrors={formErrors}
                 />
               )}
 
               {/* Step 3 - Generate Details */}
-              {activeStep === 2 && <Step3 
-                plant={newPlantValue}
-                variety={newVarietyValue}
-              />}
+              {activeStep === 2 &&
+                (formErrors.error ? (
+                  <Typography p={2} mt={2} color={"error"}>
+                    {formErrors.error}
+                  </Typography>
+                ) : (
+                  <Step3
+                    plant={newPlantValue}
+                    variety={newVarietyValue}
+                    plantProps={plantProps}
+                    setPlantProps={setPlantProps}
+                    setEnableAddPlantButton={setEnableAddPlantButton}
+                  />
+                ))}
 
               {/* Step Navigation Buttons */}
               <StepNavButtons
@@ -177,7 +269,11 @@ const NewPlantDialog = ({ open, toggleOpen, selectedPlant }) => {
                 handleBack={handleBack}
                 handleNext={handleNext}
                 handleSkip={handleSkip}
+                handleAddPlant={handleAddPlant}
                 isStepOptional={isStepOptional}
+                newVarietyValue={newVarietyValue}
+                enableAddPlantButton={enableAddPlantButton}
+                selectedPlant={selectedPlant}
               />
             </>
           )}
