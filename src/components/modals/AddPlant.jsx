@@ -33,6 +33,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
 
   const [listOptions, setListOptions] = useState([]);
   const [selectedListItem, setSelectedListItem] = useState(null);
+  const [updateListOptions, setUpdateListOptions] = useState(false);
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,6 +49,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
   // Form Validation Hook
   const [formErrors, validateForm] = useValidate(formData);
 
+  // Handle Adding new plant to the garden
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -77,7 +79,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
     }
   };
 
-  //Get the list of plant names
+  //Get the list of plant names to display in the dropdown
   useEffect(() => {
     const getData = async () => {
       let data = [];
@@ -109,7 +111,8 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
     };
 
     getData();
-  }, []);
+
+  }, [updateListOptions]);
 
   // Get the Specific Plant Details for the user selected plant (Displays in the Plant Details section)
   useEffect(() => {
@@ -198,7 +201,15 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               };
             }
 
-            if (newValue.label && newValue.id === null) {
+            if (newValue.id === null && newValue.label === "Add A New Plant") {
+              //Reset the form data
+              setFormData({
+                ...formData,
+                label: "",
+                id: null,
+                name: "",
+              });
+
               //Set the value to the selected plant
               setSelectedListItem(newValue);
               toggleOpenNewPlantDialog(true);
@@ -250,6 +261,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
           open={openNewPlantDialog}
           toggleOpen={toggleOpenNewPlantDialog}
           selectedPlant={formData} // pass formData as selectedPlant prop
+          setUpdateListOptions={setUpdateListOptions}
         />
       )}
 
