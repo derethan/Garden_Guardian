@@ -38,8 +38,10 @@ export const usePostRequest = () => {
       });
 
       //if there is a response header
-      const responseToken = (response.headers.get("Authorization") || "").split(" ")[1];
-       
+      const responseToken = (response.headers.get("Authorization") || "").split(
+        " "
+      )[1];
+
       setPostStatus(response.status);
 
       // Get the response data
@@ -53,8 +55,6 @@ export const usePostRequest = () => {
 
       // Return the response data
       return responseData;
-
-
     } catch (error) {
       console.error(error);
       // navigate("/error503");
@@ -62,16 +62,16 @@ export const usePostRequest = () => {
     }
   }
 
-// // FOR DEBUGGING
-// useEffect(() => {
-//   // Use the response data
-//   if (postStatus && postMessage && responseData) {
-//       // Log the status and message
-//   console.log('Status:', postStatus);
-//   console.log('Message:', postMessage);
-//     console.log('Response data:', responseData);
-//       }
-// }, [postStatus, postMessage, responseData]);
+  // // FOR DEBUGGING
+  // useEffect(() => {
+  //   // Use the response data
+  //   if (postStatus && postMessage && responseData) {
+  //       // Log the status and message
+  //   console.log('Status:', postStatus);
+  //   console.log('Message:', postMessage);
+  //     console.log('Response data:', responseData);
+  //       }
+  // }, [postStatus, postMessage, responseData]);
 
-  return [postStatus, postMessage, responseData, setPostMessage, postData];
+  return { postStatus, postMessage, responseData, setPostMessage, postData };
 };

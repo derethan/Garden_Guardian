@@ -12,6 +12,10 @@ const URL = import.meta.env.VITE_API_URL;
 //Create the provider
 const AuthProvider = ({ children }) => {
   // Declarations
+
+    //Create the post request hook - TODO: CHANGE TO OBJECT FROM ARRAY IN USEPOSTREQUEST
+    const {postStatus, postMessage, postData} = usePostRequest();
+
   const { checkForDevice } = useGetDeviceInfo();
   const navigate = useNavigate();
 
@@ -70,14 +74,6 @@ const AuthProvider = ({ children }) => {
     }
   }, [ isLoggedIn, deviceID]); // eslint-disable-line
 
-
-  // useEffect(() => {
-  //   console.log(activeDevice);
-  // }, [activeDevice]);
-
-
-  //Create the post request hook - TODO: CHANGE TO OBJECT FROM ARRAY IN USEPOSTREQUEST
-  const [postStatus, postMessage, , , postData] = usePostRequest();
 
   //Handle the login
   const loginAction = async (data) => {
