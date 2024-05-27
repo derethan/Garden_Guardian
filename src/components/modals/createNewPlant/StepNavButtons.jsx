@@ -7,7 +7,11 @@ const StepNavButtons = ({
   handleClose,
   handleNext,
   handleSkip,
+  handleAddPlant,
   isStepOptional,
+  newVarietyValue,
+  enableAddPlantButton,
+  selectedPlant,
 }) => {
   return (
     <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
@@ -15,7 +19,7 @@ const StepNavButtons = ({
         onClick={activeStep === 0 ? handleClose : handleBack}
         sx={{ mr: 1 }}
       >
-        {activeStep === 0 ? "Cancel" : "Back"}
+        {activeStep === 0 || activeStep === 1 && selectedPlant.id != null ? "Cancel" : "Back"}
       </Button>
       <Box sx={{ flex: "1 1 auto" }} />
       {isStepOptional(activeStep) && (
@@ -26,10 +30,14 @@ const StepNavButtons = ({
 
       <Button
         onClick={() => {
-          handleNext();
+          activeStep === steps.length - 1 ? handleAddPlant() : handleNext();
         }}
+        disabled={
+          (activeStep === 1 && !newVarietyValue) ||
+          (activeStep === steps.length - 1 && !enableAddPlantButton)
+        }
       >
-        {activeStep === steps.length - 1 ? "Create Plant" : "Next"}
+        {activeStep === steps.length - 1 ? "Add Plant" : "Next"}
       </Button>
     </Box>
   );
