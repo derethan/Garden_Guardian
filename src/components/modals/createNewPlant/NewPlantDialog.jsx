@@ -95,7 +95,7 @@ const NewPlantDialog = ({ open, toggleOpen, selectedPlant, setUpdateListOptions 
     //If the plant was added successfully, move to the next step
     if (addPlant.status === 200) {
       setUpdateListOptions(true);
-      handleNext();
+      // handleNext();
     }
   };
 

@@ -96,7 +96,7 @@ const MyPlant = ({ plantData }) => {
           label="Growth Stage"
           labelId="growthStage"
           id="growthStage"
-          value={formData || growthStage}
+          value={formData || growthStage || ""}
           onChange={(event) => setFormData(event.target.value)}
         >
           <MenuItem value={"Germination"}>Germination</MenuItem>
