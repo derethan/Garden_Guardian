@@ -21,7 +21,7 @@ const AccountSettingsBanner = () => {
   // User Data
   const { user } = useAuth();
 
-  const [postStatus, postMessage, responseData, setPostMessage, postData] =
+  const {postMessage, setPostMessage, postData} =
     usePostRequest();
 
   // State Variables
