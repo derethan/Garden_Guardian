@@ -16,7 +16,7 @@ const StepNavButtons = ({
   return (
     <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
       <Button
-        onClick={activeStep === 0 ? handleClose : handleBack}
+        onClick={activeStep === 0 || activeStep === 1 && selectedPlant.id != null ? handleClose : handleBack}
         sx={{ mr: 1 }}
       >
         {activeStep === 0 || activeStep === 1 && selectedPlant.id != null ? "Cancel" : "Back"}
