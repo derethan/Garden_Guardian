@@ -9,19 +9,22 @@ import SensorsOnIcon from "@mui/icons-material/Sensors";
 import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
 import { useAuth } from "../../hooks/useAuthProvider";
 
-const DeviceStatusIcon = (deviceID) => {
+const DeviceStatusIcon = (device) => {
   const theme = useTheme();
+  const deviceID = device.deviceID;
+
 
   const { deviceStatus, setDeviceStatus } = useAuth();
 
   const { isDeviceActive } = useGetDeviceInfo();
 
-  // UseEffect to check the status of the device every 5 minutes
+  // UseEffect to check the status of the device 
   useEffect(() => {
+    console.log("Device ID: ", deviceID);
     //Function to fetch the device timestamp
     const checkStatus = async () => {
       //Check if the device is active
-      const deviceActive = await isDeviceActive(deviceID);
+      const deviceActive = await isDeviceActive(device);
 
       //If the device is active, set the status to online
       if (deviceActive) {
@@ -54,7 +57,7 @@ const DeviceStatusIcon = (deviceID) => {
         gap: 2,
       }}
     >
-      <Tooltip title="Device Status" arrow>
+      <Tooltip title={`${deviceID} is ${deviceStatus}`} arrow>
         <IconButton
           color="inherit"
           aria-label="account"
