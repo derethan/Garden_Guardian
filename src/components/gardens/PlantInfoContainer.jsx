@@ -15,13 +15,16 @@ import { CircularProgress } from "@mui/material";
 
 export const PlantInfoContainer = ({
   selectedPlant,
+  selectedVariety,
   plantDescription,
   setPlantDescription,
 }) => {
   const URL = import.meta.env.VITE_API_URL;
   const [loading, setLoading] = useState(false);
 
+  // Queries the API for the selected plant's description - Generated from AI
   useEffect(() => {
+    
     const fetchPlantDescription = async (plantName) => {
       setLoading(true);
 
@@ -37,7 +40,13 @@ export const PlantInfoContainer = ({
     };
 
     if (selectedPlant) {
-      fetchPlantDescription(selectedPlant.name || selectedPlant.common_name);
+      if (selectedPlant.description) {
+        setPlantDescription(selectedPlant.description);
+      } else {
+        fetchPlantDescription(selectedPlant.name || selectedPlant.common_name);
+
+        // Possibly add step here to update the plant Description in the Database
+      }
     }
   }, [selectedPlant]);
 
@@ -108,7 +117,7 @@ export const PlantInfoContainer = ({
             )}
 
             {!loading ? (
-              <Box sx={{ display: "flex", gap: 1, justifyContent:'center' }}>
+              <Box sx={{ display: "flex", gap: 1, justifyContent: "center" }}>
                 <Typography
                   variant="body1"
                   p={2}
