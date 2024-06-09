@@ -14,6 +14,7 @@ import {
   Box,
   Typography,
   CircularProgress,
+  Button,
 } from "@mui/material";
 
 import NewPlantDialog from "./createNewPlant/NewPlantDialog";
@@ -21,30 +22,35 @@ import NewPlantDialog from "./createNewPlant/NewPlantDialog";
 const filter = createFilterOptions();
 
 export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
-  const { getAllPlants, createGardenPlant } = useGardenFunctions();
+  const { getAllPlants, getVariety, createGardenPlant } = useGardenFunctions();
 
   // Form State
   const [formData, setFormData] = useState({
     label: "",
+    variety: "",
     id: null,
     name: "",
     groupID: groupData.groupID,
   });
 
+  // States for the Dropdown List's, The selected List Items and the Loading State
   const [listOptions, setListOptions] = useState([]);
-  const [selectedListItem, setSelectedListItem] = useState(null);
+  const [varietyOptions, setVarietyOptions] = useState([]);
   const [updateListOptions, setUpdateListOptions] = useState(false);
+  const [selectedPlant, setSelectedPlant] = useState(null);
+  const [selectedVariety, setSelectedVariety] = useState(null);
 
-  const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
-
+  // States for the Plant Info, Selected Plants and List of Available plants
   const [allPlants, setAllPlants] = useState([]); //List of all plants in the database
-
-  const [showPlantInfo, setShowPlantInfo] = useState(false); //Show the plant info Component
   const [plantInfo, setPlantInfo] = useState(null); // Plant Info for the selected Plant in the List
   const [plantDescription, setPlantDescription] = useState(null);
 
+  // States for Loading and Displaying conditionally rendered components
+  const [showPlantInfo, setShowPlantInfo] = useState(false); //Show the plant info Component
   const [openNewPlantDialog, toggleOpenNewPlantDialog] = useState(false);
+  const [open, setOpen] = useState(false);
+  const [loadingPlants, setLoadingPlants] = useState(false);
+  const [loadingVarieties, setLoadingVarieties] = useState(false);
 
   // Form Validation Hook
   const [formErrors, validateForm] = useValidate(formData);
@@ -83,7 +89,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
   useEffect(() => {
     const getData = async () => {
       let data = [];
-      setLoading(true);
+      setLoadingPlants(true);
 
       const plantData = await getAllPlants(); //useGardenFunctions
       data = [...data, ...plantData];
@@ -107,21 +113,53 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
       //Set the state with the list of unique plant names
       setListOptions(listOptions);
       setAllPlants(data);
-      setLoading(false);
     };
 
-    getData();
-
+    getData().then(() => {
+      setLoadingPlants(false);
+    });
   }, [updateListOptions]);
 
+  //Get the list of varieties to display in the dropdown
+  useEffect(() => {
+    const getVarieties = async () => {
+      setLoadingVarieties(true);
+
+      const varietyData = await getVariety(formData.label); //useGardenFunctions
+
+      // Create a list of plant names for the Variety dropdown
+      const varieties = varietyData.map((variety) => {
+        return { label: variety.name, id: variety.id };
+      });
+      setVarietyOptions(varieties);
+    };
+
+    if (formData.id) {
+      getVarieties().finally(() => {
+        setLoadingVarieties(false);
+        console.log("Variety Options:", varietyOptions);
+      });
+    }
+  }, [formData.id]);
+
   // Get the Specific Plant Details for the user selected plant (Displays in the Plant Details section)
+
+  // TODO: Might be better to move this to the PlantInfoContainer component, Could stop
+  // multiple rendering of the component casuing wrong data to be displayed
+
+  // Depreciating: This function will be remade to get plant info from Database
+  //               based on the selected plant ID
+
   useEffect(() => {
     if (formData.id && allPlants.length > 0) {
       const plant = allPlants.find((plant) => plant.id === formData.id);
       setPlantInfo(plant);
-      console.log(plant);
     }
   }, [formData]);
+
+  useEffect(() => {
+    console.log("Plant Info:", plantInfo);
+  }, [plantInfo]);
 
   return (
     <DefaultModal
@@ -143,7 +181,8 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          flexDirection: "column",
+          flexDirection: { xs: "column", md: "row" },
+          gap: 2,
           pt: 2,
         }}
       >
@@ -162,10 +201,8 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               return option.label === value ? true : false;
             }
           }}
-          loading={loading}
+          loading={loadingPlants}
           value={formData.label} //this is the value that is selected from the dropdown - Returned as an object
-          // inputValue={formData.name} //this is the value that is being typed in the input field - Returned as a string
-
           onOpen={() => {
             setOpen(true);
           }}
@@ -180,7 +217,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
                 ...params.InputProps,
                 endAdornment: (
                   <Fragment>
-                    {loading && open ? (
+                    {loadingPlants && open ? (
                       <CircularProgress color="inherit" size={20} />
                     ) : null}
                     {params.InputProps.endAdornment}
@@ -211,7 +248,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               });
 
               //Set the value to the selected plant
-              setSelectedListItem(newValue);
+              setSelectedPlant(newValue);
               toggleOpenNewPlantDialog(true);
             } else {
               //Set the value to the selected plant
@@ -223,17 +260,20 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               });
 
               if (newValue.id) {
+                setSelectedPlant(newValue);
                 setShowPlantInfo(true);
               } else {
                 setShowPlantInfo(false);
               }
             }
           }}
-          onInputChange={(event, newInputValue) => {
+          onInputChange={(newInputValue) => {
             setFormData({
               ...formData,
+              id: null,
               name: newInputValue,
             });
+            setPlantInfo(null);
             setShowPlantInfo(false);
           }}
           filterOptions={(options, params) => {
@@ -254,6 +294,122 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
             return option.label;
           }}
         />
+
+        {formData.id && varietyOptions.length > 0 ? (
+          <Autocomplete
+            sx={{
+              width: 300,
+            }}
+            
+            id="variety-selection-list"
+            options={varietyOptions}
+            isOptionEqualToValue={(option, value) => {
+              if (value === "") {
+                return true;
+              } else {
+                return option.label === value ? true : false;
+              }
+            }}
+            loading={loadingVarieties}
+            value={selectedVariety} //this is the value that is selected from the dropdown - Returned as an object
+            onOpen={() => {
+              setOpen(true);
+            }}
+            onClose={() => {
+              setOpen(false);
+            }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Select a Variety"
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <Fragment>
+                      {loadingVarieties && open ? (
+                        <CircularProgress color="inherit" size={20} />
+                      ) : null}
+                      {params.InputProps.endAdornment}
+                    </Fragment>
+                  ),
+                }}
+                error={formErrors.label ? true : false}
+                helperText={formErrors.label}
+              />
+            )}
+            onChange={(event, newValue) => {
+
+              //If the newValue is null, set the value to an empty object
+              if (!newValue) {
+                setSelectedVariety("");
+                return;
+              }
+
+              if (
+                newValue.id === null &&
+                newValue.label === "Add A New Variety"
+              ) {
+                //Reset the form data
+                setFormData({
+                  ...formData,
+                  variety: "",
+                });
+                setSelectedVariety("");
+
+                //Set the value to the selected plant
+                toggleOpenNewPlantDialog(true);
+              } else {
+                //Set the value to the selected plant
+                setFormData({
+                  ...formData,
+                  variety: newValue.label,
+                });
+                setSelectedVariety(newValue || "");
+
+                // if (newValue.id) {
+                //   setShowPlantInfo(true);
+                // } else {
+                //   setShowPlantInfo(false);
+                // }
+              }
+            }}
+            onInputChange={(event, newInputValue) => {
+              setSelectedVariety(newInputValue ? newInputValue : "");
+            }}
+            filterOptions={(options, params) => {
+              const filtered = filter(options, params);
+
+              if (params.inputValue) {
+                filtered.push({
+                  label: `Add A New Variety`,
+                  id: null,
+                });
+              }
+              return filtered;
+            }}
+            getOptionLabel={(option) => {
+              if (typeof option === "string") {
+                return option;
+              }
+              return option.label;
+            }}
+          />
+        ) : (
+          formData.id &&
+          varietyOptions && (
+            <Box display={"flex"} flexDirection={"column"} gap={2} p={2}>
+              <Typography variant="subtitle2">
+                No Varieties have been added for this plant.
+              </Typography>
+              <Button
+                variant="contained"
+                onClick={() => toggleOpenNewPlantDialog(true)}
+              >
+                Click here to add a new variety
+              </Button>
+            </Box>
+          )
+        )}
       </Box>
 
       {openNewPlantDialog && (
@@ -268,6 +424,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
       {showPlantInfo && (
         <PlantInfoContainer
           selectedPlant={plantInfo}
+          selectedVariety={selectedVariety}
           plantDescription={plantDescription}
           setPlantDescription={setPlantDescription}
         />
