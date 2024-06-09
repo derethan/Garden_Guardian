@@ -20,7 +20,6 @@ const DeviceStatusIcon = (device) => {
 
   // UseEffect to check the status of the device 
   useEffect(() => {
-    console.log("Device ID: ", deviceID);
     //Function to fetch the device timestamp
     const checkStatus = async () => {
       //Check if the device is active
