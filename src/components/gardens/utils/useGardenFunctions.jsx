@@ -190,13 +190,25 @@ export const useGardenFunctions = () => {
   };
 
   /************************************************************
-   *  Functions to Fetch Data Plant from the API
+   *  Functions to Fetch Plant Data from the API
    * ***********************************************************/
 
   // Function to Fetch the List of All Plants from the API
   const getAllPlants = async () => {
     try {
-      const response = await fetch(URL + `api/plants/all`);
+      const response = await fetch(URL + `api/plants`);
+      const result = await response.json();
+
+      return result;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  // function to Fetch the varieties of the specified plant from the API
+  const getVariety = async (plantName) => {
+    try {
+      const response = await fetch(URL + `api/plants/${plantName}/varieties`);
       const result = await response.json();
 
       return result;
@@ -210,11 +222,13 @@ export const useGardenFunctions = () => {
    * ***********************************************************/
 
   // Function to Add a New Plant to the Database
+  // TODO: Ensure secuity by adding authentication to to the Post request (UusePostRequest Hook)
+  // Ensure API is using correct verification middlewhere before proceeding to next route 
   const addNewPlant = async (formData) => {
     
     // Send the new plant data to the API
     try {
-      const response = await fetch(URL + `api/plants/add`, {
+      const response = await fetch(URL + `api/plants`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -241,6 +255,7 @@ export const useGardenFunctions = () => {
     deleteGardenPlant,
     addPlantAttributes,
     getAllPlants,
+    getVariety,
     addNewPlant,
   };
 };
