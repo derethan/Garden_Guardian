@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 //Import State
 import { useState, useEffect, Fragment } from "react";
 import { DefaultModal } from "../modals/DefaultModal";
@@ -87,15 +88,12 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
 
   //Get the list of plant names to display in the dropdown
   useEffect(() => {
-    const getData = async () => {
-      let data = [];
+    const getlistOfPlants = async () => {
       setLoadingPlants(true);
 
       const plantData = await getAllPlants(); //useGardenFunctions
-      data = [...data, ...plantData];
-
       // Create a list of unique plant names
-      const listOptions = data.reduce((unique, item) => {
+      const listOptions = plantData.reduce((unique, item) => {
         let name = item.name || item.common_name || item.scientific_name;
         const id = item.id;
 
@@ -110,12 +108,14 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
       // Sort options alphabetically based on the title property
       listOptions.sort((a, b) => a.label.localeCompare(b.label));
 
-      //Set the state with the list of unique plant names
+      // Update the ListOptions State with a list of unique plant names and ID's
       setListOptions(listOptions);
-      setAllPlants(data);
+
+      // TODO: Remove this line, Need to refactor How it handles retrieving plant info.
+      setAllPlants(plantData);
     };
 
-    getData().then(() => {
+    getlistOfPlants().then(() => {
       setLoadingPlants(false);
     });
   }, [updateListOptions]);
@@ -137,7 +137,6 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
     if (formData.id) {
       getVarieties().finally(() => {
         setLoadingVarieties(false);
-        console.log("Variety Options:", varietyOptions);
       });
     }
   }, [formData.id]);
@@ -153,13 +152,13 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
   useEffect(() => {
     if (formData.id && allPlants.length > 0) {
       const plant = allPlants.find((plant) => plant.id === formData.id);
-      setPlantInfo(plant);
+      setPlantInfo(plant); // Store the Plant Object for the Selected Plant/Variety
     }
   }, [formData]);
 
-  useEffect(() => {
-    console.log("Plant Info:", plantInfo);
-  }, [plantInfo]);
+  // useEffect(() => {
+  //   console.log("Plant Info:", plantInfo);
+  // }, [plantInfo]);
 
   return (
     <DefaultModal
@@ -202,7 +201,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
             }
           }}
           loading={loadingPlants}
-          value={formData.label} //this is the value that is selected from the dropdown - Returned as an object
+          value={formData.label}
           onOpen={() => {
             setOpen(true);
           }}
@@ -300,7 +299,6 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
             sx={{
               width: 300,
             }}
-            
             id="variety-selection-list"
             options={varietyOptions}
             isOptionEqualToValue={(option, value) => {
@@ -311,7 +309,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               }
             }}
             loading={loadingVarieties}
-            value={selectedVariety} //this is the value that is selected from the dropdown - Returned as an object
+            value={selectedVariety} 
             onOpen={() => {
               setOpen(true);
             }}
@@ -338,7 +336,6 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               />
             )}
             onChange={(event, newValue) => {
-
               //If the newValue is null, set the value to an empty object
               if (!newValue) {
                 setSelectedVariety("");
