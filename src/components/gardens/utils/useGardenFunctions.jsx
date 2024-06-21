@@ -1,35 +1,62 @@
 import { useAuth } from "../../../hooks/useAuthProvider";
+import { usePostRequest } from "../../../hooks/usePostRequest";
 
 export const useGardenFunctions = () => {
   const URL = import.meta.env.VITE_API_URL;
 
   const { user } = useAuth();
+  const { responseData, postData } = usePostRequest();
 
   /************************************************************
    *  Functions to Related to Gardens, Groups and Plants
    * ***********************************************************/
 
-  // Function to Create/Add a New Garden to the Local Storage and Garden State
-  const createGarden = (formData, setGardens) => {
-    //Get the current gardens from local storage
-    const gardens = JSON.parse(localStorage.getItem("gardens")) || [];
-
+  // Function to Create/Add a New Garden, send the data to the API and update the state
+  const createGarden = async (formData, setGardens) => {
     //Add the userID to the formData
     const newFormData = { ...formData, userID: user.id };
 
-    //Add the new garden to the gardens array
-    gardens.push(newFormData);
+    console.log("newFormData", newFormData);
 
-    //Save the new gardens array to local storage
-    localStorage.setItem("gardens", JSON.stringify(gardens));
+    //Send the new garden data to the API
+    try {
+      const result = await postData(URL + `users/${user.id}/gardens`, newFormData);
+      
+      if (!result.status) {
+        return 'error';
+      }
 
-    //Filter the gardens to only show the current user's gardens to update the state
-    const userGardens = gardens.filter((garden) => garden.userID === user.id);
+      return result.message;
+
+    } catch (error) {
+      console.error("Error connecting to the server", error);
+    }
 
     //Update the state of the gardens
-    setGardens(userGardens);
+    // setGardens(userGardens);
   };
-  // Function to Delete a Garden from the Local Storage and Garden State
+
+  //OLD Data Structure
+  // const createGarden = (formData, setGardens) => {
+  //   //Get the current gardens from local storage
+  //   const gardens = JSON.parse(localStorage.getItem("gardens")) || [];
+
+  //   //Add the userID to the formData
+  //   const newFormData = { ...formData, userID: user.id };
+
+  //   //Add the new garden to the gardens array
+  //   gardens.push(newFormData);
+
+  //   //Save the new gardens array to local storage
+  //   localStorage.setItem("gardens", JSON.stringify(gardens));
+
+  //   //Filter the gardens to only show the current user's gardens to update the state
+  //   const userGardens = gardens.filter((garden) => garden.userID === user.id);
+
+  //   //Update the state of the gardens
+  //   setGardens(userGardens);
+  // };
+
   const deleteGarden = (
     gardenID,
     setGardens,
@@ -86,7 +113,6 @@ export const useGardenFunctions = () => {
     //Update the state of the garden groups
     setGardenGroups(userGroups);
   };
-  // Function to Delete a Garden Group from the Local Storage and Garden Group State
   const deleteGardenGroup = (groupID, setGardenGroups, setGardenPlants) => {
     //Get the current garden groups from local storage
     const gardenGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
@@ -211,6 +237,7 @@ export const useGardenFunctions = () => {
       const response = await fetch(URL + `api/plants/${plantName}/varieties`);
       const result = await response.json();
 
+      console.log(plantName, result);
       return result;
     } catch (error) {
       console.error("Error:", error);
@@ -222,10 +249,9 @@ export const useGardenFunctions = () => {
    * ***********************************************************/
 
   // Function to Add a New Plant to the Database
-  // TODO: Ensure secuity by adding authentication to to the Post request (UusePostRequest Hook)
-  // Ensure API is using correct verification middlewhere before proceeding to next route 
+  // TODO: Ensure secuity by adding authentication to to the Post request (UsePostRequest Hook)
+  // Ensure API is using correct verification middlewhere before proceeding to next route
   const addNewPlant = async (formData) => {
-    
     // Send the new plant data to the API
     try {
       const response = await fetch(URL + `api/plants`, {
@@ -240,10 +266,9 @@ export const useGardenFunctions = () => {
       result.status = response.status;
 
       return result;
-
     } catch (error) {
       console.error("Error:", error);
-    } 
+    }
   };
 
   return {
