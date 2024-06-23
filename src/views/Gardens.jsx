@@ -1,6 +1,6 @@
 // Desc: Gardens view
 // Importing React
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Material-UI
 import { Container } from "@mui/material";
@@ -16,36 +16,73 @@ import { AddGarden, AddGardrenGroup } from "../imports";
 // UseAuth
 import { useAuth } from "../hooks/useAuthProvider";
 
+const URL = import.meta.env.VITE_API_URL;
 
 const Gardens = () => {
   const [ShowAddGardenModal, setShowAddGardenModal] = useState(false);
   const [ShowAddGardenGroupModal, setShowAddGardenGroupModal] = useState(false);
 
-  const { user } = useAuth();
+  const { user, token } = useAuth();
 
-  const [gardens, setGardens] = useState( () =>
-    {
-      const allGardens = JSON.parse(localStorage.getItem("gardens")) || [];
-      const userGardens = allGardens.filter(garden => garden.userID === user.id);
-      return userGardens.length > 0 ? userGardens : null;
-    }
-  );
+  const [gardens, setGardens] = useState(null);
+  const [resultMessage, setResultMessage] = useState("");
 
   const [gardenGroups, setGardenGroups] = useState(() => {
     const allGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
-    return allGroups.filter(group => group.userID === user.id)
+    return allGroups.filter((group) => group.userID === user.id);
   });
-    
 
   const [gardenPlants, setGardenPlants] = useState(() => {
     const allPlants = JSON.parse(localStorage.getItem("gardenPlants")) || [];
-    return allPlants.filter(plant => plant.userID === user.id)
-  }
-  );
+    return allPlants.filter((plant) => plant.userID === user.id);
+  });
 
-  // useState(() => {
-  //   console.log("gardens", gardens);
-  // }, [gardens]);
+  // Fetch the garden data from the API
+  useEffect(() => {
+    //Function to fetch the gardens associated with the user
+    const fetchGardens = async () => {
+      try {
+        const response = await fetch(URL + `users/${user.id}/gardens`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.status) {
+          setGardens(data.gardenData);
+        }
+      } catch (error) {
+        console.error("Error fetching gardens", error);
+      }
+    };
+
+    const fetchGardenGroups = async () => {
+      try {
+        const response = await fetch(URL + `users/${user.id}/gardens/groups`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        const data = await response.json();
+
+        if (response.status) {
+          setGardenGroups(data.gardenGroups);
+        }
+      } catch (error) {
+        console.error("Error fetching garden groups", error);
+      }
+    };
+
+    fetchGardens();
+    fetchGardenGroups();
+  }, [user.id, token, resultMessage]);
 
   return (
     <Container
@@ -76,6 +113,7 @@ const Gardens = () => {
         show={ShowAddGardenModal}
         handleClose={setShowAddGardenModal}
         setGardens={setGardens}
+        setResultMessage={setResultMessage}
       />
 
       {/* Add Garden Group Modal */}
@@ -87,8 +125,6 @@ const Gardens = () => {
           setGardenGroups={setGardenGroups}
         />
       )}
-
-
     </Container>
   );
 };

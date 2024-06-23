@@ -20,7 +20,7 @@ import { useValidate } from "../../hooks/useValidate";
 
 import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
 
-export const AddGarden = ({ show, handleClose, setGardens }) => {
+export const AddGarden = ({ show, handleClose, setGardens, setResultMessage }) => {
   /************ Imports ***********************/
   const { createGarden } = useGardenFunctions();
 
@@ -29,7 +29,6 @@ export const AddGarden = ({ show, handleClose, setGardens }) => {
     gardenName: "",
     gardenLocation: "",
     gardenType: "",
-    hydroponic: false,
   });
 
   const [formErrors, validateForm] = useValidate(formData);
@@ -53,21 +52,23 @@ export const AddGarden = ({ show, handleClose, setGardens }) => {
     const isValid = validateForm();
 
     if (isValid) {
-      //Attach an ID to the garden
-      formData.gardenID = Math.floor(Math.random() * 1000);
+      //Create the new garden
+      const addGarden = createGarden(formData, setGardens);
 
-      createGarden(formData, setGardens);
-
-      //Reset the form data
+      //Set the result message
+      setResultMessage(addGarden);
+      
+      // Reset the form data
       setFormData({
         gardenName: "",
         gardenLocation: "",
         gardenType: "",
-        hydroponic: false,
       });
 
-      //Close the modal
+      // Close the modal
       handleClose();
+
+      return addGarden;
     }
   };
 
@@ -147,7 +148,7 @@ export const AddGarden = ({ show, handleClose, setGardens }) => {
             )}
           </FormControl>
 
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          {/* <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <FormGroup>
               <FormControlLabel
                 label={"Hydroponic"}
@@ -162,7 +163,7 @@ export const AddGarden = ({ show, handleClose, setGardens }) => {
                 }
               />
             </FormGroup>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </DefaultModal>
