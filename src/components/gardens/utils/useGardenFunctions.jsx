@@ -4,7 +4,7 @@ import { usePostRequest } from "../../../hooks/usePostRequest";
 export const useGardenFunctions = () => {
   const URL = import.meta.env.VITE_API_URL;
 
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const { responseData, postData } = usePostRequest();
 
   /************************************************************
@@ -12,86 +12,52 @@ export const useGardenFunctions = () => {
    * ***********************************************************/
 
   // Function to Create/Add a New Garden, send the data to the API and update the state
-  const createGarden = async (formData, setGardens) => {
+  const createGarden = async (formData) => {
     //Add the userID to the formData
     const newFormData = { ...formData, userID: user.id };
 
-    console.log("newFormData", newFormData);
-
     //Send the new garden data to the API
     try {
-      const result = await postData(URL + `users/${user.id}/gardens`, newFormData);
-      
+      const result = await postData(
+        URL + `users/${user.id}/gardens`,
+        newFormData
+      );
+
       if (!result.status) {
-        return 'error';
+        return "error";
       }
 
       return result.message;
+    } catch (error) {
+      console.error("Error connecting to the server", error);
+    }
+  };
 
+  const deleteGarden = async (gardenID) => {
+    try {
+      const result = await fetch(URL + `users/${user.id}/gardens/${gardenID}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!result.status) {
+        return "error";
+      }
+
+      return result.message;
     } catch (error) {
       console.error("Error connecting to the server", error);
     }
 
-    //Update the state of the gardens
-    // setGardens(userGardens);
-  };
-
-  //OLD Data Structure
-  // const createGarden = (formData, setGardens) => {
-  //   //Get the current gardens from local storage
-  //   const gardens = JSON.parse(localStorage.getItem("gardens")) || [];
-
-  //   //Add the userID to the formData
-  //   const newFormData = { ...formData, userID: user.id };
-
-  //   //Add the new garden to the gardens array
-  //   gardens.push(newFormData);
-
-  //   //Save the new gardens array to local storage
-  //   localStorage.setItem("gardens", JSON.stringify(gardens));
-
-  //   //Filter the gardens to only show the current user's gardens to update the state
-  //   const userGardens = gardens.filter((garden) => garden.userID === user.id);
-
-  //   //Update the state of the gardens
-  //   setGardens(userGardens);
-  // };
-
-  const deleteGarden = (
-    gardenID,
-    setGardens,
-    setGardenGroups,
-    setGardenPlants
-  ) => {
-    //Get the current gardens from local storage
-    const gardens = JSON.parse(localStorage.getItem("gardens")) || [];
-
-    //Remove the garden from the gardens array
-    const newGardens = gardens.filter((garden) => garden.gardenID !== gardenID);
-
-    //Save the new gardens array to local storage
-    if (newGardens.length === 0) {
-      localStorage.removeItem("gardens");
-      setGardens(null);
-    } else {
-      localStorage.setItem("gardens", JSON.stringify(newGardens));
-
-      //Update the state of the gardens to math the users Gardens
-      const userGardens = newGardens.filter(
-        (garden) => garden.userID === user.id
-      );
-      setGardens(userGardens.length > 0 ? userGardens : null);
-    }
-
-    //Remove all groups in the garden
-    const gardenGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
-
-    //For each Group that matches the Garden ID, Run the deleteGardenGroup function
-    gardenGroups.forEach((group) => {
-      if (group.gardenID === gardenID) {
-        deleteGardenGroup(group.groupID, setGardenGroups, setGardenPlants);
-      }
-    });
+    // //For each Group that matches the Garden ID, Run the deleteGardenGroup function
+    // gardenGroups.forEach((group) => {
+    //   if (group.gardenID === gardenID) {
+    //     deleteGardenGroup(group.groupID, setGardenGroups, setGardenPlants);
+    //   }
+    // });
   };
   // Function to Create/Add a New Garden Group to the Local Storage and Garden Group State
   const createGardenGroup = (formData, setGardenGroups) => {
