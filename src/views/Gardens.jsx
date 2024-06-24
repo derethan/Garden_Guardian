@@ -14,33 +14,24 @@ import GardenWrapper from "../components/gardens/GardenWrapper";
 import { AddGarden, AddGardrenGroup } from "../imports";
 
 // UseAuth
-import { useAuth } from "../contextProviders";
+import { useAuth, useGarden } from "../contextProviders";
 
 // Garden Functions
 import { useGardenFunctions } from "../components/gardens/utils/useGardenFunctions";
 
 const Gardens = () => {
   const { user, token } = useAuth();
+  const { gardens, setGardens, gardenGroups, setGardenGroups, gardenPlants, setGardenPlants } = useGarden();
   const { getGardens } = useGardenFunctions();
 
   const [ShowAddGardenModal, setShowAddGardenModal] = useState(false);
   const [ShowAddGardenGroupModal, setShowAddGardenGroupModal] = useState(false);
-
-  const [gardens, setGardens] = useState(null);
-  const [gardenGroups, setGardenGroups] = useState(null);
-
-  const [gardenPlants, setGardenPlants] = useState(() => {
-    const allPlants = JSON.parse(localStorage.getItem("gardenPlants")) || [];
-    return allPlants.filter((plant) => plant.userID === user.id);
-  });
 
   // State to hold the result message for adding new Gardens/Groups/Plants
   const [resultMessage, setResultMessage] = useState("");
 
   // Fetch the garden data from the API
   useEffect(() => {
-
-
     // const fetchGardenGroups = async () => {
     //   try {
     //     const response = await fetch(URL + `users/${user.id}/gardens/groups`, {
@@ -96,7 +87,6 @@ const Gardens = () => {
         show={ShowAddGardenModal}
         handleClose={setShowAddGardenModal}
         setResultMessage={setResultMessage}
-        setGardens={setGardens}
       />
 
       {/* Add Garden Group Modal */}

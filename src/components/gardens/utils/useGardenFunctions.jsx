@@ -1,10 +1,11 @@
-import { useAuth } from "../../../contextProviders";
+import { useAuth, useGarden } from "../../../contextProviders";
 import { usePostRequest } from "../../../hooks/usePostRequest";
 
 export const useGardenFunctions = () => {
   const URL = import.meta.env.VITE_API_URL;
 
   const { user, token } = useAuth();
+  const { setGardens, setGardenGroups, setGardenPlants } = useGarden();
   const { postData } = usePostRequest();
 
   /************************************************************
@@ -12,7 +13,7 @@ export const useGardenFunctions = () => {
    * ***********************************************************/
 
   // Function to Create/Add a New Garden, send the data to the API and update the state
-  const createGarden = async (formData, setGardens) => {
+  const createGarden = async (formData) => {
     //Add the userID to the formData
     const newFormData = { ...formData, userID: user.id };
 
@@ -74,6 +75,11 @@ export const useGardenFunctions = () => {
       if (!result.status) {
         return "error";
       }
+
+      // Update the state of the gardens
+      getGardens().then((gardenData) => {
+        setGardens(gardenData);
+      });
 
       return result.message;
     } catch (error) {

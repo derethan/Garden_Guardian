@@ -1,10 +1,10 @@
 import "./App.css";
 
-const isDevelopment = import.meta.env.MODE === 'development';
-const basename = isDevelopment ? '/' : '/';
+const isDevelopment = import.meta.env.MODE === "development";
+const basename = isDevelopment ? "/" : "/";
 
 // Import Dependencies
-import { BrowserRouter,HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, HashRouter, Routes, Route } from "react-router-dom";
 import { Suspense } from "react";
 
 // Import Routes
@@ -21,12 +21,11 @@ import LoadingScreen from "./components/LoadingScreen";
 
 // Import context Providers
 import AuthProvider from "./hooks/useAuthProvider";
+import GardenProvider from "./hooks/useGardenProvider";
 
 // Main App Component
 export default function App() {
-
   const Router = isDevelopment ? BrowserRouter : HashRouter;
-
 
   return (
     <Router basename={basename}>
@@ -46,40 +45,42 @@ export default function App() {
             }}
           >
             <AuthProvider>
-              <Routes>
-                {/* Maps the Public Routes */}
-                {siteLinks.map((link) => (
-                  <Route
-                    key={link.ID}
-                    path={link.path}
-                    element={
-                      <Suspense fallback={<LoadingScreen />}>
-                        <link.Component />
-                      </Suspense>
-                    }
-                  />
-                ))}
-                {/* Maps the Private Routes */}
-                <Route element={<PrivateRoute />}>
-                  {privateAppRoutes.map((link) => (
+              <GardenProvider>
+                <Routes>
+                  {/* Maps the Public Routes */}
+                  {siteLinks.map((link) => (
                     <Route
                       key={link.ID}
                       path={link.path}
                       element={
-                        <SideBarWrapper
-                          view={link.path}
-                          key={link.ID}
-                          title={link.Name}
-                        >
-                          <Suspense fallback={<LoadingScreen />}>
-                            <link.Component />
-                          </Suspense>
-                        </SideBarWrapper>
+                        <Suspense fallback={<LoadingScreen />}>
+                          <link.Component />
+                        </Suspense>
                       }
                     />
                   ))}
-                </Route>
-              </Routes>
+                  {/* Maps the Private Routes */}
+                  <Route element={<PrivateRoute />}>
+                    {privateAppRoutes.map((link) => (
+                      <Route
+                        key={link.ID}
+                        path={link.path}
+                        element={
+                          <SideBarWrapper
+                            view={link.path}
+                            key={link.ID}
+                            title={link.Name}
+                          >
+                            <Suspense fallback={<LoadingScreen />}>
+                              <link.Component />
+                            </Suspense>
+                          </SideBarWrapper>
+                        }
+                      />
+                    ))}
+                  </Route>
+                </Routes>
+              </GardenProvider>
             </AuthProvider>
           </main>
         </div>

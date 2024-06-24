@@ -20,7 +20,7 @@ import { useValidate } from "../../hooks/useValidate";
 
 import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
 
-export const AddGarden = ({ show, handleClose, setResultMessage, setGardens }) => {
+export const AddGarden = ({ show, handleClose, setResultMessage }) => {
   /************ Imports ***********************/
   const { createGarden } = useGardenFunctions();
 
@@ -53,7 +53,7 @@ export const AddGarden = ({ show, handleClose, setResultMessage, setGardens }) =
 
     if (isValid) {
       //Create the new garden
-      const addGarden = createGarden(formData, setGardens);
+      const addGarden = createGarden(formData);
 
       //Set the result message
       setResultMessage(addGarden);
