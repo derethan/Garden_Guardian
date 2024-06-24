@@ -1,18 +1,18 @@
-import { useAuth } from "../../../hooks/useAuthProvider";
+import { useAuth } from "../../../contextProviders";
 import { usePostRequest } from "../../../hooks/usePostRequest";
 
 export const useGardenFunctions = () => {
   const URL = import.meta.env.VITE_API_URL;
 
   const { user, token } = useAuth();
-  const { responseData, postData } = usePostRequest();
+  const { postData } = usePostRequest();
 
   /************************************************************
    *  Functions to Related to Gardens, Groups and Plants
    * ***********************************************************/
 
   // Function to Create/Add a New Garden, send the data to the API and update the state
-  const createGarden = async (formData) => {
+  const createGarden = async (formData, setGardens) => {
     //Add the userID to the formData
     const newFormData = { ...formData, userID: user.id };
 
@@ -23,13 +23,41 @@ export const useGardenFunctions = () => {
         newFormData
       );
 
+      // If the result status is false, return an error
       if (!result.status) {
         return "error";
       }
 
+      // Update the state of the gardens
+      getGardens().then((gardenData) => {
+        setGardens(gardenData);
+      });
+
+      // Return Result Message for Dialog
       return result.message;
     } catch (error) {
       console.error("Error connecting to the server", error);
+    }
+  };
+
+  const getGardens = async () => {
+    try {
+      const response = await fetch(URL + `users/${user.id}/gardens`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+
+      if (response.status) {
+        // setGardens(data.gardenData);
+        return data.gardenData;
+      }
+    } catch (error) {
+      console.error("Error fetching gardens", error);
     }
   };
 
@@ -59,6 +87,7 @@ export const useGardenFunctions = () => {
     //   }
     // });
   };
+
   // Function to Create/Add a New Garden Group to the Local Storage and Garden Group State
   const createGardenGroup = (formData, setGardenGroups) => {
     //Get the current garden groups from local storage
@@ -105,6 +134,7 @@ export const useGardenFunctions = () => {
     //Remove all plants associated with the groupID
     deleteGardenPlant(null, setGardenPlants, groupID);
   };
+
   // Function to Create/Add a New Garden Plant to the Local Storage and Garden Plant State
   const createGardenPlant = (formData, setGardenPlants) => {
     //Get the current garden plants from local storage
@@ -159,6 +189,7 @@ export const useGardenFunctions = () => {
     }
   };
 
+  // Function to Add Plant Attributes to the Local Storage and Garden Plant State
   const addPlantAttributes = (formData, property, plantData) => {
     //Get the current garden plants from local storage
     const gardenPlants = JSON.parse(localStorage.getItem("gardenPlants")) || [];
@@ -241,6 +272,7 @@ export const useGardenFunctions = () => {
     createGarden,
     createGardenGroup,
     createGardenPlant,
+    getGardens,
     deleteGarden,
     deleteGardenGroup,
     deleteGardenPlant,

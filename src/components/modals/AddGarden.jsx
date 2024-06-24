@@ -15,12 +15,12 @@ import {
   FormHelperText,
 } from "@mui/material";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useValidate } from "../../hooks/useValidate";
 
 import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
 
-export const AddGarden = ({ show, handleClose, setGardens, setResultMessage }) => {
+export const AddGarden = ({ show, handleClose, setResultMessage, setGardens }) => {
   /************ Imports ***********************/
   const { createGarden } = useGardenFunctions();
 
@@ -71,6 +71,10 @@ export const AddGarden = ({ show, handleClose, setGardens, setResultMessage }) =
       return addGarden;
     }
   };
+
+  useEffect(() => {
+    setResultMessage("");
+  }, []);
 
   return (
     <DefaultModal
