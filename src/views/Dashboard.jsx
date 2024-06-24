@@ -1,4 +1,4 @@
-import { useAuth } from "../hooks/useAuthProvider";
+import { useAuth } from "../contextProviders";
 import { Container, Box, Typography, Divider } from "@mui/material";
 
 import DashboardHeader from "../components/dashboard/Header";

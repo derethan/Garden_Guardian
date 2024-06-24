@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { usePostRequest } from "./usePostRequest";
@@ -179,7 +179,8 @@ const AuthProvider = ({ children }) => {
 //Export the provider
 export default AuthProvider;
 
-//Create the hook
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export { AuthContext };
+// //Create the hook
+// export const useAuth = () => {
+//   return useContext(AuthContext);
+// };

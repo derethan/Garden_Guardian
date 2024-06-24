@@ -6,7 +6,7 @@
 import { Container } from "@mui/material";
 import LoginForm from "../components/account/LoginForm";
 import OathLogin from "../components/oathLogin";
-import { useAuth } from "../hooks/useAuthProvider";
+import { useAuth } from "../contextProviders";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 

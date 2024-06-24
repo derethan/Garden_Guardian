@@ -5,7 +5,7 @@
 
 // Imports
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuthProvider";
+import { useAuth } from "../contextProviders";
 
 // Components
 import AddDevice from "../components/modals/AddDevice";

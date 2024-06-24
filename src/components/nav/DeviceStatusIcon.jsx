@@ -7,7 +7,7 @@ import SensorsOffIcon from "@mui/icons-material/SensorsOff";
 import SensorsOnIcon from "@mui/icons-material/Sensors";
 
 import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
-import { useAuth } from "../../hooks/useAuthProvider";
+import { useAuth } from "../../contextProviders";
 
 const DeviceStatusIcon = (device) => {
   const theme = useTheme();

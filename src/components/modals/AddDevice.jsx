@@ -17,7 +17,7 @@ import { PrimaryButton } from "../../components/PrimaryButton";
 import { useState } from "react";
 import { usePostRequest } from "../../hooks/usePostRequest";
 
-import { useAuth } from "../../hooks/useAuthProvider";
+import { useAuth } from "../../contextProviders";
 
 const AddDevice = ({ display, setShowAddDeviceModal }) => {
 

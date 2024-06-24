@@ -17,7 +17,7 @@ import SettingsIcon from "@mui/icons-material/SettingsRounded";
 import PageTitle from "./PageTitle";
 import DeviceStatusIcon from "./DeviceStatusIcon";
 
-import { useAuth } from "../../hooks/useAuthProvider";
+import { useAuth } from "../../contextProviders";
 
 //import props validation
 import PropTypes from "prop-types";
