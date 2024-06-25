@@ -15,7 +15,7 @@ import { useState } from "react";
 
 import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
 
-export const AddGardrenGroup = ({ gardenData, show, handleClose, setGardenGroups }) => {
+export const AddGardrenGroup = ({ gardenData, show, handleClose }) => {
     //Garden Functions
     const { createGardenGroup } = useGardenFunctions();
 
@@ -39,11 +39,9 @@ export const AddGardrenGroup = ({ gardenData, show, handleClose, setGardenGroups
     const isValid = validateForm();
 
     if (isValid) {
-    //Attach Group ID to Form Data
-    formData.groupID = `group-${Math.floor(Math.random() * 1000)}`; 
 
     //Create Garden Group
-    createGardenGroup(formData, setGardenGroups);
+    createGardenGroup(formData);
 
     //Reset Form
     setFormData({

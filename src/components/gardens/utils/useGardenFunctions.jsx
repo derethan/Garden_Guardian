@@ -95,25 +95,48 @@ export const useGardenFunctions = () => {
   };
 
   // Function to Create/Add a New Garden Group to the Local Storage and Garden Group State
-  const createGardenGroup = (formData, setGardenGroups) => {
-    //Get the current garden groups from local storage
-    const gardenGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
+  const createGardenGroup = async (formData) => {
+    //Make a POST request to the API to create a new garden group
+    try {
+      const result = await postData(URL + `users/${user.id}/gardens/groups`, {
+        formData,
+      });
 
-    //Add the userID to the formData
-    const newFormData = { ...formData, userID: user.id };
+      console.log("result", result);
 
-    //Add the new garden group to the garden groups array
-    gardenGroups.push(newFormData);
+      // If the result status is false, return an error
+      if (!result.status) {
+        return "error";
+      }
 
-    //Save the new garden groups array to local storage
-    localStorage.setItem("gardenGroups", JSON.stringify(gardenGroups));
-
-    //Filter the garden groups to only show the current user's garden groups to update the state
-    const userGroups = gardenGroups.filter((group) => group.userID === user.id);
-
-    //Update the state of the garden groups
-    setGardenGroups(userGroups);
+      // Update the state of the garden groups
+      getGardenGroups().then((gardenGroupData) => {
+        setGardenGroups(gardenGroupData);
+      });
+    } catch (error) {
+      console.error("Error connecting to the server", error);
+    }
   };
+
+  const getGardenGroups = async () => {
+    try {
+      const response = await fetch(URL + `users/${user.id}/gardens/groups`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const data = await response.json();
+      if (response.status) {
+        return data.gardenGroups;
+      }
+    } catch (error) {
+      console.error("Error fetching garden groups", error);
+    }
+  };
+
   const deleteGardenGroup = (groupID, setGardenGroups, setGardenPlants) => {
     //Get the current garden groups from local storage
     const gardenGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
@@ -279,6 +302,7 @@ export const useGardenFunctions = () => {
     createGardenGroup,
     createGardenPlant,
     getGardens,
+    getGardenGroups,
     deleteGarden,
     deleteGardenGroup,
     deleteGardenPlant,

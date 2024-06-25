@@ -21,8 +21,15 @@ import { useGardenFunctions } from "../components/gardens/utils/useGardenFunctio
 
 const Gardens = () => {
   const { user, token } = useAuth();
-  const { gardens, setGardens, gardenGroups, setGardenGroups, gardenPlants, setGardenPlants } = useGarden();
-  const { getGardens } = useGardenFunctions();
+  const {
+    gardens,
+    setGardens,
+    gardenGroups,
+    setGardenGroups,
+    gardenPlants,
+    setGardenPlants,
+  } = useGarden();
+  const { getGardens, getGardenGroups } = useGardenFunctions();
 
   const [ShowAddGardenModal, setShowAddGardenModal] = useState(false);
   const [ShowAddGardenGroupModal, setShowAddGardenGroupModal] = useState(false);
@@ -32,30 +39,15 @@ const Gardens = () => {
 
   // Fetch the garden data from the API
   useEffect(() => {
-    // const fetchGardenGroups = async () => {
-    //   try {
-    //     const response = await fetch(URL + `users/${user.id}/gardens/groups`, {
-    //       method: "GET",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //     });
-
-    //     const data = await response.json();
-
-    //     if (response.status) {
-    //       setGardenGroups(data.gardenGroups);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching garden groups", error);
-    //   }
-    // };
-
-    getGardens().then((gardenData) => {
-      setGardens(gardenData);
-    });
-
+    getGardens()
+      .then((gardenData) => {
+        setGardens(gardenData);
+      })
+      .then(() => {
+        getGardenGroups().then((gardenGroupData) => {
+          setGardenGroups(gardenGroupData);
+        });
+      });
   }, [user.id, token]);
 
   return (
@@ -92,10 +84,9 @@ const Gardens = () => {
       {/* Add Garden Group Modal */}
       {ShowAddGardenGroupModal && (
         <AddGardrenGroup
+          gardenData={gardens}
           show={ShowAddGardenGroupModal}
           handleClose={setShowAddGardenGroupModal}
-          gardenData={gardens}
-          setGardenGroups={setGardenGroups}
         />
       )}
     </Container>
