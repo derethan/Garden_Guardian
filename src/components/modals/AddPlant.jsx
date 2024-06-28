@@ -22,8 +22,9 @@ import NewPlantDialog from "./createNewPlant/NewPlantDialog";
 
 const filter = createFilterOptions();
 
-export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
-  const { getAllPlants, getVariety, createGardenPlant } = useGardenFunctions();
+export const AddPlant = ({ show, handleClose, groupData }) => {
+  const { getAllPlants, getVariety, createGardenPlant, getPlantData } =
+    useGardenFunctions();
 
   // Form State
   const [formData, setFormData] = useState({
@@ -31,20 +32,19 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
     variety: "",
     id: null,
     name: "",
-    groupID: groupData.groupID,
   });
 
   // States for the Dropdown List's, The selected List Items and the Loading State
   const [listOptions, setListOptions] = useState([]);
   const [varietyOptions, setVarietyOptions] = useState([]);
   const [updateListOptions, setUpdateListOptions] = useState(false);
+
   const [selectedPlant, setSelectedPlant] = useState(null);
   const [selectedVariety, setSelectedVariety] = useState(null);
 
   // States for the Plant Info, Selected Plants and List of Available plants
-  const [allPlants, setAllPlants] = useState([]); //List of all plants in the database
-  const [plantInfo, setPlantInfo] = useState(null); // Plant Info for the selected Plant in the List
-  const [plantDescription, setPlantDescription] = useState(null);
+  const [plantInfo, setPlantInfo] = useState(null); // Plant Info for the selected Plant/variety in the List
+  const [plantDescription, setPlantDescription] = useState(null); // Plant Description for the selected Plant/variety
 
   // States for Loading and Displaying conditionally rendered components
   const [showPlantInfo, setShowPlantInfo] = useState(false); //Show the plant info Component
@@ -64,21 +64,25 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
     const isValid = validateForm();
 
     if (isValid) {
-      let newPlantData = {
-        ...formData,
-        ...plantInfo,
-        description: plantDescription,
-      };
 
+      let plantData = {
+        plant_name: selectedPlant.label,
+        plant_id: selectedPlant.id,
+        variety_name: selectedVariety ? selectedVariety.label : null,
+        variety_id: selectedVariety ? selectedVariety.id : null,
+        Description: plantDescription,
+        gardenData: groupData,
+      };
       //Create the new plant object
-      createGardenPlant(newPlantData, setGardenPlants);
+      createGardenPlant(plantData);
+
+      //Result message for dialog here
 
       //reset the form
       setFormData({
         label: "",
         id: null,
         name: "",
-        groupID: groupData.groupID,
       });
 
       //Close the modal
@@ -110,9 +114,6 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
 
       // Update the ListOptions State with a list of unique plant names and ID's
       setListOptions(listOptions);
-
-      // TODO: Remove this line, Need to refactor How it handles retrieving plant info.
-      setAllPlants(plantData);
     };
 
     getlistOfPlants().then(() => {
@@ -139,26 +140,16 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
         setLoadingVarieties(false);
       });
     }
-  }, [formData.id]);
+  }, [selectedPlant]);
 
-  // Get the Specific Plant Details for the user selected plant (Displays in the Plant Details section)
-
-  // TODO: Might be better to move this to the PlantInfoContainer component, Could stop
-  // multiple rendering of the component casuing wrong data to be displayed
-
-  // Depreciating: This function will be remade to get plant info from Database
-  //               based on the selected plant ID
-
+  //Get the Info For the currently Selected Plant or Variety (If Available and Selected) From the database
   useEffect(() => {
-    if (formData.id && allPlants.length > 0) {
-      const plant = allPlants.find((plant) => plant.id === formData.id);
-      setPlantInfo(plant); // Store the Plant Object for the Selected Plant/Variety
+    if (selectedPlant) {
+      getPlantData(selectedPlant, selectedVariety).then((data) => {
+        setPlantInfo(data); // Store the Plant Object for the Selected Plant/Variety
+      });
     }
-  }, [formData]);
-
-  // useEffect(() => {
-  //   console.log("Plant Info:", plantInfo);
-  // }, [plantInfo]);
+  }, [selectedPlant, selectedVariety]);
 
   return (
     <DefaultModal
@@ -228,6 +219,11 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
             />
           )}
           onChange={(event, newValue) => {
+            //Reset any previous plant info
+            setSelectedVariety(null);
+            setSelectedPlant(null);
+            setPlantInfo(null);
+
             //If the newValue is null, set the value to an empty object
             if (!newValue) {
               newValue = {
@@ -273,6 +269,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               name: newInputValue,
             });
             setPlantInfo(null);
+            setPlantInfo(null);
             setShowPlantInfo(false);
           }}
           filterOptions={(options, params) => {
@@ -309,7 +306,7 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
               }
             }}
             loading={loadingVarieties}
-            value={selectedVariety} 
+            value={selectedVariety}
             onOpen={() => {
               setOpen(true);
             }}
@@ -417,13 +414,15 @@ export const AddPlant = ({ show, handleClose, groupData, setGardenPlants }) => {
           setUpdateListOptions={setUpdateListOptions}
         />
       )}
-
+      
       {showPlantInfo && (
         <PlantInfoContainer
-          selectedPlant={plantInfo}
+          selectedPlant={selectedPlant}
           selectedVariety={selectedVariety}
+          plantInfo={plantInfo}
           plantDescription={plantDescription}
           setPlantDescription={setPlantDescription}
+          varieties={varietyOptions}
         />
       )}
     </DefaultModal>
