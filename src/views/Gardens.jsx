@@ -57,8 +57,6 @@ const Gardens = () => {
         pb: 4,
       }}
     >
-      <HeroBanner />
-
       {gardens ? (
         <GardenWrapper
           gardenData={gardens}
@@ -71,7 +69,11 @@ const Gardens = () => {
           setGardenGroups={setGardenGroups}
         />
       ) : (
-        <GettingStarted setDisplayModal={setShowAddGardenModal} />
+        <>
+          {" "}
+          <HeroBanner />
+          <GettingStarted setDisplayModal={setShowAddGardenModal} />
+        </>
       )}
 
       {/* Add Garden Modal */}
