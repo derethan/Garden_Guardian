@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import {
   Box,
-  Divider,
   Grid,
   IconButton,
   Menu,
@@ -17,13 +16,13 @@ import { useMediaQuery } from "@mui/material";
 
 import { useGardenFunctions } from "./utils/useGardenFunctions";
 
-import AddToGardenButton from "../buttons/AddToGardenButton";
 import GardenGroup from "./GardenGroup";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import ButtonCard from "../ButtonCard";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import ConfirmDelete from "../dialog/ConfirmDelete";
 
+// MUI TabPanel Component - Required for the Tabs Component
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -39,7 +38,6 @@ function TabPanel(props) {
     </div>
   );
 }
-
 function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
@@ -53,7 +51,6 @@ const GardenWrapper = ({
   gardenPlants,
   handleAddGarden,
   handleAddGroup,
-  setGardens,
   setGardenPlants,
   setGardenGroups,
 }) => {
@@ -63,7 +60,7 @@ const GardenWrapper = ({
   const [anchorEl, setAnchorEl] = useState(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(0); // Default to the first garden
   const [selectedGarden, setSelectedGarden] = useState(gardenData[value] || {});
 
   const handleChange = (event, value) => {
@@ -76,18 +73,14 @@ const GardenWrapper = ({
   };
 
   const handleDeleteGarden = () => {
-    deleteGarden(
-      selectedGarden.gardenID,
-      setGardens,
-      setGardenGroups,
-      setGardenPlants
-    );
-    setValue(0);
-    setSelectedGarden(gardenData[0]);
+    deleteGarden(selectedGarden.gardenID);
+    setValue(0); // Reset to the first garden
+    setSelectedGarden(gardenData[0]); // Reset to the first garden
   };
 
   return (
     <Box sx={{ borderBottom: 1, borderColor: "divider", pt: 4 }}>
+      {/* Containers the Components for the Tabs Header and Icon Buttons */}
       <Box
         sx={{
           display: "flex",
@@ -95,6 +88,7 @@ const GardenWrapper = ({
           alignItems: "center",
         }}
       >
+        {/* Contains the Components for the TABS */}
         <Tabs
           value={value}
           onChange={handleChange}
@@ -126,16 +120,18 @@ const GardenWrapper = ({
           open={Boolean(anchorEl)}
           onClose={() => setAnchorEl(null)}
         >
-          <MenuItem disabled
-          sx={{
-            color: "primary.main",
-            fontWeight: "bold",
-            fontSize: "1.1rem",
-            borderBottom: 1,
-            borderColor: "silver",
-            
-          }}
-           >Garden Options</MenuItem>
+          <MenuItem
+            disabled
+            sx={{
+              color: "primary.main",
+              fontWeight: "bold",
+              fontSize: "1.1rem",
+              borderBottom: 1,
+              borderColor: "silver",
+            }}
+          >
+            Garden Options
+          </MenuItem>
           <MenuItem
             onClick={() => {
               handleAddGarden(true);
@@ -152,7 +148,7 @@ const GardenWrapper = ({
           >
             Add a Plant Group
           </MenuItem>
-   
+
           <MenuItem
             onClick={() => {
               setShowConfirmDelete(true);
@@ -174,6 +170,7 @@ const GardenWrapper = ({
         />
       </Box>
 
+      {/* Panel Containing the Gardens and the GardenGroup Components */}
       {gardenData.map((garden, index) => (
         <TabPanel value={value} index={index} key={index}>
           {
