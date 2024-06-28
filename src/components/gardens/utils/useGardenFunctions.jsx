@@ -8,11 +8,15 @@ export const useGardenFunctions = () => {
   const { setGardens, setGardenGroups, setGardenPlants } = useGarden();
   const { postData } = usePostRequest();
 
+  const dialogMessage = {
+    error: "There was an Error with your Request",
+    delete: "Deleted Successfully",
+  };
   /************************************************************
    *  Functions to Related to Gardens, Groups and Plants
    * ***********************************************************/
 
-  // Function to Create/Add a New Garden, send the data to the API and update the state
+  /***GARDENS ********/
   const createGarden = async (formData) => {
     //Add the userID to the formData
     const newFormData = { ...formData, userID: user.id };
@@ -26,7 +30,7 @@ export const useGardenFunctions = () => {
 
       // If the result status is false, return an error
       if (!result.status) {
-        return "error";
+        return dialogMessage.error;
       }
 
       // Update the state of the gardens
@@ -62,6 +66,7 @@ export const useGardenFunctions = () => {
     }
   };
 
+  // TODO: Handle the case where the garden has groups and plants
   const deleteGarden = async (gardenID) => {
     try {
       const result = await fetch(URL + `users/${user.id}/gardens/${gardenID}`, {
@@ -71,9 +76,10 @@ export const useGardenFunctions = () => {
           authorization: `Bearer ${token}`,
         },
       });
+      const response = await result.json();
 
       if (!result.status) {
-        return "error";
+        return dialogMessage.error;
       }
 
       // Update the state of the gardens
@@ -81,7 +87,7 @@ export const useGardenFunctions = () => {
         setGardens(gardenData);
       });
 
-      return result.message;
+      return response.message;
     } catch (error) {
       console.error("Error connecting to the server", error);
     }
@@ -94,7 +100,7 @@ export const useGardenFunctions = () => {
     // });
   };
 
-  // Function to Create/Add a New Garden Group to the Local Storage and Garden Group State
+  /***GROUPS ********/
   const createGardenGroup = async (formData) => {
     //Make a POST request to the API to create a new garden group
     try {
@@ -136,60 +142,68 @@ export const useGardenFunctions = () => {
       console.error("Error fetching garden groups", error);
     }
   };
-
-  const deleteGardenGroup = (groupID, setGardenGroups, setGardenPlants) => {
-    //Get the current garden groups from local storage
-    const gardenGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
-
-    //Remove the garden group from the garden groups array
-    const newGardenGroups = gardenGroups.filter(
-      (group) => group.groupID !== groupID
-    );
-
-    //Save the new garden groups array to local storage
-    if (newGardenGroups.length === 0) {
-      localStorage.removeItem("gardenGroups");
-      setGardenGroups(null);
-    } else {
-      localStorage.setItem("gardenGroups", JSON.stringify(newGardenGroups));
-
-      //Update the state of the garden groups to match the user
-      const userGroups = newGardenGroups.filter(
-        (group) => group.userID === user.id
+  // TODO: Handle the case where the group has plants
+  const deleteGardenGroup = async (groupID) => {
+    // Make a DELETE request to the API to delete the garden group
+    try {
+      const request = await fetch(
+        URL + `users/${user.id}/gardens/groups/${groupID}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      setGardenGroups(userGroups);
+      const response = await request.json();
+
+      if (!request.status) {
+        return dialogMessage.error;
+      }
+
+      // Update the state of the garden groups
+      getGardenGroups().then((gardenGroupData) => {
+        setGardenGroups(gardenGroupData);
+      });
+
+      return response.message;
+
+      // Update the state of the garden groups
+    } catch (error) {
+      console.error("Error connecting to the server", error);
     }
 
     //Remove all plants associated with the groupID
-    deleteGardenPlant(null, setGardenPlants, groupID);
+    // deleteGardenPlant(null, setGardenPlants, groupID);
   };
 
-  // Function to Create/Add a New Garden Plant to the Local Storage and Garden Plant State
-  const createGardenPlant = (formData, setGardenPlants) => {
-    //Get the current garden plants from local storage
-    const gardenPlants = JSON.parse(localStorage.getItem("gardenPlants")) || [];
+  /***PLANTS***/
+  const createGardenPlant = async (plantData) => {
+    console.log("plantData", plantData);
+    // Make a Post request to the API to create a new garden plant
+    try {
+      const result = await postData(
+        URL + `users/${user.id}/gardens/plants`,
+        plantData
+      );
 
-    //Generate a unique ID for the new garden plant
-    const plantID = Math.random().toString(36).substring(2, 9);
+      if (!result.status) {
+        return dialogMessage.error;
+      }
 
-    const newFormData = {
-      ...formData,
-      plantID: `plant-` + plantID,
-      userID: user.id,
-    };
+      // // Update the state of the garden plants
+      // getGardenPlants().then((gardenPlantData) => {
+      //   setGardenPlants(gardenPlantData);
+      // });
 
-    //Add the new garden plant to the garden plants array
-    gardenPlants.push(newFormData);
-
-    //Save the new garden plants array to local storage
-    localStorage.setItem("gardenPlants", JSON.stringify(gardenPlants));
-
-    //Filter the garden plants to only show the current user's garden plants to update the state
-    const userPlant = gardenPlants.filter((plant) => plant.userID === user.id);
-
-    //Update the state of the garden plants
-    setGardenPlants(userPlant);
+      console.log("result", result);
+      return result.message;
+    } catch (error) {
+      console.error("Error connecting to the server", error);
+    }
   };
+  const getGardenPlants = async () => {};
   const deleteGardenPlant = (
     plantID = null,
     setGardenPlants,
@@ -263,13 +277,40 @@ export const useGardenFunctions = () => {
       const response = await fetch(URL + `api/plants/${plantName}/varieties`);
       const result = await response.json();
 
-      console.log(plantName, result);
+      // console.log(plantName, result);
       return result;
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  const getPlantData = async (plant, variety) => {
+    const endPoint = variety
+      ? `api/plants/${plant.id}/varieties/${variety.id}`
+      : `api/plants/${plant.id}`;
+
+    try {
+      const response = await fetch(URL + endPoint);
+      const result = await response.json();
+
+      return result;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
+  const getPlantDescription = async (plantName, variety) => {
+    let plant = variety ? plantName + ", " + variety : plantName;
+
+    try {
+      const response = await fetch(URL + `ai/plants/${plant}`);
+      const result = await response.json();
+
+      return result;
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
   /************************************************************
    *  Functions to add, update, delete plants and varieties to the database
    * ***********************************************************/
@@ -303,12 +344,15 @@ export const useGardenFunctions = () => {
     createGardenPlant,
     getGardens,
     getGardenGroups,
+    getGardenPlants,
     deleteGarden,
     deleteGardenGroup,
     deleteGardenPlant,
     addPlantAttributes,
     getAllPlants,
     getVariety,
+    getPlantData,
+    getPlantDescription,
     addNewPlant,
   };
 };
