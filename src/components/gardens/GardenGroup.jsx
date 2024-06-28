@@ -21,7 +21,6 @@ const GardenGroup = ({
   group,
   gardenPlants,
   handleAddPlant,
-  setGardenGroups,
   setGardenPlants,
 }) => {
   const [ShowAddPlantModal, setShowAddPlantModal] = useState(false);
@@ -31,7 +30,8 @@ const GardenGroup = ({
   const { deleteGardenGroup } = useGardenFunctions();
 
   const handleDeleteGroup = () => {
-    deleteGardenGroup(group.groupID, setGardenGroups, setGardenPlants);
+    deleteGardenGroup(group.groupID);
+    handleClose();
   };
 
   const handleClose = () => {
@@ -39,7 +39,7 @@ const GardenGroup = ({
   };
 
   return (
-    <Card variant="light" sx={{  p: 2, mt: 2 }}>
+    <Card variant="light" sx={{ p: 2, mt: 2 }}>
       <Box
         sx={{
           display: "flex",
@@ -105,7 +105,8 @@ const GardenGroup = ({
       </Box>
 
       {/* Display component for each Plant */}
-      {gardenPlants && gardenPlants.some((plant) => plant.groupID === group.groupID) ? (
+      {gardenPlants &&
+      gardenPlants.some((plant) => plant.groupID === group.groupID) ? (
         <Box pt={4}>
           {gardenPlants
             .filter((plant) => plant.groupID === group.groupID)
