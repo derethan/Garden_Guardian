@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { usePostRequest } from "./usePostRequest";
@@ -11,7 +11,8 @@ const URL = import.meta.env.VITE_API_URL;
 
 //Create the provider
 const AuthProvider = ({ children }) => {
-  // Declarations
+  const { postStatus, postMessage, postData } = usePostRequest();
+
   const { checkForDevice } = useGetDeviceInfo();
   const navigate = useNavigate();
 
@@ -36,13 +37,16 @@ const AuthProvider = ({ children }) => {
     async function fetchDeviceInfo() {
       //check if the user has a device
       const response = await checkForDevice();
-      
+
       if (response.status) {
         // Setup the device state (devices) and Current Active Device (deviceID)
         let allDevices = response.device_id;
         // Set the device info
         allDevices.forEach((device) => {
-          setDeviceInfo((prevState) => [...prevState, { deviceID: device.device_id, deviceName: device.device_name }]);
+          setDeviceInfo((prevState) => [
+            ...prevState,
+            { deviceID: device.device_id, deviceName: device.device_name },
+          ]);
         });
 
         // Set the hasDevice state to true
@@ -51,7 +55,12 @@ const AuthProvider = ({ children }) => {
         // Set the first device as the active device, if there is no active device in local storage
         if (localStorage.getItem("activeDevice")) {
           setDeviceID(localStorage.getItem("activeDevice"));
-          setActiveDevice(allDevices.find((device) => device.device_id === localStorage.getItem("activeDevice")));
+          setActiveDevice(
+            allDevices.find(
+              (device) =>
+                device.device_id === localStorage.getItem("activeDevice")
+            )
+          );
         } else {
           setDeviceID(allDevices[0].device_id);
           localStorage.setItem("activeDevice", allDevices[0].device_id);
@@ -68,16 +77,7 @@ const AuthProvider = ({ children }) => {
     if (!devices.length > 0 && isLoggedIn && localStorage.getItem("user")) {
       fetchDeviceInfo();
     }
-  }, [ isLoggedIn, deviceID]); // eslint-disable-line
-
-
-  // useEffect(() => {
-  //   console.log(activeDevice);
-  // }, [activeDevice]);
-
-
-  //Create the post request hook - TODO: CHANGE TO OBJECT FROM ARRAY IN USEPOSTREQUEST
-  const [postStatus, postMessage, , , postData] = usePostRequest();
+  }, [isLoggedIn, deviceID]); // eslint-disable-line
 
   //Handle the login
   const loginAction = async (data) => {
@@ -183,7 +183,8 @@ const AuthProvider = ({ children }) => {
 //Export the provider
 export default AuthProvider;
 
-//Create the hook
-export const useAuth = () => {
-  return useContext(AuthContext);
-};
+export { AuthContext };
+// //Create the hook
+// export const useAuth = () => {
+//   return useContext(AuthContext);
+// };

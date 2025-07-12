@@ -4,9 +4,9 @@
  * ********************************************/
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
-import { useAuth } from "./useAuthProvider";
+import { useAuth } from '../contextProviders';
 
 // Custom hook to handle POST requests
 export const usePostRequest = () => {
@@ -17,7 +17,7 @@ export const usePostRequest = () => {
   // Get the token from the Auth context
   const user = useAuth();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Function to post the Data to the API endpoint and return the response
   async function postData(url, data) {
@@ -38,8 +38,10 @@ export const usePostRequest = () => {
       });
 
       //if there is a response header
-      const responseToken = (response.headers.get("Authorization") || "").split(" ")[1];
-       
+      const responseToken = (response.headers.get("Authorization") || "").split(
+        " "
+      )[1];
+
       setPostStatus(response.status);
 
       // Get the response data
@@ -48,13 +50,13 @@ export const usePostRequest = () => {
       setPostMessage(responseData.message); // Set the response message
 
       // Add the token to the response data
-      responseData.token = responseToken;
-      responseData.status = response.status;
+      if (typeof responseData === 'object' && responseData !== null) {
+        responseData.token = responseToken;
+        responseData.status = response.status;
+      }
 
       // Return the response data
       return responseData;
-
-
     } catch (error) {
       console.error(error);
       // navigate("/error503");
@@ -62,16 +64,16 @@ export const usePostRequest = () => {
     }
   }
 
-// // FOR DEBUGGING
-// useEffect(() => {
-//   // Use the response data
-//   if (postStatus && postMessage && responseData) {
-//       // Log the status and message
-//   console.log('Status:', postStatus);
-//   console.log('Message:', postMessage);
-//     console.log('Response data:', responseData);
-//       }
-// }, [postStatus, postMessage, responseData]);
+  // // FOR DEBUGGING
+  // useEffect(() => {
+  //   // Use the response data
+  //   if (postStatus && postMessage && responseData) {
+  //       // Log the status and message
+  //   console.log('Status:', postStatus);
+  //   console.log('Message:', postMessage);
+  //     console.log('Response data:', responseData);
+  //       }
+  // }, [postStatus, postMessage, responseData]);
 
-  return [postStatus, postMessage, responseData, setPostMessage, postData];
+  return { postStatus, postMessage, responseData, setPostMessage, postData };
 };

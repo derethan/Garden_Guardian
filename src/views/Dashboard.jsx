@@ -1,5 +1,11 @@
-import { useAuth } from "../hooks/useAuthProvider";
-import { Container, Box, Typography, Divider } from "@mui/material";
+// React Imports
+import { useEffect } from "react";
+
+//Import Context Providers
+import { useAuth, useGarden } from "../contextProviders";
+import { useGardenFunctions } from "../components/gardens/utils/useGardenFunctions";
+
+import { Container, Box, Divider } from "@mui/material";
 
 import DashboardHeader from "../components/dashboard/Header";
 import PlantOverview from "../components/dashboard/PlantOverview";
@@ -8,7 +14,13 @@ import SummaryColumn from "../components/sensorData/SummaryColumn";
 
 const Dashboard = () => {
   const { user, hasDevice, devices } = useAuth();
-  const name = user.name.split(" ")[0];
+  const { gardens, gardenGroups, gardenPlants } = useGarden();
+  const { updateGardenData } = useGardenFunctions();
+
+  // Fetch the garden data from the API
+  useEffect(() => {
+    updateGardenData();
+  }, []);
 
   return (
     <Container
@@ -28,11 +40,11 @@ const Dashboard = () => {
           justifyContent: "center",
           alignItems: "center",
           gap: 2,
-          width: hasDevice ? {xs: '100%', md: '70%'} : "100%",
+          width: hasDevice ? { xs: "100%", md: "70%" } : "100%",
         }}
       >
         {/* Display the Dashboard Header */}
-        <DashboardHeader name={name} />
+        <DashboardHeader name={user.name.split(" ")[0]} />
 
         <Box
           sx={{
@@ -44,9 +56,12 @@ const Dashboard = () => {
             width: "100%",
           }}
         >
-          {/* Display A Quick overview */}
-          <PlantOverview user={user} />
-
+          {/* Display A Quick overview of the users Gardens */}
+          <PlantOverview
+            gardens={gardens}
+            gardenGroups={gardenGroups}
+            gardenPlants={gardenPlants}
+          />
 
           {/* Display the Sensor Overview */}
           <SensorOverview user={user} hasDevice={hasDevice} devices={devices} />

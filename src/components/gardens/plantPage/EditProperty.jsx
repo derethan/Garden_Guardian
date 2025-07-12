@@ -21,14 +21,14 @@ const EditProperty = ({
   title,
   caption,
 }) => {
-  const { addPlantAttributes } = useGardenFunctions();
+  const { updatePlantAttributes } = useGardenFunctions();
 
   // When the form is submitted, the data is sent to the addPlantAttributes function
   const handleSubmit = (event) => {
     event.preventDefault();
 
     //Update the stored plant Data with the new property (local Storage)
-    addPlantAttributes(formData, property, plantData);
+    updatePlantAttributes(formData, property, plantData);
 
     // Update the State for the Plant page
     setStateData(formData);
@@ -42,8 +42,13 @@ const EditProperty = ({
 
   // Close the dialog and reset the formData
   const handClose = () => {
-    setOpen(false);
+
+    if (property === 'customName') {
+      setStateData(plantData.customName);
+    }
+
     setFormData(null);
+    setOpen(false);
   };
 
   return (

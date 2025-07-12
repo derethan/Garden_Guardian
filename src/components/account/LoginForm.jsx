@@ -2,7 +2,7 @@
 import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";
 
 import { useLogin } from "../../hooks/useLogin";
-import { useAuth } from "../../hooks/useAuthProvider";
+import { useAuth } from "../../contextProviders";
 import { useEffect } from "react";
 
 import EmailPasswordInput from "./EmailPasswordInput";

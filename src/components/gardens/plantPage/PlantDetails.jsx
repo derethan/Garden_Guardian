@@ -2,7 +2,16 @@ import { Box, Typography } from "@mui/material";
 
 import pottedPlant from "../../../assets/generic_potted_plant.png";
 
-const PlantDetails = ({ plantData, plantProperties, theme }) => {
+const PlantDetails = ({ plantData, theme }) => {
+  const plantProperties = {
+    scientificName: plantData.plantData.scientific_name,
+    genus: plantData.plantData.genus,
+    family: plantData.plantData.family,
+    commonName: plantData.plantData.plantName,
+    varietyName: plantData.plantData.varietyName,
+    description: plantData.plantData.description,
+  };
+
   return (
     <Box
       mt={4}
@@ -20,7 +29,7 @@ const PlantDetails = ({ plantData, plantProperties, theme }) => {
       <Box
         component={"img"}
         src={plantData.image_url || pottedPlant}
-        alt={plantData.name || plantData.commonName || plantData.scientificName}
+        alt={"Plant Image"}
         sx={{
           width: { xs: "200px", md: "300px" },
           height: { xs: "200px", md: "300px" },
@@ -45,55 +54,42 @@ const PlantDetails = ({ plantData, plantProperties, theme }) => {
       >
         {/* Plant Name Header*/}
         <Typography variant="h4" gutterBottom sx={{ color: "text.cardTitle" }}>
-          {plantData.name || plantData.commonName || plantData.scientificName}
+          {plantProperties.commonName}
         </Typography>
 
         {/* Plant details (Desc, names, etc*/}
         <Box
           sx={{
             display: "flex",
-            justifyContent: "space-evenly",
+            flexDirection: "column",
+            justifyContent: "center",
             width: "100%",
-            pt: 2,
-            pb: 2,
+            pl: 2,
+            pr: 2,
           }}
         >
-          {/* common name, genus, family */}
-          {plantProperties
-            .filter((property) => property.value)
-            .map(
-              (property, index) =>
-                property.value && (
-                  <Box
-                    key={property.label}
-                    sx={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      width: "100%",
-                      borderLeft: index === 0 ? "none" : "1px solid darkGrey",
-                      pl: 2,
-                      pr: 2,
-                    }}
-                  >
-                    <Typography
-                      variant="caption"
-                      fontWeight={600}
-                      sx={{ color: "text.main" }}
-                    >
-                      {property.label}
-                    </Typography>
-                    <Typography
-                      variant="subtitle1"
-                      pt={1}
-                      sx={{ color: "text.cardTitle" }}
-                    >
-                      {property.value}
-                    </Typography>
-                  </Box>
-                )
-            )}
+          <Typography
+            variant="subtitle1"
+            fontWeight={600}
+            sx={{ color: "text.main" }}
+          >
+            {plantProperties.varietyName}{" "}
+          </Typography>
+
+          {plantProperties.scientificName && (
+            <Typography
+              variant="caption"
+              fontWeight={600}
+              sx={{ color: "text.subtitle" }}
+            >
+              {`${plantProperties.scientificName} (${plantProperties.genus} ${plantProperties.family})`}
+            </Typography>
+          )}
         </Box>
+
+        <Typography variant="subtitle1" pt={1} sx={{ color: "text.cardTitle" }}>
+          {plantProperties.description}
+        </Typography>
       </Box>
     </Box>
   );

@@ -17,7 +17,7 @@ import { PrimaryButton } from "../../components/PrimaryButton";
 import { useState } from "react";
 import { usePostRequest } from "../../hooks/usePostRequest";
 
-import { useAuth } from "../../hooks/useAuthProvider";
+import { useAuth } from "../../contextProviders";
 
 const AddDevice = ({ display, setShowAddDeviceModal }) => {
 
@@ -29,7 +29,7 @@ const AddDevice = ({ display, setShowAddDeviceModal }) => {
   });
 
   //Create the post request hook
-  const [, , , , postData] = usePostRequest();
+  const {postData} = usePostRequest();
 
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");

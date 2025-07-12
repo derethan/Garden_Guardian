@@ -1,6 +1,6 @@
 // Desc: Gardens view
 // Importing React
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Material-UI
 import { Container } from "@mui/material";
@@ -13,39 +13,29 @@ import GardenWrapper from "../components/gardens/GardenWrapper";
 //Hooks
 import { AddGarden, AddGardrenGroup } from "../imports";
 
-// UseAuth
-import { useAuth } from "../hooks/useAuthProvider";
+// Import Context Providers
+import { useGarden } from "../contextProviders";
 
+// Garden Functions
+import { useGardenFunctions } from "../components/gardens/utils/useGardenFunctions";
 
 const Gardens = () => {
+  const {
+    gardens,
+    setGardens,
+    gardenGroups,
+    gardenPlants,
+    setGardenPlants,
+  } = useGarden();
+  const { updateGardenData } = useGardenFunctions();
+
   const [ShowAddGardenModal, setShowAddGardenModal] = useState(false);
   const [ShowAddGardenGroupModal, setShowAddGardenGroupModal] = useState(false);
 
-  const { user } = useAuth();
-
-  const [gardens, setGardens] = useState( () =>
-    {
-      const allGardens = JSON.parse(localStorage.getItem("gardens")) || [];
-      const userGardens = allGardens.filter(garden => garden.userID === user.id);
-      return userGardens.length > 0 ? userGardens : null;
-    }
-  );
-
-  const [gardenGroups, setGardenGroups] = useState(() => {
-    const allGroups = JSON.parse(localStorage.getItem("gardenGroups")) || [];
-    return allGroups.filter(group => group.userID === user.id)
-  });
-    
-
-  const [gardenPlants, setGardenPlants] = useState(() => {
-    const allPlants = JSON.parse(localStorage.getItem("gardenPlants")) || [];
-    return allPlants.filter(plant => plant.userID === user.id)
-  }
-  );
-
-  // useState(() => {
-  //   console.log("gardens", gardens);
-  // }, [gardens]);
+  // Fetch the garden data from the API
+  useEffect(() => {
+    updateGardenData();
+  }, []);
 
   return (
     <Container
@@ -54,9 +44,7 @@ const Gardens = () => {
         pb: 4,
       }}
     >
-      <HeroBanner />
-
-      {gardens ? (
+      {gardens && gardens.length > 0 ? (
         <GardenWrapper
           gardenData={gardens}
           gardenGroups={gardenGroups}
@@ -65,30 +53,29 @@ const Gardens = () => {
           handleAddGroup={setShowAddGardenGroupModal}
           setGardens={setGardens}
           setGardenPlants={setGardenPlants}
-          setGardenGroups={setGardenGroups}
         />
       ) : (
-        <GettingStarted setDisplayModal={setShowAddGardenModal} />
+        <>
+          {" "}
+          <HeroBanner />
+          <GettingStarted setDisplayModal={setShowAddGardenModal} />
+        </>
       )}
 
       {/* Add Garden Modal */}
       <AddGarden
         show={ShowAddGardenModal}
         handleClose={setShowAddGardenModal}
-        setGardens={setGardens}
       />
 
       {/* Add Garden Group Modal */}
       {ShowAddGardenGroupModal && (
         <AddGardrenGroup
+          gardenData={gardens}
           show={ShowAddGardenGroupModal}
           handleClose={setShowAddGardenGroupModal}
-          gardenData={gardens}
-          setGardenGroups={setGardenGroups}
         />
       )}
-
-
     </Container>
   );
 };

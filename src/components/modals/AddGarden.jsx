@@ -15,21 +15,22 @@ import {
   FormHelperText,
 } from "@mui/material";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useValidate } from "../../hooks/useValidate";
 
 import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
+import { useGarden } from "../../contextProviders";
 
-export const AddGarden = ({ show, handleClose, setGardens }) => {
+export const AddGarden = ({ show, handleClose }) => {
   /************ Imports ***********************/
   const { createGarden } = useGardenFunctions();
+  const { setResultMessage } = useGarden();
 
   /************ State ***********************/
   const [formData, setFormData] = useState({
     gardenName: "",
     gardenLocation: "",
     gardenType: "",
-    hydroponic: false,
   });
 
   const [formErrors, validateForm] = useValidate(formData);
@@ -53,23 +54,29 @@ export const AddGarden = ({ show, handleClose, setGardens }) => {
     const isValid = validateForm();
 
     if (isValid) {
-      //Attach an ID to the garden
-      formData.gardenID = Math.floor(Math.random() * 1000);
+      //Create the new garden
+      const addGarden = createGarden(formData);
 
-      createGarden(formData, setGardens);
+      //Set the result message
+      setResultMessage(addGarden);
 
-      //Reset the form data
+      // Reset the form data
       setFormData({
         gardenName: "",
         gardenLocation: "",
         gardenType: "",
-        hydroponic: false,
       });
 
-      //Close the modal
+      // Close the modal
       handleClose();
+
+      return addGarden;
     }
   };
+
+  useEffect(() => {
+    setResultMessage("");
+  }, []);
 
   return (
     <DefaultModal
@@ -147,7 +154,7 @@ export const AddGarden = ({ show, handleClose, setGardens }) => {
             )}
           </FormControl>
 
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          {/* <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
             <FormGroup>
               <FormControlLabel
                 label={"Hydroponic"}
@@ -162,7 +169,7 @@ export const AddGarden = ({ show, handleClose, setGardens }) => {
                 }
               />
             </FormGroup>
-          </Box>
+          </Box> */}
         </Box>
       </Box>
     </DefaultModal>

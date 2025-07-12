@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Box, Menu, MenuItem, Typography } from "@mui/material";
@@ -9,7 +9,7 @@ import defaultPlantImage from "../../assets/generic_potted_plant.png";
 import { useGardenFunctions } from "./utils/useGardenFunctions";
 import dayjs from "dayjs";
 
-export const SmallPlantCard = ({ plant, setGardenPlants }) => {
+export const SmallPlantCard = ({ plant }) => {
   const { deleteGardenPlant } = useGardenFunctions();
   const navigate = useNavigate();
 
@@ -18,13 +18,17 @@ export const SmallPlantCard = ({ plant, setGardenPlants }) => {
 
   const handleClick = () => {
     setAnchorEl(null);
-    navigate(`plant/${plant.plantID}`);
+    navigate(`plant/${plant.gardenPlantID}`);
   };
 
   const handleDeletePlant = () => {
-    deleteGardenPlant(plant.plantID, setGardenPlants);
+    deleteGardenPlant(plant.gardenPlantID);
     setShowConfirmDelete(false);
   };
+
+  useEffect(() => {
+    // console.log(plant);
+  }, [plant]);
 
   return (
     <ButtonCard
@@ -48,6 +52,7 @@ export const SmallPlantCard = ({ plant, setGardenPlants }) => {
           pr: 2,
         }}
       >
+        {/* Plant Image */}
         <Box
           component="img"
           src={plant.image_url || defaultPlantImage}
@@ -59,15 +64,16 @@ export const SmallPlantCard = ({ plant, setGardenPlants }) => {
             objectFit: "cover",
           }}
         />
+
+        {/* Plant Info */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
-          <Typography
-            variant="body2"
-            color={"text.main"}
-            fontWeight={"bold"}
-          >
-            {plant.label}
+          {/* Plant Custom Name */}
+          <Typography variant="body2" color={"text.main"} fontWeight={"bold"}>
+            {plant.customName}
           </Typography>
-          {plant.variety && (
+
+          {/* Plant Label */}
+          {plant.plantData.plantName && (
             <Typography
               variant="caption"
               sx={{
@@ -76,9 +82,12 @@ export const SmallPlantCard = ({ plant, setGardenPlants }) => {
                 fontWeight: "bold",
               }}
             >
-              {plant.variety || "No variety"}
+              {plant.plantData.varietyName
+                ? `${plant.plantData.varietyName},  ${plant.plantData.plantName}`
+                : plant.plantData.plantName}
             </Typography>
           )}
+
           {plant.startDate && (
             <Typography
               variant="caption"
@@ -88,14 +97,15 @@ export const SmallPlantCard = ({ plant, setGardenPlants }) => {
               {dayjs(plant.startDate).format("ddd MMMM DD, YYYY")}
             </Typography>
           )}
+
           {plant.growthStage && (
-          <Typography
-            variant="caption"
-            color={"text.subtitle"}
-            fontWeight={"bold"}
-          >
-            {plant.growthStage}
-          </Typography>
+            <Typography
+              variant="caption"
+              color={"text.subtitle"}
+              fontWeight={"bold"}
+            >
+              {plant.growthStage}
+            </Typography>
           )}
         </Box>
       </Box>

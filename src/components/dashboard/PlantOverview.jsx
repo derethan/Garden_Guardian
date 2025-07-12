@@ -1,23 +1,10 @@
 import { Box, Card, Typography } from "@mui/material";
 import NotFound from "../NotFoundCard";
 
-const PlantOverview = ({ user }) => {
-  // Get the Garden Data from Local Storage
-  const gardens = JSON.parse(localStorage.getItem("gardens") || "[]").filter(
-    (garden) => garden.userID === user.id
-  );
-  // Get the Garden Group Data from Local Storage
-  const gardenGroups = JSON.parse(
-    localStorage.getItem("gardenGroups") || "[]"
-  ).filter((group) => group.userID === user.id);
-  //Get any plants from Local storage associated with the user
-  const plants = JSON.parse(
-    localStorage.getItem("gardenPlants") || "[]"
-  ).filter((plant) => plant.userID === user.id);
-
+const PlantOverview = ({ gardens, gardenGroups, gardenPlants }) => {
   return (
     <>
-      {gardens.length != 0 ? (
+      {gardens && gardens.length != 0 ? (
         // Display the Garden Overview Card if the User has Gardens
         <Card
           variant="light"
@@ -26,7 +13,7 @@ const PlantOverview = ({ user }) => {
             p: 2,
             borderRadius: 4,
             width: { xs: "100%", md: "80%" },
-            maxWidth: '500px',
+            maxWidth: "500px",
           }}
         >
           <Typography variant="h6" color={"text.main"} fontWeight={"bold"}>
@@ -91,13 +78,13 @@ const PlantOverview = ({ user }) => {
                 color={"text.subtitle"}
                 fontWeight={"bold"}
               >
-                ({plants.length} Plant
-                {plants.length > 1 ? "s" : ""} )
+                ({gardenPlants.length} Plant
+                {gardenPlants.length > 1 ? "s" : ""} )
               </Typography>
             </Typography>
 
             {/* Display the Plant Names */}
-            {plants.map((plant, index) => {
+            {gardenPlants.map((plant, index) => {
               // Get the group Name for the plant
               const group = gardenGroups.find(
                 (group) => group.groupID === plant.groupID
@@ -113,7 +100,8 @@ const PlantOverview = ({ user }) => {
                   pl={10}
                   textAlign={"left"}
                 >
-                  {plant.name} {plant.variant && "(" + plant.variant + ")"} -{" "}
+                  {plant.plantData.plantName}{" "}
+                  {plant.varietyID && "(" + plant.plantData.varietyName + ")"} -{" "}
                   <Typography
                     component={"span"}
                     variant={"caption"}

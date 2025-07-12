@@ -15,13 +15,13 @@ import { PrimaryButton } from "../PrimaryButton";
 import { useValidate } from "../../hooks/useValidate";
 
 import { usePostRequest } from "../../hooks/usePostRequest";
-import { useAuth } from "../../hooks/useAuthProvider";
+import { useAuth } from "../../contextProviders";
 
 const AccountSettingsBanner = () => {
   // User Data
   const { user } = useAuth();
 
-  const [postStatus, postMessage, responseData, setPostMessage, postData] =
+  const {postMessage, setPostMessage, postData} =
     usePostRequest();
 
   // State Variables

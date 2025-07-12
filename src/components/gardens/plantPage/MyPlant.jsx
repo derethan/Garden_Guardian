@@ -1,16 +1,7 @@
-import {
-  Box,
-  Card,
-  FormControl,
-  IconButton,
-  InputLabel,
-  MenuItem,
-  Select,
-  Typography,
-} from "@mui/material";
+import { Box, Card, FormControl, IconButton, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import EditProperty from "./EditProperty";
 
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -25,16 +16,11 @@ const MyPlant = ({ plantData }) => {
   const [formData, setFormData] = useState(null);
 
   //stores the State of the MyPlant properties
-  const [startDate, setStartDate] = useState(
-    plantData.startDate ? dayjs(plantData.startDate) : null
-  );
+  const [customName, setCustomName] = useState(plantData.customName || null);
+  const [startDate, setStartDate] = useState(plantData.startDate ? dayjs(plantData.startDate) : null);
   const [growthStage, setGrowthStage] = useState(plantData.growthStage || null);
-  const [lastWatering, setLastWatering] = useState(
-    plantData.lastWatering ? dayjs(plantData.setLastWatering) : null
-  );
-  const [lastFeeding, setLastFeeding] = useState(
-    plantData.lastFeeding ? dayjs(plantData.setLastFeeding) : null
-  );
+  const [lastWatering, setLastWatering] = useState(plantData.lastWatering ? dayjs(plantData.setLastWatering) : null);
+  const [lastFeeding, setLastFeeding] = useState(plantData.lastFeeding ? dayjs(plantData.setLastFeeding) : null);
 
   // Function to handle the click event on the Edit Icon
   const handleClick = (property) => {
@@ -46,12 +32,22 @@ const MyPlant = ({ plantData }) => {
   // FormFields - These are the fields that the user can edit
   const plantProperties = [
     {
+      property: "customName",
+      placeHolder: "Name",
+      state: customName ? customName : null,
+      setState: setCustomName,
+      title: "Edit Plant Name",
+      caption: "Enter a Name For Your Plant",
+      display: false,
+    },
+    {
       property: "startDate",
       placeHolder: "Start Date",
       state: startDate ? startDate.format("ddd MMMM DD, YYYY") : null,
       setState: setStartDate,
       title: "Select a Date",
       caption: "When did you start your Plant?",
+      display: true,
     },
     {
       property: "growthStage",
@@ -60,6 +56,7 @@ const MyPlant = ({ plantData }) => {
       setState: setGrowthStage,
       title: "Select a Growth Stage",
       caption: "What is the current Growth Stage of your Plant?",
+      display: true,
     },
     {
       property: "lastWatering",
@@ -68,6 +65,7 @@ const MyPlant = ({ plantData }) => {
       setState: setLastWatering,
       title: "Select a Date",
       caption: "When did you last water your Plant?",
+      display: true,
     },
     {
       property: "lastFeeding",
@@ -76,17 +74,30 @@ const MyPlant = ({ plantData }) => {
       setState: setLastFeeding,
       title: "Select a Date",
       caption: "When did you last feed your Plant?",
+      display: true,
     },
   ];
 
   //Form Properties - These are the components that will be displayed in the Edit Property Dialog
   const formProps = {
+    customName: (
+      <FormControl fullWidth sx={{ mt: 4 }}>
+        <TextField
+          label="Plant Name"
+          id="customName"
+          value={customName}
+
+          onChange={(event) => {
+            setCustomName(event.target.value);
+            setFormData(event.target.value)
+          }}
+          variant="outlined"
+        />
+      </FormControl>
+    ),
     startDate: (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DateCalendar
-          onChange={(date) => setFormData(date)}
-          value={startDate ? startDate : dayjs()}
-        />
+        <DateCalendar onChange={(date) => setFormData(date)} value={startDate ? startDate : dayjs()} />
       </LocalizationProvider>
     ),
     growthStage: (
@@ -96,7 +107,7 @@ const MyPlant = ({ plantData }) => {
           label="Growth Stage"
           labelId="growthStage"
           id="growthStage"
-          value={formData || growthStage}
+          value={formData || growthStage || ""}
           onChange={(event) => setFormData(event.target.value)}
         >
           <MenuItem value={"Germination"}>Germination</MenuItem>
@@ -109,18 +120,12 @@ const MyPlant = ({ plantData }) => {
     ),
     lastWatering: (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DateCalendar
-          onChange={(date) => setFormData(date)}
-          value={lastWatering ? lastWatering : dayjs()}
-        />
+        <DateCalendar onChange={(date) => setFormData(date)} value={lastWatering ? lastWatering : dayjs()} />
       </LocalizationProvider>
     ),
     lastFeeding: (
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <DateCalendar
-          onChange={(date) => setFormData(date)}
-          value={lastFeeding ? lastFeeding : dayjs()}
-        />
+        <DateCalendar onChange={(date) => setFormData(date)} value={lastFeeding ? lastFeeding : dayjs()} />
       </LocalizationProvider>
     ),
   };
@@ -134,39 +139,50 @@ const MyPlant = ({ plantData }) => {
         width: { xs: "100%", md: "30%" },
       }}
     >
-      <Typography variant="h4" gutterBottom pt={4} color={"text.main"}>
-        My Plant
-      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          gap: 1,
+        }}
+      >
+        <Typography variant="h4" gutterBottom pt={4} color={"text.main"}>
+          {plantData.customName}
+        </Typography>
+        <IconButton onClick={() => handleClick(plantProperties[0])}>
+          <EditIcon sx={{ fontSize: 14 }} />
+        </IconButton>
+      </Box>
 
       {/* Plant Properties - Renders the List of Properties under the My Plant Header */}
       <Box sx={{ p: { xs: 2, md: 0 } }}>
-        {plantProperties.map((property) => (
-          <Box
-            key={property.property}
-            sx={{
-              display: "flex",
-              justifyContent: { xs: "flex-start", md: "space-between" },
-              alignItems: "center",
-              gap: 1,
-            }}
-          >
-            <Typography variant="body2" fontWeight={"bold"} textAlign={"left"}>
-              {property.placeHolder}:{" "}
-            </Typography>
-            <Typography
-              variant="caption"
-              color={"text.subtitle"}
-              fontWeight={"bold"}
-              textAlign={"center"}
-            >
-              {property.state ? property.state : "Not Set"}{" "}
-            </Typography>
+        {plantProperties.map(
+          (property) =>
+            //If the display prop is false, the property will not be rendered
+            property.display && (
+              <Box
+                key={property.property}
+                sx={{
+                  display: "flex",
+                  justifyContent: { xs: "flex-start", md: "space-between" },
+                  alignItems: "center",
+                  gap: 1,
+                }}
+              >
+                <Typography variant="body2" fontWeight={"bold"} textAlign={"left"}>
+                  {property.placeHolder}:{" "}
+                </Typography>
+                <Typography variant="caption" color={"text.subtitle"} fontWeight={"bold"} textAlign={"center"}>
+                  {property.state ? property.state : "Not Set"}{" "}
+                </Typography>
 
-            <IconButton onClick={() => handleClick(property)}>
-              <EditIcon sx={{ fontSize: 14 }} />
-            </IconButton>
-          </Box>
-        ))}
+                <IconButton onClick={() => handleClick(property)}>
+                  <EditIcon sx={{ fontSize: 14 }} />
+                </IconButton>
+              </Box>
+            )
+        )}
       </Box>
 
       {/* Edit Property Dialog */}

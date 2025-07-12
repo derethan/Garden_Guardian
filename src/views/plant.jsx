@@ -5,6 +5,10 @@ import { useParams } from "react-router-dom";
 //Import MUI Components
 import { Container, Box, useTheme } from "@mui/material";
 
+//import Context Providers
+import { useGarden } from "../contextProviders";
+import { useGardenFunctions } from "../components/gardens/utils/useGardenFunctions";
+
 //Import Components
 import BreadCrumbNav from "../components/nav/BreadCrumbNav";
 import PlantDetails from "../components/gardens/plantPage/PlantDetails";
@@ -13,110 +17,44 @@ import GrowingInfo from "../components/gardens/plantPage/GrowingInfo";
 
 //Import icons
 import PlantIcon from "@mui/icons-material/YardOutlined";
-import AgricultureIcon from "@mui/icons-material/Agriculture";
-import ContentCutIcon from "@mui/icons-material/ContentCut";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import ThumbUpAltIcon from "@mui/icons-material/ThumbUpAlt";
-
-import WbSunnyIcon from "@mui/icons-material/WbSunny";
-import HumidityIcon from "@mui/icons-material/Opacity";
-import TemperatureIcon from "@mui/icons-material/Thermostat";
-import Chart from "@mui/icons-material/InsertChartOutlined";
-import StraightenIcon from "@mui/icons-material/Straighten";
 
 const Plant = () => {
   const theme = useTheme();
-  let { plantID } = useParams();
+  const { plantID } = useParams();
 
-  //Fetching Plant Data from Local Storage
-  const storedPlants = JSON.parse(localStorage.getItem("gardenPlants"));
-  const initialPlantData = storedPlants
-    ? storedPlants.filter((plant) => plant.plantID === plantID)
-    : [];
+  const { gardenPlants } = useGarden();
+  const { updateGardenData } = useGardenFunctions();
 
-  //State to store the Current Plant Data
-  const [plantData, setPlantData] = useState(initialPlantData[0] || {});
-
-  //Contains the  Properties to diplay For the Plant Header
-  const plantProperties = [
-    { label: "Scientific Name", value: plantData.scientific_name },
-    { label: "Genus", value: plantData.genus },
-    { label: "Family", value: plantData.family },
-    { label: "Common Name", value: plantData.commonName },
-    { label: "Description", value: plantData.description },
-  ];
-
-  // Extracting the Plant Growth Properties That are to be displayed
-  const sowInstructions = plantData.howtoSow.split(".").filter((item) => item);
-  const sowInstructionsAllButLastTwo = sowInstructions.slice(0, -2);
-  const howtoSow = sowInstructionsAllButLastTwo.join(". ") + ".";
-  const spacing = plantData.spacing || "N/A";
-  const Temperature = sowInstructions[sowInstructions.length - 2] || "N/A";
-  const harvestTime = plantData.harvestTime || "N/A";
-  const plantsToavoid =
-    plantData.avoid.replace("Avoid growing close to:", "").trim() || "N/A";
-  const plantWith =
-    plantData.growsWith
-      .replace("Compatible with (can grow beside):", "")
-      .trim() || "N/A";
-
-  //Contains the Properties to display in the Growing Info Section.
-  // Each Property has a label, value and an icon
-  const growthProps = [
-    {
-      label: "How to Sow",
-      value: howtoSow,
-      icon: AgricultureIcon,
-    },
-    {
-      label: "Spacing",
-      value: spacing,
-      icon: StraightenIcon,
-    },
-    {
-      label: "Temperature",
-      value: Temperature,
-      icon: TemperatureIcon,
-    },
-    {
-      label: "Harvest Time",
-      value: harvestTime,
-      icon: ContentCutIcon,
-    },
-    {
-      label: "Avoid Planting With",
-      value: plantsToavoid,
-      icon: WarningAmberIcon,
-    },
-    {
-      label: "Compatible Plants",
-      value: plantWith,
-      icon: ThumbUpAltIcon,
-    },
-  ];
+  const [plantData, setPlantData] = useState(null);
 
   useEffect(() => {
-    console.log("plantData", plantData);
-    // console.log(sowInstructions);
-  }, []);
+    //If the gardenPlants is not available, fetch the data
+    if (!gardenPlants) {
+      updateGardenData();
+    } else {
+      
+      const plant = gardenPlants.find(
+        (plant) => plant.gardenPlantID == plantID
+      );
+      setPlantData(plant);
+    }
+  }, [gardenPlants]);
+
+  if (!plantData) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container maxWidth="none">
       {/* BreadCrumb Navigation Section*/}
       <BreadCrumbNav
-        plantName={
-          plantData.name || plantData.commonName || plantData.scientificName
-        }
+        plantName={plantData.customName}
         Icon={PlantIcon}
         path={"Crop Management"}
       />
 
       {/* Plant Details Section*/}
-      <PlantDetails
-        plantData={plantData}
-        plantProperties={plantProperties}
-        theme={theme}
-      />
+      <PlantDetails plantData={plantData} theme={theme} />
 
       <Box
         maxWidth={"lg"}
@@ -138,7 +76,7 @@ const Plant = () => {
         <MyPlant plantData={plantData} />
 
         {/* Growing Info Section*/}
-        <GrowingInfo plantData={plantData} growthProps={growthProps} />
+        <GrowingInfo gardenPlant={plantData} />
       </Box>
     </Container>
   );

@@ -14,6 +14,7 @@ const Register = lazy(() => import("./views/Register"));
 const Dashboard = lazy(() => import("./views/Dashboard"));
 const sensors = lazy(() => import("./views/sensors"));
 const Gardens = lazy(() => import("./views/Gardens"));
+const RootAI = lazy(() => import("./views/RootAI"));
 
 // import Weather from './views/Weather';
 // import Schedule from './views/Schedule';
@@ -37,7 +38,7 @@ import SensorsIcon from "@mui/icons-material/Sensors";
 // import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 // import WbSunnyIcon from '@mui/icons-material/WbSunny';
 import GrassIcon from "@mui/icons-material/Grass";
-
+import SeedlingIcon from "./components/icons/SeedlingIcon";
 // Icons from material UI - User Pages
 // import NotificationsNoneOutlinedIcon from '@mui/icons-material/NotificationsNoneOutlined';
 // import NotificationsActiveRoundedIcon from '@mui/icons-material/NotificationsActiveRounded';
@@ -101,6 +102,14 @@ export const privateAppRoutes = [
     Name: "Sensor Dashboard",
     icon: <SensorsIcon />,
     Component: sensors,
+  },
+  {
+    Type: "App",
+    ID: "Root",
+    path: "/root",
+    Name: "Root",
+    icon: <SeedlingIcon color="primary" fontSize="medium" />,
+    Component: RootAI,
   },
   // {Type: 'App', ID: 'Schedule', path: '/schedule', Name: 'Schedule',icon: <CalendarMonthIcon />, Component: Schedule,},
   // {Type: 'App', ID: 'Weather', path: '/weather', Name: 'Weather',icon: <WbSunnyIcon />, Component: Weather,},

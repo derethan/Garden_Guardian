@@ -20,7 +20,7 @@ import AccountMenuIcon from "./AccountMenuIcon";
 import { useState } from "react";
 import { useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../hooks/useAuthProvider";
+import { useAuth } from "../../contextProviders";
 
 const pages = [
   { name: "Home", path: "/" },
