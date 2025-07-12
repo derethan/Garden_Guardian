@@ -1,9 +1,9 @@
 import { createContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { usePostRequest } from "./usePostRequest";
+import { usePostRequest } from "../../hooks/usePostRequest";
 
-import { useGetDeviceInfo } from "./useGetDeviceInfo";
+import { useGetDeviceInfo } from "../../hooks/useGetDeviceInfo";
 
 //Create the context
 const AuthContext = createContext();

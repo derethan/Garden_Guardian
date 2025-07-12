@@ -1,6 +1,6 @@
 import { useTheme, useMediaQuery } from "@mui/material";
 
-import { useAuth } from "../contextProviders";
+import { useAuth } from "../shared/context/contextProviders";
 import ProfileInfoBanner from "../components/myAccount/ProfileInfoBanner";
 import AccountSettingsBanner from "../components/myAccount/AccountSettingsBanner";
 import LinkedDevicesBanner from "../components/myAccount/LinkedDevicesBanner";

@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import { Container, Box, useTheme } from "@mui/material";
 
 //import Context Providers
-import { useGarden } from "../contextProviders";
+import { useGarden } from "../shared/context/contextProviders";
 import { useGardenFunctions } from "../components/gardens/utils/useGardenFunctions";
 
 //Import Components

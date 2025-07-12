@@ -20,7 +20,7 @@ import SideBarWrapper from "../src/components/SideBarWrapper";
 import LoadingScreen from "./components/LoadingScreen";
 
 // Import context Providers
-import { ContextProviders } from "./contextProviders";
+import { ContextProviders } from "./shared/context/contextProviders";
 
 // Main App Component
 export default function App() {

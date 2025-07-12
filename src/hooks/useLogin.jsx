@@ -3,7 +3,7 @@ import { useState } from "react";
 
 import { useValidate } from "./useValidate";
 
-import { useAuth } from "../contextProviders";
+import { useAuth } from "../shared/context/contextProviders";
 
 import { useNavigate } from "react-router-dom";
 

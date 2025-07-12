@@ -1,5 +1,5 @@
 import { Navigate, Outlet } from "react-router-dom";
-import { useAuth } from "../contextProviders";
+import { useAuth } from "../shared/context/contextProviders"; // Adjust the import path as necessary
 import { useEffect } from "react";
 
 const PrivateRoute = () => {
