@@ -7,7 +7,7 @@ import { Container } from "@mui/material";
 import RegisterForm from "../components/account/RegisterForm";
 
 import { useEffect } from "react";
-import { useAuth } from "../contextProviders";
+import { useAuth } from "../shared/context/contextProviders";
 import { useNavigate } from "react-router-dom";
 
 import LandingSiteNav from "../components/nav/LandingSiteNav";

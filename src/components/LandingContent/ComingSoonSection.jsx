@@ -4,7 +4,7 @@ import { PrimaryButton } from "../PrimaryButton";
 import { useNavigate } from "react-router-dom";
 
 //import Auth Context
-import { useAuth } from "../../contextProviders";
+import { useAuth } from "../../shared/context/contextProviders";
 
 const ComingSoonSection = () => {
   const { isLoggedIn } = useAuth();

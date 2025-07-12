@@ -2,7 +2,7 @@
 import { Card, CardContent, Typography, Box, useTheme } from "@mui/material";
 
 import { useLogin } from "../../hooks/useLogin";
-import { useAuth } from "../../contextProviders";
+import { useAuth } from "../../shared/context/contextProviders";
 import { useEffect } from "react";
 
 import EmailPasswordInput from "./EmailPasswordInput";
@@ -31,7 +31,7 @@ const LoginForm = () => {
 
       handleDemoLogin(demoAccount);
     }
-  }, []);
+  });
 
   return (
     <Card variant="light" sx={{ padding: 2 }}>

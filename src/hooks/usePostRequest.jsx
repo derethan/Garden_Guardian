@@ -6,7 +6,7 @@
 import { useState } from "react";
 // import { useNavigate } from "react-router-dom";
 
-import { useAuth } from '../contextProviders';
+import { useAuth } from '../shared/context/contextProviders';
 
 // Custom hook to handle POST requests
 export const usePostRequest = () => {

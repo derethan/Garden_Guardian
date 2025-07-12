@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { useAuth } from "../contextProviders";
+import { useAuth } from "../shared/context/contextProviders";
 import { Container } from "@mui/material";
 
 import { getIcon } from "../components/sensorData/util/getIcon";

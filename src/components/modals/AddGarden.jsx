@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { useValidate } from "../../hooks/useValidate";
 
 import { useGardenFunctions } from "../gardens/utils/useGardenFunctions";
-import { useGarden } from "../../contextProviders";
+import { useGarden } from "../../shared/context/contextProviders";
 
 export const AddGarden = ({ show, handleClose }) => {
   /************ Imports ***********************/
@@ -76,7 +76,7 @@ export const AddGarden = ({ show, handleClose }) => {
 
   useEffect(() => {
     setResultMessage("");
-  }, []);
+  });
 
   return (
     <DefaultModal

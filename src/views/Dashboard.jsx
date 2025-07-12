@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 
 //Import Context Providers
-import { useAuth, useGarden } from "../contextProviders";
+import { useAuth, useGarden } from "../shared/context/contextProviders";
 import { useGardenFunctions } from "../components/gardens/utils/useGardenFunctions";
 
 import { Container, Box, Divider } from "@mui/material";

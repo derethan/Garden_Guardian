@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 // Import Hooks
 import { useGetSensorReading } from "../../hooks/getSensorReading";
-import { useAuth } from "../../contextProviders";
+import { useAuth } from "../../shared/context/contextProviders";
 
 // Import Components
 import SummaryColumn from "./SummaryColumn";

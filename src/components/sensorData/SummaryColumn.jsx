@@ -4,7 +4,7 @@ import { Card, Box, Typography } from "@mui/material";
 import DeviceOverview from "./DeviceOverview";
 import Alerts from "./Alerts";
 
-import { useAuth } from "../../contextProviders";
+import { useAuth } from "../../shared/context/contextProviders";
 import PinnedReadings from "./PinnedReadings";
 
 const SummaryColumn = () => {

@@ -14,7 +14,7 @@ import GardenWrapper from "../components/gardens/GardenWrapper";
 import { AddGarden, AddGardrenGroup } from "../imports";
 
 // Import Context Providers
-import { useGarden } from "../contextProviders";
+import { useGarden } from "../shared/context/contextProviders";
 
 // Garden Functions
 import { useGardenFunctions } from "../components/gardens/utils/useGardenFunctions";

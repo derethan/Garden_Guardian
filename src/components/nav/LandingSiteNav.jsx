@@ -20,7 +20,7 @@ import AccountMenuIcon from "./AccountMenuIcon";
 import { useState } from "react";
 import { useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useAuth } from "../../contextProviders";
+import { useAuth } from "../../shared/context/contextProviders";
 
 const pages = [
   { name: "Home", path: "/" },
@@ -77,12 +77,7 @@ const LandingSiteNav = () => {
               textDecoration: "none",
             }}
           >
-            <Box
-              component="img"
-              src={logo}
-              alt="logo"
-              sx={{ width: "50px", height: "50px" }}
-            />
+            <Box component="img" src={logo} alt="logo" sx={{ width: "50px", height: "50px" }} />
             <Link to="/">Garden Guardian</Link>
           </Typography>
 
@@ -147,12 +142,7 @@ const LandingSiteNav = () => {
               textDecoration: "none",
             }}
           >
-            <Box
-              component="img"
-              src={logo}
-              alt="logo"
-              sx={{ width: "50px", height: "50px" }}
-            />
+            <Box component="img" src={logo} alt="logo" sx={{ width: "50px", height: "50px" }} />
             Garden <br /> Guardian
           </Typography>
 

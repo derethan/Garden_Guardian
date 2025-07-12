@@ -15,7 +15,7 @@ import { PrimaryButton } from "../PrimaryButton";
 import { useValidate } from "../../hooks/useValidate";
 
 import { usePostRequest } from "../../hooks/usePostRequest";
-import { useAuth } from "../../contextProviders";
+import { useAuth } from "../../shared/context/contextProviders";
 
 const AccountSettingsBanner = () => {
   // User Data

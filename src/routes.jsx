@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 
 //Import Pages
@@ -22,6 +23,7 @@ const RootAI = lazy(() => import("./views/RootAI"));
 //Dynamic Routes
 const Plant = lazy(() => import("./views/plant"));
 const Sensor = lazy(() => import("./views/Sensor"));
+const TagRedirector = lazy(() => import("./views/TagRedirector"));
 
 // User Pages
 // import Notifications from './views/Notifications';
@@ -56,13 +58,13 @@ export const siteLinks = [
   { ID: "Login", path: "/login", Name: "Login", Component: Login },
   { ID: "Register", path: "/register", Name: "Register", Component: Register },
 
-//   // OAuth Pages
-//   {
-//     ID: "oauthcallback",
-//     path: "/oauthcallback",
-//     Name: "oauthcallback",
-//     Component: oauthcallback,
-//   },
+  //   // OAuth Pages
+  //   {
+  //     ID: "oauthcallback",
+  //     path: "/oauthcallback",
+  //     Name: "oauthcallback",
+  //     Component: oauthcallback,
+  //   },
 
   // Account Pages
   {
@@ -141,6 +143,14 @@ export const privateAppRoutes = [
     path: "gardens/plant/:plantID",
     Name: "Crop Management",
     Component: Plant,
+  },
+  
+  {
+    Type: "Dynamic",
+    ID: "tags",
+    path: "tags/:tagId",
+    Name: "Crop Management",
+    Component: TagRedirector,
   },
   {
     Type: "Dynamic",

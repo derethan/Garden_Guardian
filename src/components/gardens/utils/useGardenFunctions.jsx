@@ -1,4 +1,4 @@
-import { useAuth, useGarden } from "../../../contextProviders";
+import { useAuth, useGarden } from "../../../shared/context/contextProviders";
 import { usePostRequest } from "../../../hooks/usePostRequest";
 
 export const useGardenFunctions = () => {

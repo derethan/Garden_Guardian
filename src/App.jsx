@@ -20,8 +20,7 @@ import SideBarWrapper from "../src/components/SideBarWrapper";
 import LoadingScreen from "./components/LoadingScreen";
 
 // Import context Providers
-import AuthProvider from "./hooks/useAuthProvider";
-import GardenProvider from "./hooks/useGardenProvider";
+import { ContextProviders } from "./shared/context/contextProviders";
 
 // Main App Component
 export default function App() {
@@ -44,44 +43,38 @@ export default function App() {
               color: theme.palette.text.primary,
             }}
           >
-            <AuthProvider>
-              <GardenProvider>
-                <Routes>
-                  {/* Maps the Public Routes */}
-                  {siteLinks.map((link) => (
+            <ContextProviders>
+              <Routes>
+                {/* Maps the Public Routes */}
+                {siteLinks.map((link) => (
+                  <Route
+                    key={link.ID}
+                    path={link.path}
+                    element={
+                      <Suspense fallback={<LoadingScreen />}>
+                        <link.Component />
+                      </Suspense>
+                    }
+                  />
+                ))}
+                {/* Maps the Private Routes */}
+                <Route element={<PrivateRoute />}>
+                  {privateAppRoutes.map((link) => (
                     <Route
                       key={link.ID}
                       path={link.path}
                       element={
-                        <Suspense fallback={<LoadingScreen />}>
-                          <link.Component />
-                        </Suspense>
+                        <SideBarWrapper view={link.path} key={link.ID} title={link.Name}>
+                          <Suspense fallback={<LoadingScreen />}>
+                            <link.Component />
+                          </Suspense>
+                        </SideBarWrapper>
                       }
                     />
                   ))}
-                  {/* Maps the Private Routes */}
-                  <Route element={<PrivateRoute />}>
-                    {privateAppRoutes.map((link) => (
-                      <Route
-                        key={link.ID}
-                        path={link.path}
-                        element={
-                          <SideBarWrapper
-                            view={link.path}
-                            key={link.ID}
-                            title={link.Name}
-                          >
-                            <Suspense fallback={<LoadingScreen />}>
-                              <link.Component />
-                            </Suspense>
-                          </SideBarWrapper>
-                        }
-                      />
-                    ))}
-                  </Route>
-                </Routes>
-              </GardenProvider>
-            </AuthProvider>
+                </Route>
+              </Routes>
+            </ContextProviders>
           </main>
         </div>
       </ThemeProvider>
