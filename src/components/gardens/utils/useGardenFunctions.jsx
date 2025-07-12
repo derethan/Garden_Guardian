@@ -259,7 +259,6 @@ export const useGardenFunctions = () => {
     }
   };
 
-  //TODO: Remove this Function and replace with Database Update Functions for new Attributed to be added to the plant.
   const updatePlantAttributes = async (formData, property, plantData) => {
 
     // Make a UPDATE request to the API to delete the garden plant
