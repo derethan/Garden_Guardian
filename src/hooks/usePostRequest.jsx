@@ -4,7 +4,7 @@
  * ********************************************/
 
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 import { useAuth } from '../contextProviders';
 
@@ -17,7 +17,7 @@ export const usePostRequest = () => {
   // Get the token from the Auth context
   const user = useAuth();
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Function to post the Data to the API endpoint and return the response
   async function postData(url, data) {
@@ -50,8 +50,10 @@ export const usePostRequest = () => {
       setPostMessage(responseData.message); // Set the response message
 
       // Add the token to the response data
-      responseData.token = responseToken;
-      responseData.status = response.status;
+      if (typeof responseData === 'object' && responseData !== null) {
+        responseData.token = responseToken;
+        responseData.status = response.status;
+      }
 
       // Return the response data
       return responseData;
