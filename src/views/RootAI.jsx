@@ -1,7 +1,7 @@
 import { Box, Button, TextField, Typography, CircularProgress } from "@mui/material";
 import { useState } from "react";
 import { usePostRequest } from "../hooks/usePostRequest";
-import { useAuth } from "../contextProviders";
+import { useAuth } from "../shared/context/contextProviders";
 
 const RootAI = () => {
   const URL = import.meta.env.VITE_API_URL;
