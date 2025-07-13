@@ -23,7 +23,7 @@ const RootAI = lazy(() => import("./views/RootAI"));
 //Dynamic Routes
 const Plant = lazy(() => import("./views/plant"));
 const Sensor = lazy(() => import("./views/Sensor"));
-const TagRedirector = lazy(() => import("./views/TagRedirector"));
+const TagRedirector = lazy(() => import("./features/tracking/TagRedirector"));
 
 // User Pages
 // import Notifications from './views/Notifications';
