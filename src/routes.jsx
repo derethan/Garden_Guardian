@@ -120,9 +120,9 @@ export const privateAppRoutes = [
 
   {
     Type: "App",
-    ID: "QRCode",
-    path: "/qrcode",
-    Name: "Plant Tracking",
+    ID: "Tags",
+    path: "/tags",
+    Name: "Tags",
     icon: <QrCodeIcon />,
     Component: TagManagement,
   },
