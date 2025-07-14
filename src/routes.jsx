@@ -16,6 +16,7 @@ const Dashboard = lazy(() => import("./views/Dashboard"));
 const sensors = lazy(() => import("./views/sensors"));
 const Gardens = lazy(() => import("./views/Gardens"));
 const RootAI = lazy(() => import("./views/RootAI"));
+const TagManagement = lazy(() => import("./features/tracking/TagManagement"));
 
 // import Weather from './views/Weather';
 // import Schedule from './views/Schedule';
@@ -47,6 +48,7 @@ import SeedlingIcon from "./components/icons/SeedlingIcon";
 import ManageAccountsRoundedIcon from "@mui/icons-material/ManageAccountsRounded";
 // import SettingsRoundedIcon from '@mui/icons-material/SettingsRounded';
 import LogoutIcon from "@mui/icons-material/Logout";
+import QrCodeIcon from "@mui/icons-material/QrCode";
 
 //Site Links For the Main Website portion (Public)
 export const siteLinks = [
@@ -116,6 +118,15 @@ export const privateAppRoutes = [
   // {Type: 'App', ID: 'Schedule', path: '/schedule', Name: 'Schedule',icon: <CalendarMonthIcon />, Component: Schedule,},
   // {Type: 'App', ID: 'Weather', path: '/weather', Name: 'Weather',icon: <WbSunnyIcon />, Component: Weather,},
 
+  {
+    Type: "App",
+    ID: "QRCode",
+    path: "/qrcode",
+    Name: "Plant Tracking",
+    icon: <QrCodeIcon />,
+    Component: TagManagement,
+  },
+
   // User Pages - Notifications, My Account, Setting, Logut
   // {Type: 'User', ID: 'Notifications', path: '/notifications', Name: 'Notifications',icon: <NotificationsNoneOutlinedIcon />, Component: Notifications,},
   {
@@ -144,7 +155,7 @@ export const privateAppRoutes = [
     Name: "Crop Management",
     Component: Plant,
   },
-  
+
   {
     Type: "Dynamic",
     ID: "tags",
